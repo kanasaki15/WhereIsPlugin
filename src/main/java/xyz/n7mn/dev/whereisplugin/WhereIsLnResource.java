@@ -13,6 +13,7 @@ public class WhereIsLnResource {
     String z2;
     String Here1;
     String Here2;
+    String NoName;
 
     WhereIsLnResource (String language){
         if (language.equals("ja")){
@@ -27,6 +28,7 @@ public class WhereIsLnResource {
             z2 = "終点Z座標";
             Here1 = "ここは";
             Here2 = "です。";
+            NoName = "名称未設定";
         }
     }
 }

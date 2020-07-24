@@ -50,7 +50,9 @@ public final class WhereIsPlugin extends JavaPlugin {
                             sb.append(",");
                         }
                     }
-
+                    if (dataList.length == 0){
+                        sb.append(lnMsg.NoName);
+                    }
                     player.sendMessage(lnMsg.Here1+sb.toString()+lnMsg.Here2);
                 }
             }
