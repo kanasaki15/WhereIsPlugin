@@ -29,7 +29,7 @@ class DataSQL {
             preparedStatement.setString(1,"WhereList");
             ResultSet query = preparedStatement.executeQuery();
             if (!query.next()){
-                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int , Name varchar(255) , startX int , startZ int) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
+                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int , Name varchar(255) , startX int , endX int , startZ int , endZ int) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
                 preparedStatement1.execute();
             }
             con.close();
