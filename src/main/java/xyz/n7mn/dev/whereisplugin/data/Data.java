@@ -24,7 +24,7 @@ public class Data {
     }
 
     public Data[] getDataList(int x , int z){
-        if (sql != null){
+        if (sql != null && sql.NewConnect()){
             return sql.GetList(x , z);
         }
 

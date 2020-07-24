@@ -15,31 +15,35 @@ class DataSQL {
 
     public DataSQL(Plugin plugin){
         p = plugin;
+    }
 
+    public boolean NewConnect(){
         Connection con = null;
         try{
             MySQLServer = p.getConfig().getString("mysqlServer");
             MySQLUser = p.getConfig().getString("mysqlUser");
             MySQLPassword = p.getConfig().getString("mysqlPassWord");
             MySQLDatabase = p.getConfig().getString("mysqlDatabase");
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase+"?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true", MySQLUser, MySQLPassword);
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase+"?useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement preparedStatement = con.prepareStatement("SHOW TABLES LIKE ?;");
             preparedStatement.setString(1,"WhereList");
             ResultSet query = preparedStatement.executeQuery();
             if (query.getRow() == 0){
-                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (int ID , Name varchar(255) , int startX , int startZ character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
+                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int , Name varchar(255) , startX int , startZ int) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
                 preparedStatement1.execute();
             }
             con.close();
+            return true;
         } catch (SQLException e) {
             p.getLogger().info("MySQLサーバーに接続失敗 : " + e.getMessage());
+            return false;
         } finally {
             try{
                 if (con != null){
                     con.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }
@@ -50,7 +54,7 @@ class DataSQL {
         List<Data> temp = new ArrayList<Data>();
 
         try{
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase, MySQLUser, MySQLPassword);
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList ORDER BY ID ASC;");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
