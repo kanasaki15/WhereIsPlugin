@@ -6,19 +6,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class DataSQL {
+class DataSQL implements DataInterface {
     private Plugin p;
     private String MySQLServer;
     private String MySQLUser;
     private String MySQLPassword;
     private String MySQLDatabase;
+    Connection con = null;
 
     public DataSQL(Plugin plugin){
         p = plugin;
     }
 
     public boolean NewConnect(){
-        Connection con = null;
         try{
             MySQLServer = p.getConfig().getString("mysqlServer");
             MySQLUser = p.getConfig().getString("mysqlUser");
@@ -29,7 +29,7 @@ class DataSQL {
             preparedStatement.setString(1,"WhereList");
             ResultSet query = preparedStatement.executeQuery();
             if (!query.next()){
-                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int , Name varchar(255) , startX int , endX int , startZ int , endZ int) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
+                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int , Name varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
                 preparedStatement1.execute();
             }
             con.close();
@@ -48,8 +48,8 @@ class DataSQL {
         }
     }
 
+    @Override
     public Data[] GetList(int x , int z){
-        Connection con = null;
         Data[] data = null;
         List<Data> temp = new ArrayList<Data>();
 
@@ -89,5 +89,40 @@ class DataSQL {
             }
         }
         return data;
+    }
+
+    @Override
+    public boolean SetName(int startX, int endX,int startZ,int endZ,String name) {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?useSSL=false", MySQLUser, MySQLPassword);
+            PreparedStatement statement1 = con.prepareStatement("SELECT count(*) FROM WhereList");
+            ResultSet resultSet1 = statement1.executeQuery();
+            int dataCount = 0;
+            if (resultSet1.next()){
+                dataCount = resultSet1.getInt(0);
+            }
+            dataCount++;
+            System.out.println("Debug : " + dataCount);
+            return true;
+        } catch (SQLException e) {
+            //e.printStackTrace();
+            return false;
+        } finally {
+            try{
+                con.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public boolean UpdateName(String OldName, String NewName) {
+        return true;
+    }
+
+    @Override
+    public boolean DelName(String name) {
+        return true;
     }
 }

@@ -30,4 +30,16 @@ public class Data {
 
         return null;
     }
+
+    public String setName(int startX, int endX, int startZ, int endZ, String name){
+        if (sql != null && sql.NewConnect()){
+            if (sql.SetName(startX, endX, startZ, endZ, name)){
+                return "Success";
+            }else{
+                return "Error";
+            }
+        }
+
+        return null;
+    }
 }

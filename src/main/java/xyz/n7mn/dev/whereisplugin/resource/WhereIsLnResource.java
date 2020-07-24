@@ -1,21 +1,21 @@
-package xyz.n7mn.dev.whereisplugin;
+package xyz.n7mn.dev.whereisplugin.resource;
 
 public class WhereIsLnResource {
 
-    String commandHelp;
-    String commandWhere;
-    String commandWhereAdd;
-    String commandWhereDel;
-    String commandWhereUpdate;
-    String x1;
-    String x2;
-    String z1;
-    String z2;
-    String Here1;
-    String Here2;
-    String NoName;
+    public String commandHelp;
+    public String commandWhere;
+    public String commandWhereAdd;
+    public String commandWhereDel;
+    public String commandWhereUpdate;
+    public String x1;
+    public String x2;
+    public String z1;
+    public String z2;
+    public String Here1;
+    public String Here2;
+    public String NoName;
 
-    WhereIsLnResource (String language){
+    public WhereIsLnResource (String language){
         if (language.equals("ja")){
             commandHelp = "コマンドヘルプ";
             commandWhere = "現在位置の名前を取得する";
