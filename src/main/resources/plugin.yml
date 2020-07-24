@@ -1,0 +1,12 @@
+name: WhereIsPlugin
+version: @version@
+main: xyz.n7mn.dev.whereisplugin.WhereIsPlugin
+api-version: 1.16
+load: STARTUP
+authors: [n3m_]
+description: Where am I?
+website: https://n7mn.xyz/
+commands:
+  where:
+    description: Where is ...?
+    usage: /where

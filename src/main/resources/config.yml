@@ -1,0 +1,10 @@
+# WhereIsPlugin SettingFile
+
+# Language
+ln: 'ja'
+
+# MySQL Server
+mysqlServer: ''
+mysqlUser: ''
+mysqlPassWord: ''
+mysqlDatabase: ''
