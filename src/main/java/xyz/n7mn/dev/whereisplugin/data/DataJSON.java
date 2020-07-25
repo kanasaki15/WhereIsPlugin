@@ -7,6 +7,7 @@ import xyz.n7mn.dev.whereisplugin.data.Result.JSONData;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 class DataJSON implements DataInterface {
@@ -63,62 +64,37 @@ class DataJSON implements DataInterface {
 
     @Override
     public boolean SetName(int startX, int endX, int startZ, int endZ, String name) {
-        File file = new File(getFilePass());
-        BufferedReader buffer = null;
+        List<Data> list = getAllListByList(false);
         Gson gson = new Gson();
-        JSONData[] jsonData = null;
-        try {
-            file.setWritable(false);
-            FileInputStream input = new FileInputStream(file);
-            InputStreamReader stream = new InputStreamReader(input,"UTF-8");
-            buffer = new BufferedReader(stream);
 
-            StringBuffer sb = new StringBuffer();
-            int ch = buffer.read();
-            while (ch != -1) {
-                sb.append((char) ch);
-                ch = buffer.read();
-            }
-            jsonData = gson.fromJson(sb.toString(), JSONData[].class);
-            buffer.close();
+        int newID = list.size() + 1;
 
-            file.setWritable(true);
-            PrintWriter p_writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8")));
+        JSONData[] jsonData = new JSONData[newID];
+        for (int i = 0; i < list.size(); i++){
+            jsonData[i] = new JSONData(i + 1, list.get(i).Name,list.get(i).startX, list.get(i).endX, list.get(i).startZ,list.get(i).endZ,list.get(i).Active);
+        }
+        jsonData[list.size()] = new JSONData(list.size(), name, startX,endX,startZ,endZ,true);
 
-            int newCount = 1;
-            if (jsonData != null){
-                newCount = jsonData.length + 1;
-            }else{
-                jsonData = new JSONData[0];
-            }
-            JSONData[] newData = new JSONData[newCount];
-            for(int i = 0; i < jsonData.length; i++){
-                newData[i] = jsonData[i];
-            }
+        String json = gson.toJson(jsonData);
 
-            int id = jsonData.length + 1;
-            JSONData newData1 = new JSONData(id,name,startX,endX,startZ,endZ,true);
-            newData[jsonData.length] = newData1;
-            String json = gson.toJson(newData);
-            for(int i = 0; i < json.length(); i++){
-                p_writer.print(json.charAt(i));
-            }
+        File file = new File(getFilePass());
+        PrintWriter p_writer = null;
+        try{
+            p_writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8")));
+            p_writer.print(json);
             p_writer.close();
-            buffer.close();
             return true;
         } catch (FileNotFoundException e) {
             plugin.getLogger().info("File I/O Error : " + e.getMessage());
-        } catch (IOException e) {
+            return false;
+        } catch (UnsupportedEncodingException e) {
             plugin.getLogger().info("File I/O Error : " + e.getMessage());
+            return false;
         } finally {
-            try{
-                buffer.close();
-                file.setWritable(true);
-            } catch (IOException e) {
-                plugin.getLogger().info("File I/O Error : " + e.getMessage());
+            if (p_writer != null){
+                p_writer.close();
             }
         }
-        return false;
     }
 
     @Override
@@ -133,6 +109,31 @@ class DataJSON implements DataInterface {
 
     @Override
     public Data[] GetListAll(){
+        List<Data> list = getAllListByList(true);
+
+        Data[] data = new Data[list.size()];
+        for (int i = 0; i < data.length; i++){
+            data[i] = list.get(i);
+        }
+        return data;
+    }
+
+    private String getFilePass(){
+        String os = System.getProperty("os.name").toLowerCase();
+        File folder = plugin.getDataFolder();
+
+        String FilePass = null;
+        if (os.startsWith("windows")){
+            FilePass = ".\\"+folder.toString()+"\\DataList.json";
+        }else{
+            FilePass = "./"+folder.toString()+"/DataList.json";
+        }
+        return FilePass;
+    }
+
+    private List<Data> getAllListByList(boolean TrueOnly){
+        List<Data> temp = new ArrayList<>();
+
         File file = new File(getFilePass());
         BufferedReader buffer = null;
         Gson gson = new Gson();
@@ -161,7 +162,7 @@ class DataJSON implements DataInterface {
         } catch (JsonSyntaxException e){
             plugin.getLogger().info("File I/O Error : " + e.getMessage());
             return null;
-        }finally {
+        } finally {
             try{
                 buffer.close();
                 file.setWritable(true);
@@ -170,45 +171,24 @@ class DataJSON implements DataInterface {
             }
         }
 
-        if (jsonData != null){
-            List<Data> tempData = new ArrayList<Data>();
-
-            for (int i = 0; i < jsonData.length; i++){
-                if (!jsonData[i].isActive()){
-                    continue;
-                }
-                Data tempdata = new Data();
-                tempdata.Name = jsonData[i].getName();
-                tempdata.startX = jsonData[i].getStartX();
-                tempdata.endX = jsonData[i].getEndX();
-                tempdata.startZ = jsonData[i].getStartZ();
-                tempdata.endZ = jsonData[i].getEndZ();
-
-                tempData.add(tempdata);
-            }
-
-            Data[] data = new Data[tempData.size()];
-
-            for (int i = 0; i < data.length; i++){
-                data[i] = tempData.get(i);
-            }
-
-            return data;
-        }else{
-            return null;
+        if (jsonData == null){
+            jsonData = new JSONData[0];
         }
-    }
 
-    private String getFilePass(){
-        String os = System.getProperty("os.name").toLowerCase();
-        File folder = plugin.getDataFolder();
-
-        String FilePass = null;
-        if (os.startsWith("windows")){
-            FilePass = ".\\"+folder.toString()+"\\DataList.json";
-        }else{
-            FilePass = "./"+folder.toString()+"/DataList.json";
+        for (int i = 0; i < jsonData.length; i++){
+            if (TrueOnly && !jsonData[i].isActive()){
+                continue;
+            }
+            Data data = new Data();
+            data.Name = jsonData[i].getName();
+            data.startX = jsonData[i].getStartX();
+            data.endX = jsonData[i].getEndX();
+            data.startZ = jsonData[i].getStartZ();
+            data.endZ = jsonData[i].getEndZ();
+            data.Active = jsonData[i].isActive();
+            temp.add(data);
         }
-        return FilePass;
+
+        return temp;
     }
 }

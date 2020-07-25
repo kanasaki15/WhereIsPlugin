@@ -9,6 +9,7 @@ public class Data {
     public int endX;
     public int startZ;
     public int endZ;
+    public boolean Active;
     private DataSQL sql = null;
     private DataJSON json = null;
 
