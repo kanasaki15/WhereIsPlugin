@@ -95,7 +95,7 @@ class DataSQL implements DataInterface {
     public boolean SetName(int startX, int endX,int startZ,int endZ,String name) {
         try {
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
-            PreparedStatement statement1 = con.prepareStatement("SELECT count(*) FROM WhereList");
+            PreparedStatement statement1 = con.prepareStatement("SELECT count(*) FROM WhereList;");
             ResultSet resultSet1 = statement1.executeQuery();
             int dataCount = 0;
             if (resultSet1.next()){

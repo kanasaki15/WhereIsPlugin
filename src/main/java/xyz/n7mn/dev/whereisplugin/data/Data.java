@@ -43,8 +43,8 @@ public class Data {
             }else{
                 return "Error";
             }
+        }else{
+            return "implemented";
         }
-
-        return null;
     }
 }

@@ -53,9 +53,8 @@ public class WhereIsCommand implements CommandExecutor {
             }else{
                 //command.setUsage(WhereIsCommandUsage.Msg(args[0]));
                 if (args[0].equals("add") && args.length == 6){
-                    String s = new Data(plugin).setName(Integer.getInteger(args[1]), Integer.getInteger(args[2]), Integer.getInteger(args[3]), Integer.getInteger(args[4]), args[5]);
-                    plugin.getLogger().info("Debug : "+s);
-
+                    String s = new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
+                    System.out.println(s);
                     return true;
                 }
             }
