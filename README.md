@@ -7,7 +7,7 @@ Spigot 1.16.1以降<br>
 MySQL 5.6以降のMySQLサーバー(なくても動く予定。)
 
 ## jarでよこせ。
-まだ開発途上すぎてまともに動きません。
+[配布場所](https://github.com/kanasaki15/WhereIsPlugin/releases)
 
 ## 簡易コマンド説明
 <pre>
