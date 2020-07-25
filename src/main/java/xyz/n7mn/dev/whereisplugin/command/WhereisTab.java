@@ -40,7 +40,7 @@ public class WhereisTab implements TabExecutor {
             if (args[0].startsWith("add")){
                 list.add(""+player.getLocation().getBlockX());
             }else if (args[0].startsWith("update") || (args[0].startsWith("del") && args.length == 2)){
-                Data[] dataList = new Data(plugin).getDataList(player.getLocation().getBlockX(), player.getLocation().getBlockZ());
+                Data[] dataList = new Data(plugin).getDataList(player);
                 for(int i = 0; i < dataList.length; i++){
                     list.add(dataList[i].Name);
                 }

@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import xyz.n7mn.dev.whereisplugin.resource.WhereIsCommandUsage;
 import xyz.n7mn.dev.whereisplugin.resource.WhereIsLnResource;
 import xyz.n7mn.dev.whereisplugin.data.Data;
 
@@ -28,6 +29,7 @@ public class WhereIsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.YELLOW + "/where add ["+lnMsg.x1+"] ["+lnMsg.x2+"] ["+lnMsg.z1+"] ["+lnMsg.z2+"] [Name] -- "+lnMsg.commandWhereAdd);
                 sender.sendMessage(ChatColor.YELLOW + "/where del [Name] -- "+lnMsg.commandWhereDel);
                 sender.sendMessage(ChatColor.YELLOW + "/where Update [OldName] [NewName] -- "+lnMsg.commandWhereUpdate);
+                return true;
             }
         }else{
             if (args.length == 0){
@@ -46,12 +48,18 @@ public class WhereIsCommand implements CommandExecutor {
                         sb.append(lnMsg.NoName);
                     }
                     player.sendMessage(lnMsg.Here1+sb.toString()+lnMsg.Here2);
+                    return true;
+                }
+            }else{
+                //command.setUsage(WhereIsCommandUsage.Msg(args[0]));
+                if (args[0].equals("add") && args.length == 6){
+                    String s = new Data(plugin).setName(Integer.getInteger(args[1]), Integer.getInteger(args[2]), Integer.getInteger(args[3]), Integer.getInteger(args[4]), args[5]);
+                    plugin.getLogger().info("Debug : "+s);
+
+                    return true;
                 }
             }
-            if (args.length == 6){
-
-            }
         }
-        return true;
+        return false;
     }
 }

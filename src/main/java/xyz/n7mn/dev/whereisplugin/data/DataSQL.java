@@ -24,7 +24,7 @@ class DataSQL implements DataInterface {
             MySQLUser = p.getConfig().getString("mysqlUser");
             MySQLPassword = p.getConfig().getString("mysqlPassWord");
             MySQLDatabase = p.getConfig().getString("mysqlDatabase");
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase+"?useSSL=false", MySQLUser, MySQLPassword);
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase+"?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement preparedStatement = con.prepareStatement("SHOW TABLES LIKE ?;");
             preparedStatement.setString(1,"WhereList");
             ResultSet query = preparedStatement.executeQuery();
@@ -54,7 +54,7 @@ class DataSQL implements DataInterface {
         List<Data> temp = new ArrayList<Data>();
 
         try{
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?useSSL=false", MySQLUser, MySQLPassword);
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList ORDER BY ID ASC;");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -78,13 +78,13 @@ class DataSQL implements DataInterface {
                 data[i] = temp.get(i);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             if (con != null){
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }
@@ -94,7 +94,7 @@ class DataSQL implements DataInterface {
     @Override
     public boolean SetName(int startX, int endX,int startZ,int endZ,String name) {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?useSSL=false", MySQLUser, MySQLPassword);
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement statement1 = con.prepareStatement("SELECT count(*) FROM WhereList");
             ResultSet resultSet1 = statement1.executeQuery();
             int dataCount = 0;

@@ -1,5 +1,6 @@
 package xyz.n7mn.dev.whereisplugin.data;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class Data {
@@ -29,6 +30,10 @@ public class Data {
         }
 
         return null;
+    }
+
+    public Data[] getDataList(Player player) {
+        return getDataList(player.getLocation().getBlockX(), player.getLocation().getBlockZ());
     }
 
     public String setName(int startX, int endX, int startZ, int endZ, String name){

@@ -11,6 +11,9 @@ public class WhereIsLnResource {
     public String x2;
     public String z1;
     public String z2;
+    public String Name;
+    public String OldName;
+    public String NewName;
     public String Here1;
     public String Here2;
     public String NoName;
@@ -26,6 +29,9 @@ public class WhereIsLnResource {
             x2 = "終点X座標";
             z1 = "始点Z座標";
             z2 = "終点Z座標";
+            Name = "名称";
+            OldName = "旧名称";
+            NewName = "新名称";
             Here1 = "ここは";
             Here2 = "です。";
             NoName = "名称未設定";
