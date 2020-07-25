@@ -4,7 +4,7 @@
 
 ## 動作環境は？
 Spigot 1.15以降<br>
-MySQL 5.6以降のMySQLサーバー(なくても動く予定。)
+MySQL 5.6以降のMySQLサーバー(必須ではない)
 
 ## jarでよこせ。
 [配布場所](https://github.com/kanasaki15/WhereIsPlugin/releases)

@@ -56,11 +56,11 @@ class DataSQL implements DataInterface {
         List<Data> temp = new ArrayList<>();
 
         for (int i = 0; i < data.length; i++){
-            if (data[i].startX <= x && x <= data[i].endX && data[i].startZ <= z && z <= data[i].endZ){
+            if (data[i].startX <= x && x <= data[i].endX && data[i].startZ <= z && z <= data[i].endZ && data[i].Active){
                 temp.add(data[i]);
                 continue;
             }
-            if (data[i].startX >= x && x >= data[i].endX && data[i].startZ >= z && z >= data[i].endZ) {
+            if (data[i].startX >= x && x >= data[i].endX && data[i].startZ >= z && z >= data[i].endZ && data[i].Active) {
                 temp.add(data[i]);
             }
         }
@@ -195,7 +195,11 @@ class DataSQL implements DataInterface {
                 tdata.startZ = resultSet.getInt("startZ");
                 tdata.endX = resultSet.getInt("endX");
                 tdata.endZ = resultSet.getInt("endZ");
-                tdata.Active = resultSet.getBoolean("Active");
+                if (resultSet.getInt("Active") == 1){
+                    tdata.Active = true;
+                }else{
+                    tdata.Active = false;
+                }
                 temp.add(tdata);
             }
             data = new Data[temp.size()];
@@ -217,6 +221,46 @@ class DataSQL implements DataInterface {
             }
         }
 
+        return null;
+    }
+
+    @Override
+    public Data GetDataByID(int id) {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE ID = ?;");
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                Data data = new Data();
+                data.ID = resultSet.getInt("ID");
+                data.Name = resultSet.getString("Name");
+                data.uuid = UUID.fromString(resultSet.getString("CreateUser"));
+                data.startX = resultSet.getInt("startX");
+                data.endX = resultSet.getInt("startX");
+                data.startZ = resultSet.getInt("startZ");
+                data.endZ = resultSet.getInt("endZ");
+                if (resultSet.getInt("Active") == 1){
+                    data.Active = true;
+                }else{
+                    data.Active = false;
+                }
+
+                con.close();
+                return data;
+            }
+        } catch (SQLException e) {
+            p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+        } finally {
+            try {
+                if (con != null){
+                    con.close();
+                }
+            } catch (SQLException e) {
+                p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+            }
+
+        }
         return null;
     }
 }

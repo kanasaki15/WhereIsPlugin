@@ -34,8 +34,9 @@ public class Data {
         Data[] temp = null;
         if (sql != null && sql.NewConnect()){
             temp = sql.GetList(x , z);
+
         }
-        if (json != null && json.NewConnect()){
+        if (temp == null && json != null && json.NewConnect()){
             temp = json.GetList(x , z);
         }
 
@@ -96,7 +97,7 @@ public class Data {
             temp = sql.GetListAll();
         }
 
-        if (json != null && json.NewConnect()){
+        if (temp == null && json != null && json.NewConnect()){
             temp = json.GetListAll();
         }
 
@@ -116,5 +117,22 @@ public class Data {
         }
 
         return "Unknown";
+    }
+
+    public Data getDataByID(int id){
+        Data temp = null;
+        if (sql != null && sql.NewConnect()){
+            temp = sql.GetDataByID(id);
+        }
+
+        if (temp == null && json != null && json.NewConnect()){
+            temp = json.GetDataByID(id);
+        }
+
+        if (temp == null){
+            temp = new Data();
+        }
+
+        return temp;
     }
 }

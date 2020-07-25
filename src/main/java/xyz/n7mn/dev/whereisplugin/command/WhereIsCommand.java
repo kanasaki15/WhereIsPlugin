@@ -55,7 +55,7 @@ public class WhereIsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.YELLOW + "---- WhereIsPlugin SystemInfo ----");
                 sender.sendMessage(ChatColor.YELLOW + "Ver : " + plugin.getDescription().getVersion());
                 sender.sendMessage(ChatColor.YELLOW + "Use DataSystem : " + new Data(plugin).getMode());
-                sender.sendMessage(ChatColor.YELLOW + "Use SpigotAPI Version" + plugin.getDescription().getAPIVersion());
+                sender.sendMessage(ChatColor.YELLOW + "Use SpigotAPI Version : " + plugin.getDescription().getAPIVersion());
                 if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
                     sender.sendMessage(ChatColor.YELLOW + "Use LuckPerm Mode : True");
                 }else{
@@ -262,6 +262,17 @@ public class WhereIsCommand implements CommandExecutor {
 
                                 sender.sendMessage(ChatColor.YELLOW + "------");
                             }
+                            return true;
+                        }
+
+                        if (args[1].equals("del")){
+                            Data data = new Data(plugin).getDataByID(Integer.parseInt(args[2]));
+                            if (new Data(plugin).DelName(data.Name,data.uuid)){
+                                sender.sendMessage(ChatColor.YELLOW + lnMsg.DelSuccess.replaceAll("\\{name\\}",data.Name));
+                            }else{
+                                sender.sendMessage(ChatColor.RED + lnMsg.DelError);
+                            }
+
                             return true;
                         }
                     }

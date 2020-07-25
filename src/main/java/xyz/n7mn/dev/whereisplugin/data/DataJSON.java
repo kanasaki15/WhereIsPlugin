@@ -190,6 +190,17 @@ class DataJSON implements DataInterface {
         return data;
     }
 
+    @Override
+    public Data GetDataByID(int id) {
+        List<Data> list = getAllListByList(false);
+        for (int i = 0; i < list.size(); i++){
+            if (list.get(i).ID == id){
+                return list.get(i);
+            }
+        }
+        return new Data();
+    }
+
     private String getFilePass(){
         String os = System.getProperty("os.name").toLowerCase();
         File folder = plugin.getDataFolder();

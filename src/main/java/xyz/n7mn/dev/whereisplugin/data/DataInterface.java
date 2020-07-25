@@ -10,4 +10,5 @@ interface DataInterface {
     boolean DelName(String name, UUID uuid);
     boolean UpdateName(String OldName , String NewName,UUID uuid);
     Data[] GetListAll();
+    Data GetDataByID(int id);
 }
