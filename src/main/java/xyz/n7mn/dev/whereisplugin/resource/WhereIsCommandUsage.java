@@ -12,6 +12,9 @@ public class WhereIsCommandUsage {
         if (mode.equals("update")){
             return "/where update <"+ln.OldName+"> <"+ln.NewName+">";
         }
+        if (mode.equals("admin")){
+            return "/where admin <list|del> <page|ID>";
+        }
 
         return "/where";
     }

@@ -29,12 +29,42 @@ public class WhereisTab implements TabExecutor {
             list.add("update");
             list.add("help");
             list.add("system");
+            list.add("admin");
 
             return list;
         }else if (args.length == 1){
             list.add("update");
             list.add("help");
             list.add("system");
+            list.add("admin");
+
+            return list;
+        }
+
+        if (args.length == 2 && args[0].equals("admin")){
+            list.add("list");
+            list.add("del");
+
+            return list;
+        }
+
+        if (args.length == 3 && args[0].equals("admin")){
+            if (args[1].equals("list")){
+                Data[] allList = new Data(plugin).getDataAllList();
+                int pageMax = (allList.length / 5);
+                if (pageMax < 1){ pageMax = 1; }
+                for (int i = 1; i <= pageMax; i++){
+                    list.add(""+i);
+                }
+            }else if (args[1].equals("del")){
+                Data[] allList = new Data(plugin).getDataAllList();
+                for (int i = 0; i < allList.length; i++){
+                    if (allList[i].Active){
+                        list.add(""+allList[i].ID);
+                    }
+                }
+            }
+            return list;
         }
 
         if ((args.length == 2 || args.length == 3) && sender instanceof Player){

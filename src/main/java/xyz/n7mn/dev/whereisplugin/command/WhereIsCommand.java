@@ -34,6 +34,7 @@ public class WhereIsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.YELLOW + "/where del [Name] -- "+lnMsg.commandWhereDel);
                 sender.sendMessage(ChatColor.YELLOW + "/where Update [OldName] [NewName] -- "+lnMsg.commandWhereUpdate);
                 sender.sendMessage(ChatColor.YELLOW + "/where system -- "+lnMsg.commandSystem);
+                sender.sendMessage(ChatColor.YELLOW + "/where admin -- "+lnMsg.commandAdmin);
                 return true;
             }
 
@@ -63,7 +64,6 @@ public class WhereIsCommand implements CommandExecutor {
             }
         }else{
             if (args.length == 0){
-
                 if (sender instanceof Player){
                     Player player = (Player)sender;
 
@@ -126,7 +126,7 @@ public class WhereIsCommand implements CommandExecutor {
                 command.setUsage(WhereIsCommandUsage.Msg(args[0]));
                 if (args[0].equals("add") && args.length == 6){
 
-                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && player != null){
                         if (!player.hasPermission("whereis.add")){
                             player.sendMessage(ChatColor.RED + lnMsg.PermError);
                             return true;
@@ -144,7 +144,7 @@ public class WhereIsCommand implements CommandExecutor {
                 }
 
                 if (args[0].equals("update") && args.length == 3){
-                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && player != null){
                         if (!player.hasPermission("whereis.update")){
                             player.sendMessage(ChatColor.RED + lnMsg.PermError);
                             return true;
@@ -161,7 +161,7 @@ public class WhereIsCommand implements CommandExecutor {
                 }
 
                 if (args[0].equals("del") && args.length == 2){
-                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && player != null){
                         if (!player.hasPermission("whereis.del")){
                             player.sendMessage(ChatColor.RED + lnMsg.PermError);
                             return true;
@@ -175,6 +175,59 @@ public class WhereIsCommand implements CommandExecutor {
                     }
 
                     return true;
+                }
+
+                if (args[0].equals("admin")){
+
+                    if (player != null && !player.isOp()){
+                        sender.sendMessage(ChatColor.RED + lnMsg.PermError);
+                        return true;
+                    }
+
+                    if (player != null && plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
+                        if (!player.hasPermission("whereis.admin")){
+                            sender.sendMessage(ChatColor.RED + lnMsg.PermError);
+                        }
+                    }
+
+                    if (args.length == 2){
+                        if (args[1].equals("list")){
+                            Data[] list = new Data(plugin).getDataAllList();
+                            int pagePer = 5;
+                            if (player == null){ pagePer = list.length; }
+                            int maxPage = (list.length / pagePer);
+                            if (maxPage < 1){ maxPage = 1; }
+
+                            if (maxPage == 1){
+                                sender.sendMessage(ChatColor.YELLOW + "---- WhereIsPlugin Admin ItemList ----");
+                            }else{
+                                sender.sendMessage(ChatColor.YELLOW + "---- WhereIsPlugin Admin ItemList Page 1 / "+maxPage+" ----");
+                            }
+
+                            int minPage = list.length - pagePer;
+                            if (minPage < 1){ minPage = 1; }
+                            for (int i = list.length; i >= minPage; i--){
+
+                                sender.sendMessage(ChatColor.YELLOW + "ID : "+list[i - 1].ID);
+                                sender.sendMessage(ChatColor.YELLOW + "Name : "+list[i - 1].Name);
+                                Player crePlayer = plugin.getServer().getPlayer(list[i - 1].uuid);
+                                if (crePlayer == null){
+                                    crePlayer = plugin.getServer().getOfflinePlayer(list[i - 1].uuid).getPlayer();
+                                }
+                                if (crePlayer == null){
+                                    sender.sendMessage(ChatColor.YELLOW + "CreateUser (UUID): "+list[i - 1].uuid);
+                                }else{
+                                    sender.sendMessage(ChatColor.YELLOW + "CreateUser : "+crePlayer.getName());
+                                }
+                                sender.sendMessage(ChatColor.YELLOW + "Active : " + list[i - 1].Active);
+                                sender.sendMessage(ChatColor.YELLOW + lnMsg.x1 + " : " + list[i - 1].startX+" , "+lnMsg.z1 + " : " + list[i - 1].startZ+" , "+lnMsg.x2 + " : " + list[i - 1].endX+" , "+lnMsg.z2 + " : " + list[i - 1].endZ);
+
+                                sender.sendMessage(ChatColor.YELLOW + "------");
+                            }
+                            return true;
+                        }
+                    }
+
                 }
             }
         }

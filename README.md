@@ -17,6 +17,7 @@ MySQL 5.6以降のMySQLサーバー(なくても動く予定。)
 /where update [OldName] [NewName] -- 指定した今までの名前から新しい名前にする
 /where help                       -- コマンドヘルプ
 /where system                     -- プラグインの動作状態 (要OP権限 or whereis.systemパーミッション所持)
+/where admin [list or del] [id]   -- 登録されている一覧を表示 または 指定したIDのものを削除 (要OP権限 or whereis.adminパーミッション所持)
 </pre>
 
 ## LuckPerm環境でのパーミッション設定
@@ -26,6 +27,7 @@ whereis.add    -- /where addの権限
 whereis.del    -- /where delの権限
 whereis.update -- /where updateの権限
 whereis.system -- /where systemの権限
+whereis.admin -- /where adminの権限
 </pre>
 
 ## 設定ファイル

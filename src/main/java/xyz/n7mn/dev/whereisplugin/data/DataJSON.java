@@ -71,9 +71,9 @@ class DataJSON implements DataInterface {
 
         JSONData[] jsonData = new JSONData[newID];
         for (int i = 0; i < list.size(); i++){
-            jsonData[i] = new JSONData(i + 1, list.get(i).Name, list.get(i).uuid, list.get(i).startX, list.get(i).endX, list.get(i).startZ,list.get(i).endZ,list.get(i).Active);
+            jsonData[i] = new JSONData(list.get(i).ID, list.get(i).Name, list.get(i).uuid, list.get(i).startX, list.get(i).endX, list.get(i).startZ,list.get(i).endZ,list.get(i).Active);
         }
-        jsonData[list.size()] = new JSONData(list.size(), name, uuid, startX,endX,startZ,endZ,true);
+        jsonData[list.size()] = new JSONData(newID, name, uuid, startX,endX,startZ,endZ,true);
 
         String json = gson.toJson(jsonData);
 
