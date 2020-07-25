@@ -45,9 +45,9 @@ public class WhereIsLnResource {
             AddSuccess = "X:{startx} Z:{startz} ～ X:{endx} Z:{endz} の範囲を「{name}」に設定しました。";
             AddError = "範囲は2ブロック以上にしてください。";
             UpdateSuccess = "「{oldname}」を「{newname}」に設定しました。";
-            UpdateError = "その名前は登録されていません。";
+            UpdateError = "その名前は登録されていないか他の人が登録した名前です。";
             DelSuccess = "「{name}」を削除しました。";
-            DelError = "その名前は削除済みか登録されていません。";
+            DelError = "その名前は削除済みか登録されていないか他の人が登録した名前です。";
             PermError = "実行する権限がありません。";
         }
     }

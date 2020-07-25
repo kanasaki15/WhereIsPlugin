@@ -30,7 +30,7 @@ class DataSQL implements DataInterface {
             preparedStatement.setString(1,"WhereList");
             ResultSet query = preparedStatement.executeQuery();
             if (!query.next()){
-                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int not null primary key, Name varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
+                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int not null primary key, Name varchar(255), CreateUser varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
                 preparedStatement1.execute();
             }
             con.close();
@@ -84,14 +84,15 @@ class DataSQL implements DataInterface {
             }
             dataCount++;
 
-            PreparedStatement statement2 = con.prepareStatement("INSERT INTO `WhereList` (`ID`, `Name`, `startX`, `endX`, `startZ`, `endZ`, `Active`) VALUES (?, ?, ?, ?, ?, ?, ?) ");
+            PreparedStatement statement2 = con.prepareStatement("INSERT INTO `WhereList` (`ID`, `Name`, `CreateUser`,  `startX`, `endX`, `startZ`, `endZ`, `Active`) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ");
             statement2.setInt(1,dataCount);
             statement2.setString(2,name);
-            statement2.setInt(3,startX);
-            statement2.setInt(4,endX);
-            statement2.setInt(5,startZ);
-            statement2.setInt(6,endZ);
-            statement2.setBoolean(7,true);
+            statement2.setString(3,uuid.toString());
+            statement2.setInt(4,startX);
+            statement2.setInt(5,endX);
+            statement2.setInt(6,startZ);
+            statement2.setInt(7,endZ);
+            statement2.setBoolean(8,true);
             statement2.execute();
 
             con.close();
@@ -121,9 +122,10 @@ class DataSQL implements DataInterface {
             if (set.next()){
                 int id = set.getInt("ID");
 
-                PreparedStatement statement2 = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? WHERE `WhereList`.`ID` = ?; ");
+                PreparedStatement statement2 = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? WHERE `WhereList`.`ID` = ? AND CreateUser = ? AND Active = 1; ");
                 statement2.setString(1, NewName);
                 statement2.setInt(2, id);
+                statement2.setString(3, uuid.toString());
                 statement2.execute();
 
                 return true;
@@ -146,8 +148,9 @@ class DataSQL implements DataInterface {
     public boolean DelName(String name, UUID uuid) {
         try{
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
-            PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND Active = 1;");
+            PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND CreateUser = ? AND Active = 1;");
             statement1.setString(1, name);
+            statement1.setString(2, uuid.toString());
             ResultSet set = statement1.executeQuery();
             if (set.next()){
                 int id = set.getInt("ID");
@@ -185,11 +188,14 @@ class DataSQL implements DataInterface {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Data tdata = new Data();
+                tdata.ID = resultSet.getInt("ID");
                 tdata.Name = resultSet.getString("Name");
+                tdata.uuid = UUID.fromString(resultSet.getString("CreateUser"));
                 tdata.startX = resultSet.getInt("startX");
                 tdata.startZ = resultSet.getInt("startZ");
                 tdata.endX = resultSet.getInt("endX");
                 tdata.endZ = resultSet.getInt("endZ");
+                tdata.Active = resultSet.getBoolean("Active");
                 temp.add(tdata);
             }
             data = new Data[temp.size()];

@@ -1,6 +1,7 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +10,9 @@ import org.bukkit.plugin.Plugin;
 import xyz.n7mn.dev.whereisplugin.resource.WhereIsCommandUsage;
 import xyz.n7mn.dev.whereisplugin.resource.WhereIsLnResource;
 import xyz.n7mn.dev.whereisplugin.data.Data;
+
+import java.util.Collection;
+import java.util.UUID;
 
 public class WhereIsCommand implements CommandExecutor {
 
@@ -86,22 +90,49 @@ public class WhereIsCommand implements CommandExecutor {
                 }else{
                     Data[] list = new Data(plugin).getDataAllList();
                     for (int i = 0; i < list.length; i++){
-                        sender.sendMessage(lnMsg.x1+": "+list[i].startX+" "+lnMsg.z1+": "+list[i].startZ + " - " + lnMsg.z1+": "+list[i].startZ+" "+lnMsg.z2 + ": "+list[i].endZ+" : " + list[i].Name);
+
+                        String CreateUserName = null;
+                        Object[] onlineList = plugin.getServer().getOnlinePlayers().toArray();
+
+                        for (int x = 0; x < onlineList.length; x++){
+                            Player p = (Player) onlineList[x];
+                            if (p.getUniqueId().toString().equals(list[i].uuid.toString())){
+                                CreateUserName = p.getDisplayName();
+                                break;
+                            }
+                        }
+                        if (CreateUserName == null){
+                            OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(list[i].uuid);
+                            if (offlinePlayer != null){
+                                CreateUserName = offlinePlayer.getName();
+                            }else{
+                                CreateUserName = "Unknown";
+                            }
+                        }
+
+                        sender.sendMessage(lnMsg.x1+": "+list[i].startX+" "+lnMsg.z1+": "+list[i].startZ + " - " + lnMsg.z1+": "+list[i].startZ+" "+lnMsg.z2 + ": "+list[i].endZ+" : " + list[i].Name + " (By "+CreateUserName+")");
                     }
                     return true;
                 }
             }else{
+                Player player = null;
+                UUID PlayerUUID = null;
+                if (sender instanceof Player){
+                    player = (Player)sender;
+                    PlayerUUID = player.getUniqueId();
+                }
+
                 command.setUsage(WhereIsCommandUsage.Msg(args[0]));
                 if (args[0].equals("add") && args.length == 6){
 
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
-                        Player player = (Player)sender;
                         if (!player.hasPermission("whereis.add")){
                             player.sendMessage(ChatColor.RED + lnMsg.PermError);
                             return true;
                         }
                     }
-                    if (new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5])){
+
+                    if (new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5], PlayerUUID)){
                         String msg = lnMsg.AddSuccess.replaceAll("\\{startx\\}",args[1]).replaceAll("\\{endx\\}",args[2]).replaceAll("\\{startz\\}",args[3]).replaceAll("\\{endz\\}",args[4]).replaceAll("\\{name\\}",args[5]);
                         sender.sendMessage(ChatColor.YELLOW + msg);
                     }else{
@@ -113,14 +144,13 @@ public class WhereIsCommand implements CommandExecutor {
 
                 if (args[0].equals("update") && args.length == 3){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
-                        Player player = (Player)sender;
                         if (!player.hasPermission("whereis.update")){
                             player.sendMessage(ChatColor.RED + lnMsg.PermError);
                             return true;
                         }
                     }
 
-                    if (new Data(plugin).UpdateName(args[1], args[2])){
+                    if (new Data(plugin).UpdateName(args[1], args[2], PlayerUUID)){
                         sender.sendMessage(ChatColor.YELLOW + lnMsg.UpdateSuccess.replaceAll("\\{oldname\\}",args[1]).replaceAll("\\{newname\\}",args[2]));
                     }else{
                         sender.sendMessage(ChatColor.RED + lnMsg.UpdateError);
@@ -131,14 +161,13 @@ public class WhereIsCommand implements CommandExecutor {
 
                 if (args[0].equals("del") && args.length == 2){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
-                        Player player = (Player)sender;
                         if (!player.hasPermission("whereis.del")){
                             player.sendMessage(ChatColor.RED + lnMsg.PermError);
                             return true;
                         }
                     }
 
-                    if (new Data(plugin).DelName(args[1])){
+                    if (new Data(plugin).DelName(args[1], PlayerUUID)){
                         sender.sendMessage(ChatColor.YELLOW + lnMsg.DelSuccess.replaceAll("\\{name\\}",args[1]));
                     }else{
                         sender.sendMessage(ChatColor.RED + lnMsg.DelError);

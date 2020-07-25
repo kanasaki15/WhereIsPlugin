@@ -1,17 +1,21 @@
 package xyz.n7mn.dev.whereisplugin.data.Result;
 
+import java.util.UUID;
+
 public class JSONData {
     int ID;
     String Name;
+    UUID uuid;
     int StartX;
     int EndX;
     int StartZ;
     int EndZ;
     boolean Active;
 
-    public JSONData(int ID, String Name, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
+    public JSONData(int ID, String Name, UUID uuid, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
         this.ID = ID;
         this.Name = Name;
+        this.uuid = uuid;
         this.StartX = StartX;
         this.EndX = EndX;
         this.StartZ = StartZ;
@@ -73,5 +77,13 @@ public class JSONData {
 
     public void setActive(boolean active) {
         Active = active;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

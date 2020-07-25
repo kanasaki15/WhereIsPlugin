@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Data {
     public int ID;
     public String Name;
+    public UUID uuid;
     public int startX;
     public int endX;
     public int startZ;
@@ -78,13 +79,13 @@ public class Data {
         return false;
     }
 
-    public boolean DelName(String Name){
+    public boolean DelName(String Name, UUID uuid){
         if (sql != null && sql.NewConnect()){
-            return sql.DelName(Name);
+            return sql.DelName(Name, uuid);
         }
 
         if (json != null && json.NewConnect()){
-            return json.DelName(Name);
+            return json.DelName(Name, uuid);
         }
         return false;
     }
