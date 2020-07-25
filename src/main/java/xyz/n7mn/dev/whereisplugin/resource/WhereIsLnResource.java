@@ -7,6 +7,7 @@ public class WhereIsLnResource {
     public String commandWhereAdd;
     public String commandWhereDel;
     public String commandWhereUpdate;
+    public String commandSystem;
     public String x1;
     public String x2;
     public String z1;
@@ -32,6 +33,7 @@ public class WhereIsLnResource {
             commandWhereAdd = "指定した範囲の名前を設定する";
             commandWhereDel = "指定した範囲の名前を解除する";
             commandWhereUpdate = "指定した名前を新しい名前に変更する";
+            commandSystem = "現在の実行環境を表示";
             x1 = "始点X座標";
             x2 = "終点X座標";
             z1 = "始点Z座標";
