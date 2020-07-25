@@ -113,6 +113,8 @@ class DataSQL implements DataInterface {
             statement2.setBoolean(7,true);
             statement2.execute();
 
+            con.close();
+
             return true;
         } catch (SQLException e) {
             p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
@@ -129,11 +131,38 @@ class DataSQL implements DataInterface {
 
     @Override
     public boolean UpdateName(String OldName, String NewName) {
-        return true;
+
+        try{
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
+            PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ?;");
+            statement1.setString(1, OldName);
+            ResultSet set = statement1.executeQuery();
+            if (set.next()){
+                int id = set.getInt("ID");
+
+                PreparedStatement statement2 = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? WHERE `WhereList`.`ID` = ?; ");
+                statement2.setString(1, NewName);
+                statement2.setInt(2, id);
+                statement2.execute();
+
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e){
+                //e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 
     @Override
     public boolean DelName(String name) {
-        return true;
+        return false;
     }
 }

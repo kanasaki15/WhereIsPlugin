@@ -57,6 +57,7 @@ public class Data {
     }
 
     public boolean UpdateName(String OldName , String NewName){
+
         if (sql != null && sql.NewConnect()){
             return sql.UpdateName(OldName, NewName);
         }
