@@ -3,7 +3,10 @@ package xyz.n7mn.dev.whereisplugin.data;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.UUID;
+
 public class Data {
+    public int ID;
     public String Name;
     public int startX;
     public int endX;
@@ -46,31 +49,31 @@ public class Data {
         return getDataList(player.getLocation().getBlockX(), player.getLocation().getBlockZ());
     }
 
-    public boolean setName(int startX, int endX, int startZ, int endZ, String name){
+    public boolean setName(int startX, int endX, int startZ, int endZ, String name, UUID uuid){
 
         if (startX == endX && startZ == endZ){
             return false;
         }
 
         if (sql != null && sql.NewConnect()){
-            return sql.SetName(startX, endX, startZ, endZ, name);
+            return sql.SetName(startX, endX, startZ, endZ, name, uuid);
         }
 
         if (json != null && json.NewConnect()){
-            return json.SetName(startX, endX, startZ, endZ, name);
+            return json.SetName(startX, endX, startZ, endZ, name, uuid);
         }
 
         return false;
     }
 
-    public boolean UpdateName(String OldName , String NewName){
+    public boolean UpdateName(String OldName , String NewName , UUID uuid){
 
         if (sql != null && sql.NewConnect()){
-            return sql.UpdateName(OldName, NewName);
+            return sql.UpdateName(OldName, NewName, uuid);
         }
 
         if (json != null && json.NewConnect()){
-            return json.UpdateName(OldName, NewName);
+            return json.UpdateName(OldName, NewName, uuid);
         }
         return false;
     }

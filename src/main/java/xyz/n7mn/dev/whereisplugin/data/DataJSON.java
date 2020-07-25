@@ -7,8 +7,8 @@ import xyz.n7mn.dev.whereisplugin.data.Result.JSONData;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 class DataJSON implements DataInterface {
     Plugin plugin;
@@ -63,7 +63,7 @@ class DataJSON implements DataInterface {
     }
 
     @Override
-    public boolean SetName(int startX, int endX, int startZ, int endZ, String name) {
+    public boolean SetName(int startX, int endX, int startZ, int endZ, String name, UUID uuid) {
         List<Data> list = getAllListByList(false);
         Gson gson = new Gson();
 
@@ -98,7 +98,7 @@ class DataJSON implements DataInterface {
     }
 
     @Override
-    public boolean UpdateName(String OldName, String NewName) {
+    public boolean UpdateName(String OldName, String NewName, UUID uuid) {
         List<Data> list = getAllListByList(false);
 
         for (int i = 0; i < list.size(); i++){
@@ -139,8 +139,44 @@ class DataJSON implements DataInterface {
     }
 
     @Override
-    public boolean DelName(String name) {
-        return true;
+    public boolean DelName(String name, UUID uuid) {
+        List<Data> list = getAllListByList(false);
+
+        for (int i = 0; i < list.size(); i++){
+            Data data = list.get(i);
+            if (!data.Active){
+                continue;
+            }
+            if (data.Name.equals(name)){
+                list.get(i).Active = false;
+            }
+        }
+
+        JSONData[] jsonData = new JSONData[list.size()];
+        for (int i = 0; i < jsonData.length; i++){
+
+            jsonData[i] = new JSONData(i + 1, list.get(i).Name, list.get(i).startX, list.get(i).endX, list.get(i).startZ, list.get(i).endZ, list.get(i).Active);
+        }
+        String json = new Gson().toJson(jsonData);
+
+        File file = new File(getFilePass());
+        PrintWriter p_writer = null;
+        try{
+            p_writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8")));
+            p_writer.print(json);
+            p_writer.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            plugin.getLogger().info("File I/O Error : " + e.getMessage());
+            return false;
+        } catch (UnsupportedEncodingException e) {
+            plugin.getLogger().info("File I/O Error : " + e.getMessage());
+            return false;
+        } finally {
+            if (p_writer != null){
+                p_writer.close();
+            }
+        }
     }
 
     @Override
@@ -216,6 +252,7 @@ class DataJSON implements DataInterface {
                 continue;
             }
             Data data = new Data();
+            data.ID = jsonData[i].getID();
             data.Name = jsonData[i].getName();
             data.startX = jsonData[i].getStartX();
             data.endX = jsonData[i].getEndX();

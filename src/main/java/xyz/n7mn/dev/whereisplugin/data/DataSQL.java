@@ -5,6 +5,7 @@ import org.bukkit.plugin.Plugin;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 class DataSQL implements DataInterface {
     private Plugin p;
@@ -72,7 +73,7 @@ class DataSQL implements DataInterface {
     }
 
     @Override
-    public boolean SetName(int startX, int endX,int startZ,int endZ,String name) {
+    public boolean SetName(int startX, int endX, int startZ, int endZ, String name, UUID uuid) {
         try {
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement statement1 = con.prepareStatement("SELECT count(*) FROM WhereList;");
@@ -111,7 +112,7 @@ class DataSQL implements DataInterface {
     }
 
     @Override
-    public boolean UpdateName(String OldName, String NewName) {
+    public boolean UpdateName(String OldName, String NewName, UUID uuid) {
         try{
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND Active = 1;");
@@ -142,7 +143,7 @@ class DataSQL implements DataInterface {
     }
 
     @Override
-    public boolean DelName(String name) {
+    public boolean DelName(String name, UUID uuid) {
         try{
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
             PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND Active = 1;");
