@@ -99,7 +99,43 @@ class DataJSON implements DataInterface {
 
     @Override
     public boolean UpdateName(String OldName, String NewName) {
-        return true;
+        List<Data> list = getAllListByList(false);
+
+        for (int i = 0; i < list.size(); i++){
+            Data data = list.get(i);
+            if (!data.Active){
+                continue;
+            }
+            if (data.Name.equals(OldName)){
+                list.get(i).Name = NewName;
+            }
+        }
+
+        JSONData[] jsonData = new JSONData[list.size()];
+        for (int i = 0; i < jsonData.length; i++){
+
+            jsonData[i] = new JSONData(i + 1, list.get(i).Name, list.get(i).startX, list.get(i).endX, list.get(i).startZ, list.get(i).endZ, list.get(i).Active);
+        }
+        String json = new Gson().toJson(jsonData);
+
+        File file = new File(getFilePass());
+        PrintWriter p_writer = null;
+        try{
+            p_writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8")));
+            p_writer.print(json);
+            p_writer.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            plugin.getLogger().info("File I/O Error : " + e.getMessage());
+            return false;
+        } catch (UnsupportedEncodingException e) {
+            plugin.getLogger().info("File I/O Error : " + e.getMessage());
+            return false;
+        } finally {
+            if (p_writer != null){
+                p_writer.close();
+            }
+        }
     }
 
     @Override
