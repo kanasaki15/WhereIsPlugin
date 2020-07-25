@@ -13,11 +13,8 @@ public class Data {
     private DataJSON json = null;
 
     public Data(Plugin p){
-        if (p.getConfig().getString("mysqlServer").length() > 0){
-            sql = new DataSQL(p);
-        }else{
-            json = new DataJSON(p);
-        }
+        sql = new DataSQL(p);
+        json = new DataJSON(p);
     }
 
     public Data(){
@@ -77,5 +74,28 @@ public class Data {
             return json.DelName(Name);
         }
         return false;
+    }
+
+    public Data[] getDataAllList(){
+        if (sql != null && sql.NewConnect()){
+            return sql.GetListAll();
+        }
+
+        if (json != null && json.NewConnect()){
+            return json.GetListAll();
+        }
+
+        return null;
+    }
+
+    public String getMode(){
+        if (sql.NewConnect()){
+            return "MySQL";
+        }
+        if (json.NewConnect()){
+            return "File (JSON)";
+        }
+
+        return "Unknown";
     }
 }

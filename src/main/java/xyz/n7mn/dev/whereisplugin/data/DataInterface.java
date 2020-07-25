@@ -7,4 +7,5 @@ interface DataInterface {
     boolean SetName(int startX, int endX,int startZ,int endZ,String name);
     boolean DelName(String name);
     boolean UpdateName(String OldName , String NewName);
+    Data[] GetListAll();
 }

@@ -165,4 +165,9 @@ class DataSQL implements DataInterface {
     public boolean DelName(String name) {
         return false;
     }
+
+    @Override
+    public Data[] GetListAll() {
+        return null;
+    }
 }

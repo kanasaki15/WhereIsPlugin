@@ -32,4 +32,9 @@ class DataJSON implements DataInterface {
     public boolean DelName(String name) {
         return true;
     }
+
+    @Override
+    public Data[] GetListAll(){
+        return null;
+    }
 }

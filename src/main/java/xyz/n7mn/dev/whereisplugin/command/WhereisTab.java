@@ -28,11 +28,13 @@ public class WhereisTab implements TabExecutor {
             list.add("del");
             list.add("update");
             list.add("help");
+            list.add("system");
 
             return list;
         }else if (args.length == 1){
             list.add("update");
             list.add("help");
+            list.add("system");
         }
 
         if ((args.length == 2 || args.length == 3) && sender instanceof Player){

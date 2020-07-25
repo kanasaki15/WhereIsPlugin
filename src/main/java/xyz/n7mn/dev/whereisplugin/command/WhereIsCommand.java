@@ -31,6 +31,31 @@ public class WhereIsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.YELLOW + "/where Update [OldName] [NewName] -- "+lnMsg.commandWhereUpdate);
                 return true;
             }
+
+            if (args[0].equals("system")){
+                if (sender instanceof Player){
+                    Player player = (Player)sender;
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
+                        if (!player.hasPermission("whereis.sys")){
+                            player.sendMessage(ChatColor.RED + lnMsg.PermError);
+                            return true;
+                        }
+                    }
+                    if (!player.isOp()) {
+                        player.sendMessage(ChatColor.RED + lnMsg.PermError);
+                        return true;
+                    }
+                }
+                sender.sendMessage(ChatColor.YELLOW + "---- WhereIsPlugin SystemInfo ----");
+                sender.sendMessage(ChatColor.YELLOW + "Ver : " + plugin.getDescription().getVersion());
+                sender.sendMessage(ChatColor.YELLOW + "Use DataSystem : " + new Data(plugin).getMode());
+                if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
+                    sender.sendMessage(ChatColor.YELLOW + "Use LuckPerm Mode : True");
+                }else{
+                    sender.sendMessage(ChatColor.YELLOW + "Use LuckPerm Mode : False");
+                }
+                return true;
+            }
         }else{
             if (args.length == 0){
 
