@@ -43,7 +43,8 @@ class DataSQL implements DataInterface {
                     con.close();
                 }
             } catch (SQLException e) {
-                //e.printStackTrace();
+                p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+                return false;
             }
         }
     }
@@ -55,7 +56,7 @@ class DataSQL implements DataInterface {
 
         try{
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList ORDER BY ID ASC;");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE Active = 1 ORDER BY ID ASC;");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Data tdata = new Data();
@@ -84,7 +85,8 @@ class DataSQL implements DataInterface {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    //e.printStackTrace();
+                    p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+                    return null;
                 }
             }
         }
@@ -124,17 +126,17 @@ class DataSQL implements DataInterface {
             try{
                 con.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
+                p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+                return false;
             }
         }
     }
 
     @Override
     public boolean UpdateName(String OldName, String NewName) {
-
         try{
             con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
-            PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ?;");
+            PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND Active = 1;");
             statement1.setString(1, OldName);
             ResultSet set = statement1.executeQuery();
             if (set.next()){
@@ -163,11 +165,73 @@ class DataSQL implements DataInterface {
 
     @Override
     public boolean DelName(String name) {
-        return false;
+        try{
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
+            PreparedStatement statement1 = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND Active = 1;");
+            statement1.setString(1, name);
+            ResultSet set = statement1.executeQuery();
+            if (set.next()){
+                int id = set.getInt("ID");
+
+                PreparedStatement statement2 = con.prepareStatement("UPDATE `WhereList` SET `Active` = ? WHERE `WhereList`.`ID` = ?;");
+                statement2.setBoolean(1, false);
+                statement2.setInt(2, id);
+                statement2.execute();
+
+                con.close();
+                return true;
+            }
+            con.close();
+            return false;
+        } catch (SQLException e) {
+            p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                con.close();
+            }catch (SQLException e){
+                p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+                return false;
+            }
+        }
     }
 
     @Override
     public Data[] GetListAll() {
+        List<Data> temp = new ArrayList<Data>();
+        Data[] data = null;
+        try{
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE Active = 1;");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Data tdata = new Data();
+                tdata.Name = resultSet.getString("Name");
+                tdata.startX = resultSet.getInt("startX");
+                tdata.startZ = resultSet.getInt("startZ");
+                tdata.endX = resultSet.getInt("endX");
+                tdata.endZ = resultSet.getInt("endZ");
+                temp.add(tdata);
+            }
+            data = new Data[temp.size()];
+            for (int i = 0; i < data.length; i++){
+                data[i] = temp.get(i);
+            }
+
+            con.close();
+
+            return data;
+        } catch (SQLException e) {
+            p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
+                return null;
+            }
+        }
+
         return null;
     }
 }

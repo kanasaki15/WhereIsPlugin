@@ -22,14 +22,19 @@ public class Data {
     }
 
     public Data[] getDataList(int x , int z){
+        Data[] temp = null;
         if (sql != null && sql.NewConnect()){
-            return sql.GetList(x , z);
+            temp = sql.GetList(x , z);
         }
         if (json != null && json.NewConnect()){
-            return json.GetList(x , z);
+            temp = json.GetList(x , z);
         }
 
-        return null;
+        if (temp == null){
+            temp = new Data[0];
+        }
+
+        return temp;
     }
 
     public Data[] getDataList(Player player) {
@@ -77,15 +82,20 @@ public class Data {
     }
 
     public Data[] getDataAllList(){
+        Data[] temp = null;
         if (sql != null && sql.NewConnect()){
-            return sql.GetListAll();
+            temp = sql.GetListAll();
         }
 
         if (json != null && json.NewConnect()){
-            return json.GetListAll();
+            temp = json.GetListAll();
         }
 
-        return null;
+        if (temp == null){
+            temp = new Data[0];
+        }
+
+        return temp;
     }
 
     public String getMode(){

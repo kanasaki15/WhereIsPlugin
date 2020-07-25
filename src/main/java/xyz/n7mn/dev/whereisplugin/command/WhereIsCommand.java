@@ -139,7 +139,7 @@ public class WhereIsCommand implements CommandExecutor {
                     }
 
                     if (new Data(plugin).DelName(args[1])){
-                        sender.sendMessage(ChatColor.YELLOW + lnMsg.DelSuccess.replaceAll("",args[1]));
+                        sender.sendMessage(ChatColor.YELLOW + lnMsg.DelSuccess.replaceAll("\\{name\\}",args[1]));
                     }else{
                         sender.sendMessage(ChatColor.RED + lnMsg.DelError);
                     }
