@@ -102,7 +102,7 @@ public class WhereIsCommand implements CommandExecutor {
                         }
                     }
                     if (new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5])){
-                        String msg = lnMsg.AddSuccess.replaceAll("\\{startx\\}",args[1]).replaceAll("\\{endx\\}",args[2]).replaceAll("\\{startz\\}",args[3]).replaceAll("\\{endz\\}",args[4]).replaceAll("\\{endz\\}",args[5]);
+                        String msg = lnMsg.AddSuccess.replaceAll("\\{startx\\}",args[1]).replaceAll("\\{endx\\}",args[2]).replaceAll("\\{startz\\}",args[3]).replaceAll("\\{endz\\}",args[4]).replaceAll("\\{name\\}",args[5]);
                         sender.sendMessage(ChatColor.YELLOW + msg);
                     }else{
                         sender.sendMessage(ChatColor.RED + lnMsg.AddError);
