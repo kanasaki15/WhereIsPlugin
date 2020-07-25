@@ -13,7 +13,11 @@ public class Data {
     private DataJSON json = null;
 
     public Data(Plugin p){
-        sql = new DataSQL(p);
+        p.reloadConfig();
+
+        if (p.getConfig().getString("mysqlServer").length() > 0){
+            sql = new DataSQL(p);
+        }
         json = new DataJSON(p);
     }
 
@@ -99,10 +103,10 @@ public class Data {
     }
 
     public String getMode(){
-        if (sql.NewConnect()){
+        if (sql != null && sql.NewConnect()){
             return "MySQL";
         }
-        if (json.NewConnect()){
+        if (json != null && json.NewConnect()){
             return "File (JSON)";
         }
 
