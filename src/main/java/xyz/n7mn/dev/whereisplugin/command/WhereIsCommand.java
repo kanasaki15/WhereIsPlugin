@@ -83,6 +83,12 @@ public class WhereIsCommand implements CommandExecutor {
                     }
                     player.sendMessage(lnMsg.Here1+sb.toString()+lnMsg.Here2);
                     return true;
+                }else{
+                    Data[] list = new Data(plugin).getDataAllList();
+                    for (int i = 0; i < list.length; i++){
+                        sender.sendMessage(lnMsg.x1+": "+list[i].startX+" "+lnMsg.z1+": "+list[i].startZ + " - " + lnMsg.z1+": "+list[i].startZ+" "+lnMsg.z2 + ": "+list[i].endZ+" : " + list[i].Name);
+                    }
+                    return true;
                 }
             }else{
                 command.setUsage(WhereIsCommandUsage.Msg(args[0]));
