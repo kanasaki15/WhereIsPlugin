@@ -43,78 +43,22 @@ class DataJSON implements DataInterface {
 
     @Override
     public Data[] GetList(int x, int z) {
-        File file = new File(getFilePass());
-        BufferedReader buffer = null;
-        Gson gson = new Gson();
-        JSONData[] jsonData = null;
-        try {
-            FileInputStream input = new FileInputStream(file);
-            InputStreamReader stream = new InputStreamReader(input,"UTF-8");
-            buffer = new BufferedReader(stream);
-            file.setWritable(false);
-            StringBuffer sb = new StringBuffer();
-            int ch = buffer.read();
-            while (ch != -1) {
-                sb.append((char) ch);
-                ch = buffer.read();
+        Data[] data = GetListAll();
+        List<Data> temp = new ArrayList<>();
+        for (int i = 0; i < data.length; i++){
+            if (data[i].startX <= x && x <= data[i].endX && data[i].startZ <= z && z <= data[i].endZ){
+                temp.add(data[i]);
+                continue;
             }
-            jsonData = gson.fromJson(sb.toString(), JSONData[].class);
-            file.setWritable(true);
-            buffer.close();
-
-        } catch (FileNotFoundException e) {
-            plugin.getLogger().info("File I/O Error : " + e.getMessage());
-            return null;
-        } catch (IOException e) {
-            plugin.getLogger().info("File I/O Error : " + e.getMessage());
-            return null;
-        } catch (JsonSyntaxException e){
-            plugin.getLogger().info("File I/O Error : " + e.getMessage());
-            return null;
-        }finally {
-            try{
-                buffer.close();
-                file.setWritable(true);
-            } catch (IOException ee){
-                plugin.getLogger().info("File I/O Error : " + ee.getMessage());
+            if (data[i].startX >= x && x >= data[i].endX && data[i].startZ >= z && z >= data[i].endZ) {
+                temp.add(data[i]);
             }
         }
-
-        if (jsonData != null){
-            List<Data> tempData = new ArrayList<Data>();
-
-            for (int i = 0; i < jsonData.length; i++){
-                if (!jsonData[i].isActive()){
-                    continue;
-                }
-
-                if (!((jsonData[i].getStartX() <= x && jsonData[i].getEndX() >= x) || (jsonData[i].getStartX() >= x && jsonData[i].getEndX() <= x))){
-                    continue;
-                }
-                if (!((jsonData[i].getStartZ() <= z && jsonData[i].getEndZ() >= z) || (jsonData[i].getStartZ() >= z && jsonData[i].getEndZ() <= z))){
-                    continue;
-                }
-
-                Data tempdata = new Data();
-                tempdata.Name = jsonData[i].getName();
-                tempdata.startX = jsonData[i].getStartX();
-                tempdata.endX = jsonData[i].getEndX();
-                tempdata.startZ = jsonData[i].getStartZ();
-                tempdata.endZ = jsonData[i].getEndZ();
-
-                tempData.add(tempdata);
-            }
-
-            Data[] data = new Data[tempData.size()];
-
-            for (int i = 0; i < data.length; i++){
-                data[i] = tempData.get(i);
-            }
-
-            return data;
-        }else{
-            return null;
+        data = new Data[temp.size()];
+        for (int i = 0; i < data.length; i++){
+            data[i] = temp.get(i);
         }
+        return data;
     }
 
     @Override

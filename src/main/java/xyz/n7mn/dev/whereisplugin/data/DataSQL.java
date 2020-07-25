@@ -51,44 +51,22 @@ class DataSQL implements DataInterface {
 
     @Override
     public Data[] GetList(int x , int z){
-        Data[] data = null;
-        List<Data> temp = new ArrayList<Data>();
+        Data[] data = GetListAll();
+        List<Data> temp = new ArrayList<>();
 
-        try{
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + "?allowPublicKeyRetrieval=true&useSSL=false", MySQLUser, MySQLPassword);
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE Active = 1 ORDER BY ID ASC;");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Data tdata = new Data();
-                tdata.Name = resultSet.getString("Name");
-                tdata.startX = resultSet.getInt("startX");
-                tdata.startZ = resultSet.getInt("startZ");
-                tdata.endX = resultSet.getInt("endX");
-                tdata.endZ = resultSet.getInt("endZ");
-                if (tdata.startX <= x && x <= tdata.endX && tdata.startZ <= z && z <= tdata.endZ){
-                    temp.add(tdata);
-                    continue;
-                }
-                if (tdata.startX >= x && x >= tdata.endX && tdata.startZ >= z && z >= tdata.endZ){
-                    temp.add(tdata);
-                    continue;
-                }
+        for (int i = 0; i < data.length; i++){
+            if (data[i].startX <= x && x <= data[i].endX && data[i].startZ <= z && z <= data[i].endZ){
+                temp.add(data[i]);
+                continue;
             }
-            data = new Data[temp.size()];
-            for (int i = 0; i < data.length; i++){
-                data[i] = temp.get(i);
+            if (data[i].startX >= x && x >= data[i].endX && data[i].startZ >= z && z >= data[i].endZ) {
+                temp.add(data[i]);
             }
-        } catch (SQLException e) {
-            //e.printStackTrace();
-        } finally {
-            if (con != null){
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
-                    return null;
-                }
-            }
+        }
+
+        data = new Data[temp.size()];
+        for (int i = 0; i < data.length; i++){
+            data[i] = temp.get(i);
         }
         return data;
     }
