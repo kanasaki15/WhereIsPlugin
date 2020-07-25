@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+    compile 'mysql:mysql-connector-java:8.0.21'
 }
 
 processResources {

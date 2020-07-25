@@ -19,6 +19,11 @@ public class WhereIsLnResource {
     public String NoName;
     public String AddSuccess;
     public String AddError;
+    public String UpdateSuccess;
+    public String UpdateError;
+    public String DelSuccess;
+    public String DelError;
+    public String PermError;
 
     public WhereIsLnResource (String language){
         if (language.equals("ja")){
@@ -39,6 +44,11 @@ public class WhereIsLnResource {
             NoName = "名称未設定";
             AddSuccess = "X:{startx} Z:{startz} ～ X:{endx} Z:{endz} の範囲を「{name}」に設定しました。";
             AddError = "範囲は2ブロック以上にしてください。";
+            UpdateSuccess = "「{oldname}」を「{newname}」に設定しました。";
+            UpdateError = "その名前は登録されていません。";
+            DelSuccess = "「{name}」を削除しました。";
+            DelError = "その名前は削除済みか登録されていません。";
+            PermError = "実行する権限がありません。";
         }
     }
 }

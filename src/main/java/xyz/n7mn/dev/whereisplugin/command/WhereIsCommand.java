@@ -33,8 +33,17 @@ public class WhereIsCommand implements CommandExecutor {
             }
         }else{
             if (args.length == 0){
+
                 if (sender instanceof Player){
                     Player player = (Player)sender;
+
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
+                        if (!player.hasPermission("whereis.check")){
+                            player.sendMessage(ChatColor.RED + lnMsg.PermError);
+                            return true;
+                        }
+                    }
+
                     Data[] dataList = new Data(plugin).getDataList(player.getLocation().getBlockX(), player.getLocation().getBlockZ());
                     StringBuffer sb = new StringBuffer();
 
@@ -53,12 +62,55 @@ public class WhereIsCommand implements CommandExecutor {
             }else{
                 command.setUsage(WhereIsCommandUsage.Msg(args[0]));
                 if (args[0].equals("add") && args.length == 6){
-                    String s = new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
 
-                    if (s.equals("Success")){
-                        sender.sendMessage(ChatColor.YELLOW + lnMsg.AddSuccess);
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
+                        Player player = (Player)sender;
+                        if (!player.hasPermission("whereis.add")){
+                            player.sendMessage(ChatColor.RED + lnMsg.PermError);
+                            return true;
+                        }
+                    }
+                    if (new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5])){
+                        String msg = lnMsg.AddSuccess.replaceAll("\\{startx\\}",args[1]).replaceAll("\\{endx\\}",args[2]).replaceAll("\\{startz\\}",args[3]).replaceAll("\\{endz\\}",args[4]).replaceAll("\\{endz\\}",args[5]);
+                        sender.sendMessage(ChatColor.YELLOW + msg);
                     }else{
                         sender.sendMessage(ChatColor.RED + lnMsg.AddError);
+                    }
+
+                    return true;
+                }
+
+                if (args[0].equals("update") && args.length == 3){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
+                        Player player = (Player)sender;
+                        if (!player.hasPermission("whereis.update")){
+                            player.sendMessage(ChatColor.RED + lnMsg.PermError);
+                            return true;
+                        }
+                    }
+
+                    if (new Data(plugin).UpdateName(args[1], args[2])){
+                        sender.sendMessage(ChatColor.YELLOW + lnMsg.UpdateSuccess.replaceAll("\\{oldname\\}",args[1]).replaceAll("\\{newname\\}",args[2]));
+                    }else{
+                        sender.sendMessage(ChatColor.RED + lnMsg.UpdateError);
+                    }
+
+                    return true;
+                }
+
+                if (args[0].equals("del") && args.length == 2){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null && sender instanceof Player){
+                        Player player = (Player)sender;
+                        if (!player.hasPermission("whereis.del")){
+                            player.sendMessage(ChatColor.RED + lnMsg.PermError);
+                            return true;
+                        }
+                    }
+
+                    if (new Data(plugin).DelName(args[1])){
+                        sender.sendMessage(ChatColor.YELLOW + lnMsg.DelSuccess.replaceAll("",args[1]));
+                    }else{
+                        sender.sendMessage(ChatColor.RED + lnMsg.DelError);
                     }
 
                     return true;

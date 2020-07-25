@@ -28,6 +28,9 @@ public class Data {
         if (sql != null && sql.NewConnect()){
             return sql.GetList(x , z);
         }
+        if (json != null && json.NewConnect()){
+            return json.GetList(x , z);
+        }
 
         return null;
     }
@@ -36,20 +39,42 @@ public class Data {
         return getDataList(player.getLocation().getBlockX(), player.getLocation().getBlockZ());
     }
 
-    public String setName(int startX, int endX, int startZ, int endZ, String name){
+    public boolean setName(int startX, int endX, int startZ, int endZ, String name){
 
         if (startX == endX && startZ == endZ){
-            return "Error";
+            return false;
         }
 
         if (sql != null && sql.NewConnect()){
-            if (sql.SetName(startX, endX, startZ, endZ, name)){
-                return "Success";
-            }else{
-                return "Error";
-            }
-        }else{
-            return "implemented";
+            return sql.SetName(startX, endX, startZ, endZ, name);
         }
+
+        if (json != null && json.NewConnect()){
+            return json.SetName(startX, endX, startZ, endZ, name);
+        }
+
+        return false;
+    }
+
+    public boolean UpdateName(String OldName , String NewName){
+        if (sql != null && sql.NewConnect()){
+            return sql.UpdateName(OldName, NewName);
+        }
+
+        if (json != null && json.NewConnect()){
+            return json.UpdateName(OldName, NewName);
+        }
+        return false;
+    }
+
+    public boolean DelName(String Name){
+        if (sql != null && sql.NewConnect()){
+            return sql.DelName(Name);
+        }
+
+        if (json != null && json.NewConnect()){
+            return json.DelName(Name);
+        }
+        return false;
     }
 }

@@ -12,6 +12,12 @@ public final class WhereIsPlugin extends JavaPlugin {
         saveDefaultConfig();
         getCommand("where").setExecutor(new WhereIsCommand(this));
         getCommand("where").setTabCompleter(new WhereisTab(this));
+
+        if (getServer().getPluginManager().getPlugin("LuckPerms") != null){
+            getLogger().info("Use LuckPerm Mode");
+        }
+
+        getLogger().info("WhereIsPlugin Started!");
     }
 
     @Override

@@ -1,11 +1,10 @@
 # WhereIsPlugin
 ## なんですの？
-自分用Spigotプラグイン<br>
-今いる位置の名前が設定されている場合結果を表示してくれるプラグイン
+今いる位置の名前が設定されている場合結果を表示してくれるSpigotプラグイン
 
 ## 動作環境は？
 Spigot 1.16.1以降<br>
-(あればMySQL 8(なくても動く))
+MySQL 5.6以降のMySQLサーバー(なくても動く予定。)
 
 ## jarでよこせ。
 まだ開発途上すぎてまともに動きません。
@@ -17,6 +16,14 @@ Spigot 1.16.1以降<br>
 /where del [name]                 -- 指定した設定されている名前を解除する
 /where update [OldName] [NewName] -- 指定した今までの名前から新しい名前にする
 /where help -- コマンドヘルプ
+</pre>
+
+## LuckPerm環境でのパーミッション設定
+<pre>
+whereis.check  -- /whereの権限
+whereis.add    -- /where addの権限
+whereis.del    -- /where delの権限
+whereis.update -- /where updateの権限
 </pre>
 
 ## 設定ファイル
