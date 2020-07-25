@@ -55,11 +55,13 @@ public class WhereIsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.YELLOW + "---- WhereIsPlugin SystemInfo ----");
                 sender.sendMessage(ChatColor.YELLOW + "Ver : " + plugin.getDescription().getVersion());
                 sender.sendMessage(ChatColor.YELLOW + "Use DataSystem : " + new Data(plugin).getMode());
+                sender.sendMessage(ChatColor.YELLOW + "Use SpigotAPI Version" + plugin.getDescription().getAPIVersion());
                 if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
                     sender.sendMessage(ChatColor.YELLOW + "Use LuckPerm Mode : True");
                 }else{
                     sender.sendMessage(ChatColor.YELLOW + "Use LuckPerm Mode : False");
                 }
+
                 return true;
             }
         }else{
@@ -228,6 +230,41 @@ public class WhereIsCommand implements CommandExecutor {
                         }
                     }
 
+                    if (args.length == 3){
+                        if (args[1].equals("list")){
+                            Data[] list = new Data(plugin).getDataAllList();
+                            int pagePer = 5;
+                            if (player == null){ pagePer = list.length; }
+                            int maxPage = (list.length / pagePer);
+                            if (maxPage < 1){ maxPage = 1; }
+                            sender.sendMessage(ChatColor.YELLOW + "---- WhereIsPlugin Admin ItemList Page "+args[2]+" / "+maxPage+" ----");
+
+                            int minPage = list.length - (pagePer * Integer.parseInt(args[2]));
+                            int MaxPage = minPage + 5;
+                            if (minPage < 1){ minPage = 1; }
+                            if (maxPage >= list.length){ MaxPage = list.length; }
+
+                            for (int i = minPage; i <= MaxPage; i++){
+
+                                sender.sendMessage(ChatColor.YELLOW + "ID : "+list[i - 1].ID);
+                                sender.sendMessage(ChatColor.YELLOW + "Name : "+list[i - 1].Name);
+                                Player crePlayer = plugin.getServer().getPlayer(list[i - 1].uuid);
+                                if (crePlayer == null){
+                                    crePlayer = plugin.getServer().getOfflinePlayer(list[i - 1].uuid).getPlayer();
+                                }
+                                if (crePlayer == null){
+                                    sender.sendMessage(ChatColor.YELLOW + "CreateUser (UUID): "+list[i - 1].uuid);
+                                }else{
+                                    sender.sendMessage(ChatColor.YELLOW + "CreateUser : "+crePlayer.getName());
+                                }
+                                sender.sendMessage(ChatColor.YELLOW + "Active : " + list[i - 1].Active);
+                                sender.sendMessage(ChatColor.YELLOW + lnMsg.x1 + " : " + list[i - 1].startX+" , "+lnMsg.z1 + " : " + list[i - 1].startZ+" , "+lnMsg.x2 + " : " + list[i - 1].endX+" , "+lnMsg.z2 + " : " + list[i - 1].endZ);
+
+                                sender.sendMessage(ChatColor.YELLOW + "------");
+                            }
+                            return true;
+                        }
+                    }
                 }
             }
         }
