@@ -51,10 +51,16 @@ public class WhereIsCommand implements CommandExecutor {
                     return true;
                 }
             }else{
-                //command.setUsage(WhereIsCommandUsage.Msg(args[0]));
+                command.setUsage(WhereIsCommandUsage.Msg(args[0]));
                 if (args[0].equals("add") && args.length == 6){
                     String s = new Data(plugin).setName(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
-                    System.out.println(s);
+
+                    if (s.equals("Success")){
+                        sender.sendMessage(ChatColor.YELLOW + lnMsg.AddSuccess);
+                    }else{
+                        sender.sendMessage(ChatColor.RED + lnMsg.AddError);
+                    }
+
                     return true;
                 }
             }

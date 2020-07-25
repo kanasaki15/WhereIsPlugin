@@ -29,7 +29,7 @@ class DataSQL implements DataInterface {
             preparedStatement.setString(1,"WhereList");
             ResultSet query = preparedStatement.executeQuery();
             if (!query.next()){
-                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int , Name varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
+                PreparedStatement preparedStatement1 = con.prepareStatement("create table WhereList (ID int not null primary key, Name varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
                 preparedStatement1.execute();
             }
             con.close();
@@ -99,12 +99,23 @@ class DataSQL implements DataInterface {
             ResultSet resultSet1 = statement1.executeQuery();
             int dataCount = 0;
             if (resultSet1.next()){
-                dataCount = resultSet1.getInt(0);
+                dataCount = resultSet1.getInt(1);
             }
             dataCount++;
-            System.out.println("Debug : " + dataCount);
+
+            PreparedStatement statement2 = con.prepareStatement("INSERT INTO `WhereList` (`ID`, `Name`, `startX`, `endX`, `startZ`, `endZ`, `Active`) VALUES (?, ?, ?, ?, ?, ?, ?) ");
+            statement2.setInt(1,dataCount);
+            statement2.setString(2,name);
+            statement2.setInt(3,startX);
+            statement2.setInt(4,endX);
+            statement2.setInt(5,startZ);
+            statement2.setInt(6,endZ);
+            statement2.setBoolean(7,true);
+            statement2.execute();
+
             return true;
         } catch (SQLException e) {
+            p.getLogger().info("MySQLサーバーの接続に失敗しました。 : " + e.getMessage());
             //e.printStackTrace();
             return false;
         } finally {

@@ -37,6 +37,11 @@ public class Data {
     }
 
     public String setName(int startX, int endX, int startZ, int endZ, String name){
+
+        if (startX == endX && startZ == endZ){
+            return "Error";
+        }
+
         if (sql != null && sql.NewConnect()){
             if (sql.SetName(startX, endX, startZ, endZ, name)){
                 return "Success";

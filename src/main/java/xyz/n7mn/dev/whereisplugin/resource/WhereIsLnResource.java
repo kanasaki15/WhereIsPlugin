@@ -17,6 +17,8 @@ public class WhereIsLnResource {
     public String Here1;
     public String Here2;
     public String NoName;
+    public String AddSuccess;
+    public String AddError;
 
     public WhereIsLnResource (String language){
         if (language.equals("ja")){
@@ -35,6 +37,8 @@ public class WhereIsLnResource {
             Here1 = "ここは";
             Here2 = "です。";
             NoName = "名称未設定";
+            AddSuccess = "X:{startx} Z:{startz} ～ X:{endx} Z:{endz} の範囲を「{name}」に設定しました。";
+            AddError = "範囲は2ブロック以上にしてください。";
         }
     }
 }
