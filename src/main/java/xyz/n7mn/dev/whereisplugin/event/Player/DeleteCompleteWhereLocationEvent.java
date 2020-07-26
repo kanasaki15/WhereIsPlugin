@@ -13,23 +13,15 @@ public class DeleteCompleteWhereLocationEvent extends Event implements Cancellab
     private boolean cancel = false;
     private Player player;
     private String Name;
-    private int StartX;
-    private int EndX;
-    private int StartZ;
-    private int EndZ;
     private String Message;
     private boolean errFlag;
 
     private final String eventName = "DeleteCompleteWhereLocationEvent";
 
-    public DeleteCompleteWhereLocationEvent (String Message, String LocationName, Player ExePlayer, int StartX, int EndX, int StartZ, int EndZ, boolean ErrorFlag){
+    public DeleteCompleteWhereLocationEvent (String Message, String LocationName, Player ExePlayer, boolean ErrorFlag){
         this.Message = Message;
         this.Name = LocationName;
         this.player = ExePlayer;
-        this.StartX = StartX;
-        this.EndX = EndX;
-        this.StartZ = StartZ;
-        this.EndZ = EndZ;
         this.errFlag = ErrorFlag;
     }
 
@@ -59,23 +51,27 @@ public class DeleteCompleteWhereLocationEvent extends Event implements Cancellab
     }
 
     @Override
+    @Deprecated
     public int getStartX() {
-        return StartX;
+        return 0;
     }
 
     @Override
+    @Deprecated
     public int getEndX() {
-        return EndX;
+        return 0;
     }
 
     @Override
+    @Deprecated
     public int getStartZ() {
-        return StartZ;
+        return 0;
     }
 
     @Override
+    @Deprecated
     public int getEndZ() {
-        return EndZ;
+        return 0;
     }
 
     @Override

@@ -12,24 +12,19 @@ public class UpdateCompleteWhereLocationEvent  extends Event implements Cancella
 
     private boolean cancel = false;
     private Player player;
-    private String Name;
-    private int StartX;
-    private int EndX;
-    private int StartZ;
-    private int EndZ;
+    private String OldName;
+    private String NewName;
+
     private String Message;
     private boolean errFlag;
 
     private final String eventName = "UpdateCompleteWhereLocationEvent";
 
-    public UpdateCompleteWhereLocationEvent(String Message, String LocationName, Player ExePlayer, int StartX, int EndX, int StartZ, int EndZ, boolean ErrorFlag){
+    public UpdateCompleteWhereLocationEvent(String Message, Player ExePlayer, String oldName, String newName , boolean ErrorFlag){
         this.Message = Message;
-        this.Name = LocationName;
         this.player = ExePlayer;
-        this.StartX = StartX;
-        this.EndX = EndX;
-        this.StartZ = StartZ;
-        this.EndZ = EndZ;
+        this.OldName = oldName;
+        this.NewName = newName;
         this.errFlag = ErrorFlag;
     }
 
@@ -39,28 +34,41 @@ public class UpdateCompleteWhereLocationEvent  extends Event implements Cancella
     }
 
     @Override
+    @Deprecated
     public String getLocationName() {
-        return Name;
+        return OldName;
+    }
+
+    public String getOldLocationName(){
+        return OldName;
+    }
+
+    public String getNewLocationName(){
+        return NewName;
     }
 
     @Override
+    @Deprecated
     public int getStartX() {
-        return StartX;
+        return 0;
     }
 
     @Override
+    @Deprecated
     public int getEndX() {
-        return EndX;
+        return 0;
     }
 
     @Override
+    @Deprecated
     public int getStartZ() {
-        return StartZ;
+        return 0;
     }
 
     @Override
+    @Deprecated
     public int getEndZ() {
-        return EndZ;
+        return 0;
     }
 
     @Override

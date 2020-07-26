@@ -8,35 +8,24 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.n7mn.dev.whereisplugin.event.Interface.WhereisEventInterface;
 
-public class DeleteCompleteWhereLocationServerCommandEvent extends Event implements Cancellable, WhereisEventInterface {
+public class UpdateCompleteWhereLocationServerCommandEvent extends Event implements Cancellable, WhereisEventInterface {
 
     private static final HandlerList handlerList = new HandlerList();
 
     private boolean cancel = false;
-    private String Name;
+    private String OldName;
+    private String NewName;
 
     private String Message;
     private boolean errFlag;
 
-    public DeleteCompleteWhereLocationServerCommandEvent(String Message, String LocationName, boolean ErrorFlag){
+    private final String eventName = "UpdateCompleteWhereLocationEvent";
+
+    public UpdateCompleteWhereLocationServerCommandEvent(String Message, String oldName, String newName , boolean ErrorFlag){
         this.Message = Message;
-        this.Name = LocationName;
+        this.OldName = oldName;
+        this.NewName = newName;
         this.errFlag = ErrorFlag;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancel;
-    }
-
-    @Override
-    public void setCancelled(boolean cancel) {
-        this.cancel = cancel;
-    }
-
-    @Override
-    public String getEventName() {
-        return this.getClass().getName();
     }
 
     @Override
@@ -50,8 +39,17 @@ public class DeleteCompleteWhereLocationServerCommandEvent extends Event impleme
     }
 
     @Override
+    @Deprecated
     public String getLocationName() {
-        return Name;
+        return OldName;
+    }
+
+    public String getOldLocationName(){
+        return OldName;
+    }
+
+    public String getNewLocationName(){
+        return NewName;
     }
 
     @Override
@@ -89,6 +87,16 @@ public class DeleteCompleteWhereLocationServerCommandEvent extends Event impleme
     }
 
     @Override
+    public boolean isCancelled() {
+        return cancel;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancel = cancel;
+    }
+
+    @Override
     public HandlerList getHandlers() {
         return handlerList;
     }
@@ -96,4 +104,14 @@ public class DeleteCompleteWhereLocationServerCommandEvent extends Event impleme
     public static HandlerList getHandlerList() {
         return handlerList;
     }
+
+    @Override
+    public String getEventName() {
+        return eventName;
+    }
+
+    public boolean isErrFlag() {
+        return errFlag;
+    }
+
 }
