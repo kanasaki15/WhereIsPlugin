@@ -76,15 +76,14 @@ public class JSON implements DataSystemInterface {
             data.Active = result[i].isActive();
 
             list.add(data);
-/*
-            System.out.println("Debug : " + data.ID);
-            System.out.println("Debug : " + data.LocationName);
-            System.out.println("Debug : " + data.UUID.toString());
-            System.out.println("Debug : " + data.StartX);
-            System.out.println("Debug : " + data.EndX);
-            System.out.println("Debug : " + data.StartZ);
-            System.out.println("Debug : " + data.EndZ);
-*/
+
+            // System.out.println("Debug : " + data.ID);
+            // System.out.println("Debug : " + data.LocationName);
+            // System.out.println("Debug : " + data.UUID.toString());
+            // System.out.println("Debug : " + data.StartX);
+            // System.out.println("Debug : " + data.EndX);
+            // System.out.println("Debug : " + data.StartZ);
+            // System.out.println("Debug : " + data.EndZ);
 
         }
 
@@ -238,7 +237,7 @@ public class JSON implements DataSystemInterface {
         List<DataResult> list = getAllList();
 
         for (int i = 0; i < list.size(); i++){
-            if (list.get(i).LocationName.equals(Name) && list.get(i).UUID.toString().equals(uuid.toString())){
+            if (list.get(i).LocationName.equals(Name)){
                 return deleteData(list.get(i).ID, uuid);
             }
         }

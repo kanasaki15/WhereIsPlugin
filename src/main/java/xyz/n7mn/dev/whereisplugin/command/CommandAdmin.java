@@ -70,15 +70,15 @@ public class CommandAdmin {
 
                 String UserName = "Unknown";
 
-                if (list.get(i - 1).UUID != null && plugin.getServer().getPlayer(list.get(i - 1).UUID) != null){
+                if (list.get(i - 1).UUID != null){
                     UserName = plugin.getServer().getPlayer(list.get(i - 1).UUID).getName();
                 }
 
-                if (list.get(i - 1).UUID != null && plugin.getServer().getPlayer(list.get(i - 1).UUID) == null){
+                if (list.get(i - 1).UUID != null && UserName.equals("Unknown")){
                     UserName = plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID).getName();
                 }
 
-                if (list.get(i - 1).UUID != null && plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID) == null) {
+                if (list.get(i - 1).UUID != null && UserName.equals("Unknown")) {
                     UserName = "Unknown (UUID : " + list.get(i - 1).UUID + ")";
                 }
 

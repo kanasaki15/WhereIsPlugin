@@ -12,7 +12,7 @@ public class JsonResult {
     private int EndZ;
     private boolean Active;
 
-    public JsonResult (int ID, String Name, UUID uuid, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
+    public JsonResult(int ID, String Name, UUID uuid, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
         this.ID = ID;
         this.Name = Name;
         this.uuid = uuid;
@@ -31,28 +31,16 @@ public class JsonResult {
         this.ID = ID;
     }
 
-    public String getLocationName() {
+    public String getName() {
         return Name;
     }
 
-    public void setLocationName(String locationName) {
-        Name = locationName;
-    }
-
-    public String getName() {
+    public String getLocationName(){
         return Name;
     }
 
     public void setName(String name) {
         Name = name;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public int getStartX() {
@@ -93,5 +81,13 @@ public class JsonResult {
 
     public void setActive(boolean active) {
         Active = active;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }
