@@ -2,6 +2,7 @@ package xyz.n7mn.dev.whereisplugin.dataSystem;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 
 import java.util.List;
 import java.util.UUID;

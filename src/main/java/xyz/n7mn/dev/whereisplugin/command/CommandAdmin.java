@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataResult;
+import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.Player.DeleteCompleteWhereLocationEvent;
@@ -79,7 +79,7 @@ public class CommandAdmin {
                     UserName = plugin.getServer().getPlayer(list.get(i - 1).UUID).getName();
                 }
                 sender.sendMessage(ChatColor.YELLOW + "ID: "+list.get(i - 1).ID+" Name: "+list.get(i - 1).LocationName+" CreateUser: "+UserName);
-                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).StartX+" EndX: "+list.get(i - 1).EndX+" StartZ: "+list.get(i - 1).EndX+" EndZ: "+list.get(i - 1).EndZ);
+                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).StartX+" EndX: "+list.get(i - 1).EndX+" StartZ: "+list.get(i - 1).StartX+" EndZ: "+list.get(i - 1).EndZ);
                 sender.sendMessage(ChatColor.YELLOW + "----");
             }
         }

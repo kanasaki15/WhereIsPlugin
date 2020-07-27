@@ -3,6 +3,7 @@ package xyz.n7mn.dev.whereisplugin.dataSystem;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 import java.sql.*;
@@ -29,26 +30,31 @@ public class MySQL implements DataSystemInterface {
         MySQL_Password = p.getConfig().getString("mysqlPassWord");
         MySQL_Database = p.getConfig().getString("mysqlDatabase");
 
-        try{
-            con = DriverManager.getConnection("jdbc:mysql://" + MySQL_Server + "/" + MySQL_Database+"?allowPublicKeyRetrieval=true&useSSL=false", MySQL_Username, MySQL_Password);
-            PreparedStatement statement1 = con.prepareStatement("SHOW TABLES LIKE ?;");
-            statement1.setString(1, "WhereList");
-            ResultSet query = statement1.executeQuery();
-            if (!query.next()) {
-                PreparedStatement statement2 = con.prepareStatement("create table WhereList (ID int not null primary key, Name varchar(255), CreateUser varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
-                statement2.execute();
-            }
-            isConnect = true;
-        } catch (SQLException e) {
+        if (MySQL_Server == null || (MySQL_Server != null && MySQL_Server.length() == 0)){
+
             isConnect = false;
-            System.out.println(e.getMessage());
-        } finally {
+        } else {
             try{
-                if (con != null){
-                    con.close();
+                con = DriverManager.getConnection("jdbc:mysql://" + MySQL_Server + "/" + MySQL_Database+"?allowPublicKeyRetrieval=true&useSSL=false", MySQL_Username, MySQL_Password);
+                PreparedStatement statement1 = con.prepareStatement("SHOW TABLES LIKE ?;");
+                statement1.setString(1, "WhereList");
+                ResultSet query = statement1.executeQuery();
+                if (!query.next()) {
+                    PreparedStatement statement2 = con.prepareStatement("create table WhereList (ID int not null primary key, Name varchar(255), CreateUser varchar(255) , startX int , endX int , startZ int , endZ int , Active tinyint(1)) character set utf8mb4 collate utf8mb4_ja_0900_as_cs_ks; ");
+                    statement2.execute();
                 }
+                isConnect = true;
             } catch (SQLException e) {
                 isConnect = false;
+                System.out.println(e.getMessage());
+            } finally {
+                try{
+                    if (con != null){
+                        con.close();
+                    }
+                } catch (SQLException e) {
+                    isConnect = false;
+                }
             }
         }
     }

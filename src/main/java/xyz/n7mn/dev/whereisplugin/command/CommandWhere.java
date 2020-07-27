@@ -2,7 +2,7 @@ package xyz.n7mn.dev.whereisplugin.command;
 
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataResult;
+import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.event.Player.CheckWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.CheckWhereLocationServerCommandEvent;

@@ -1,4 +1,4 @@
-package xyz.n7mn.dev.whereisplugin.dataSystem;
+package xyz.n7mn.dev.whereisplugin.dataSystem.Result;
 
 import java.util.UUID;
 

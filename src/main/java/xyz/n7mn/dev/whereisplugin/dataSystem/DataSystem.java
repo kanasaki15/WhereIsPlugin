@@ -1,9 +1,9 @@
 package xyz.n7mn.dev.whereisplugin.dataSystem;
 
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.function.DataSystems;
 
 import java.util.List;
