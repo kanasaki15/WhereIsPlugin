@@ -71,7 +71,7 @@ public class JSON implements DataSystemInterface {
             data.UUID = result[i].getUuid();
             data.StartX = result[i].getStartX();
             data.EndX = result[i].getEndX();
-            data.StartZ = result[i].getStartX();
+            data.StartZ = result[i].getStartZ();
             data.EndZ = result[i].getEndZ();
             data.Active = result[i].isActive();
 
@@ -110,7 +110,7 @@ public class JSON implements DataSystemInterface {
         List<DataResult> list = getAllList();
 
         for (int i = 0; i < list.size(); i++){
-            if (list.get(i).ID == ID && list.get(i).Active){
+            if (list.get(i).ID == ID){
                 return list.get(i);
             }
         }
@@ -126,13 +126,15 @@ public class JSON implements DataSystemInterface {
         List<DataResult> list = getAllList();
 
         for (int i = 0; i < list.size(); i++){
-            if (list.get(i).StartX <= X && X <= list.get(i).EndX && list.get(i).StartZ <= Z && Z <= list.get(i).EndZ){
+            if (list.get(i).StartX <= X && X <= list.get(i).EndX && list.get(i).StartZ <= Z && Z <= list.get(i).EndZ && list.get(i).Active){
                 continue;
             }
 
-            if (list.get(i).StartX >= X && X >= list.get(i).EndX && list.get(i).StartZ >= Z && Z >= list.get(i).EndZ) {
+            if (list.get(i).StartX >= X && X >= list.get(i).EndX && list.get(i).StartZ >= Z && Z >= list.get(i).EndZ && list.get(i).Active) {
                 continue;
             }
+
+            list.remove(i);
         }
 
         return list;
@@ -164,7 +166,7 @@ public class JSON implements DataSystemInterface {
 
 
         String json = new Gson().toJson(NewList);
-        System.out.println(json);
+        // System.out.println(json);
 
         return writeFile(json);
     }
@@ -179,7 +181,7 @@ public class JSON implements DataSystemInterface {
         List<DataResult> list = getAllList();
 
         for (int i = 0; i < list.size(); i++){
-            if (list.get(i).ID == ID && list.get(i).UUID.toString().equals(uuid.toString()) && list.get(i).Active){
+            if (list.get(i).Active && list.get(i).ID == ID && list.get(i).UUID.toString().equals(uuid.toString())){
                 list.get(i).LocationName = NewName;
                 return writeFile(new Gson().toJson(list));
             }
@@ -193,7 +195,7 @@ public class JSON implements DataSystemInterface {
         List<DataResult> list = getAllList();
 
         for (int i = 0; i < list.size(); i++){
-            if (list.get(i).LocationName.equals(OldName) && list.get(i).UUID.toString().equals(uuid.toString())){
+            if (list.get(i).Active && list.get(i).LocationName.equals(OldName) && list.get(i).UUID.toString().equals(uuid.toString())){
                 return updateData(list.get(i).ID, NewName, uuid);
             }
         }
@@ -210,11 +212,21 @@ public class JSON implements DataSystemInterface {
 
         List<DataResult> list = getAllList();
 
-        for (int i = 0; i < list.size(); i++){
-            if (list.get(i).ID == ID && list.get(i).UUID.toString().equals(uuid.toString())){
-                list.get(i).Active = false;
+        List<JsonResult> jsonList = new ArrayList<>();
 
-                return writeFile(new Gson().toJson(list));
+        for (int i = 0; i < list.size(); i++){
+            jsonList.add(new JsonResult(list.get(i).ID, list.get(i).LocationName, list.get(i).UUID, list.get(i).StartX, list.get(i).EndX, list.get(i).StartZ, list.get(i).EndZ, list.get(i).Active));
+        }
+
+        for (int i = 0; i < jsonList.size(); i++){
+            if (jsonList.get(i).getID() == ID && jsonList.get(i).getUuid().toString().equals(uuid.toString())){
+
+                if (jsonList.get(i).isActive()){
+                    jsonList.get(i).setActive(false);
+                    return writeFile(new Gson().toJson(jsonList));
+                }else{
+                    return new DataSystemResult(new MessageList().getDelNotFoundErrorMessage(),true);
+                }
             }
         }
 

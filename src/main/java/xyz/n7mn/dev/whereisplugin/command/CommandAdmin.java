@@ -68,18 +68,22 @@ public class CommandAdmin {
 
                 if (i - 1 < 0){ break; }
 
-                String UserName;
-                if (plugin.getServer().getPlayer(list.get(i - 1).UUID) == null){
-                    if (plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID) == null){
-                        UserName = "Unknown (UUID : "+list.get(i - 1).UUID+")";
-                    }else{
-                        UserName = plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID).getName();
-                    }
-                }else{
+                String UserName = "Unknown";
+
+                if (list.get(i - 1).UUID != null && plugin.getServer().getPlayer(list.get(i - 1).UUID) != null){
                     UserName = plugin.getServer().getPlayer(list.get(i - 1).UUID).getName();
                 }
-                sender.sendMessage(ChatColor.YELLOW + "ID: "+list.get(i - 1).ID+" Name: "+list.get(i - 1).LocationName+" CreateUser: "+UserName);
-                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).StartX+" EndX: "+list.get(i - 1).EndX+" StartZ: "+list.get(i - 1).StartX+" EndZ: "+list.get(i - 1).EndZ);
+
+                if (list.get(i - 1).UUID != null && plugin.getServer().getPlayer(list.get(i - 1).UUID) == null){
+                    UserName = plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID).getName();
+                }
+
+                if (list.get(i - 1).UUID != null && plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID) == null) {
+                    UserName = "Unknown (UUID : " + list.get(i - 1).UUID + ")";
+                }
+
+                sender.sendMessage(ChatColor.YELLOW + "ID: "+list.get(i - 1).ID+" Name: "+list.get(i - 1).LocationName+" CreateUser: "+UserName + " Active: "+list.get(i - 1).Active);
+                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).StartX+" EndX: "+list.get(i - 1).EndX+" StartZ: "+list.get(i - 1).StartZ+" EndZ: "+list.get(i - 1).EndZ);
                 sender.sendMessage(ChatColor.YELLOW + "----");
             }
         }

@@ -47,11 +47,11 @@ public class JsonResult {
         Name = name;
     }
 
-    public java.util.UUID getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(java.util.UUID uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
