@@ -5,6 +5,8 @@ import xyz.n7mn.dev.whereisplugin.command.CommandMain;
 import xyz.n7mn.dev.whereisplugin.command.CommandTab;
 import xyz.n7mn.dev.whereisplugin.event.WhereisEventListener;
 
+import java.io.File;
+
 public final class WhereIsPlugin extends JavaPlugin {
 
     @Override

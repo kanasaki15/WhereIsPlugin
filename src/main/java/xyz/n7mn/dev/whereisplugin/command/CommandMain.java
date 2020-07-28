@@ -94,6 +94,11 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
+
+                    if (p != null && !p.isOp()){
+                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                    }
+
                     return new CommandSystem(p).run();
                 }
 
@@ -106,6 +111,10 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
+
+                    if (p != null && !p.isOp()){
+                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                    }
                     return new CommandAdmin(plugin, args, p).run();
                 }
 
@@ -117,7 +126,27 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
+
+                    if (p != null && !p.isOp()){
+                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                    }
                     return new CommandAdmin(plugin, args, p).run();
+                }
+
+                if ((args.length == 1 || args.length == 2) && args[0].equals("import")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.admin")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
+
+                    if (p != null && !p.isOp()){
+                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                    }
+
+                    return new CommandImport(plugin, args, p).run();
                 }
 
                 if (p != null){
