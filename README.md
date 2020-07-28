@@ -30,6 +30,21 @@ whereis.system -- /where systemの権限
 whereis.admin -- /where adminの権限
 </pre>
 
+## 独自イベント一覧
+メッセージを独自のメッセージにしたい時に
+<pre>
+CheckWhereLocationEvent                       -- プレーヤーが/whereを実行した後に発生
+CreateCompleteWhereLocationEvent              -- プレーヤーが/where addを実行した後に発生
+DeleteCompleteWhereLocationEvent              -- プレーヤーが/where delを実行した後に発生
+UpdateCompleteWhereLocationEvent              -- プレーヤーが/where updateを実行した後に発生
+CreateCompleteWhereLocationEvent              -- プレーヤーが/where createを実行した後に発生
+
+CheckWhereLocationServerCommandEvent          -- サーバーコンソールにて/whereを実行した後に発生
+CreateCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where addを実行した後に発生
+DeleteCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where delを実行した後に発生
+UpdateCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where updateを実行した後に発生
+CreateCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where createを実行した後に発生
+</pre>
 ## 設定ファイル
 <pre>
 # WhereIsPlugin SettingFile

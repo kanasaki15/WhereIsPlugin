@@ -9,7 +9,7 @@ import xyz.n7mn.dev.whereisplugin.event.Player.CreateCompleteWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.CreateCompleteWhereLocationServerCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
-public class CommandAdd {
+class CommandAdd {
 
     private WhereIsPlugin plugin;
     private String[] args;

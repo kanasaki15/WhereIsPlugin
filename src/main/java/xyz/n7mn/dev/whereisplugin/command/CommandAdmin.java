@@ -14,7 +14,7 @@ import xyz.n7mn.dev.whereisplugin.function.MessageList;
 import java.util.List;
 
 
-public class CommandAdmin {
+class CommandAdmin {
     private WhereIsPlugin plugin;
     private String[] args;
     private Player player;

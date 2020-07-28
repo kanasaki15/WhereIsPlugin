@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 import xyz.n7mn.dev.whereisplugin.function.DataSystems;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
-public class CommandSystem {
+class CommandSystem {
 
     private Player player;
     private ConsoleCommandSender sender = Bukkit.getConsoleSender();

@@ -1,16 +1,18 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 public class CommandMain implements CommandExecutor {
 
     WhereIsPlugin plugin;
+    Player p = null;
 
     public CommandMain(WhereIsPlugin p){
         plugin = p;
@@ -19,10 +21,9 @@ public class CommandMain implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 
-//        try {
+        try {
             if (args.length >= 0){
 
-                Player p = null;
                 if (sender instanceof Player){
                     p = (Player)sender;
                 }
@@ -33,6 +34,13 @@ public class CommandMain implements CommandExecutor {
                 }
 
                 if (args.length == 0){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.check")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandWhere(plugin, args, p).run();
                 }
 
@@ -43,40 +51,96 @@ public class CommandMain implements CommandExecutor {
 
                 // /where add
                 if (args.length > 0 && args[0].equals("add")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.add")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandAdd(plugin, args, p).run();
                 }
 
                 // /where update
                 if (args.length == 3 && args[0].equals("update")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.update")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandUpdate(plugin, args, p).run();
                 }
 
                 // /where del
                 if (args.length == 2 && args[0].equals("del")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.del")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandDelete(plugin, args, p).run();
                 }
 
                 // /where system
                 if (args.length > 0 && args[0].equals("system")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.system")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandSystem(p).run();
                 }
 
                 // /where admin
                 if (args.length == 2 && args[0].equals("admin")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.admin")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandAdmin(plugin, args, p).run();
                 }
 
                 if (args.length == 3 && args[0].equals("admin")){
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (p.hasPermission("whereis.admin")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                            }
+                        }
+                    }
                     return new CommandAdmin(plugin, args, p).run();
                 }
+
+                if (p != null){
+                    p.sendMessage(ChatColor.RED + new MessageList().getCommandSyntaxError());
+                } else {
+                    Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED +  new MessageList().getCommandSyntaxError());
+                }
+                return true;
             }
 
-/*        } catch (Exception e) {
+        } catch (Exception e) {
+
+            if (p != null){
+                p.sendMessage(ChatColor.RED + "Plugin Error : " + e.getMessage());
+            } else {
+                Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Plugin Error : " + e.getMessage());
+            }
+
             plugin.getLogger().info("PluginError : " + e.getMessage() );
             e.fillInStackTrace();
             Bukkit.getServer().getPluginManager().disablePlugin(plugin);
         }
-*/
+
         return false;
     }
 }

@@ -8,7 +8,7 @@ import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 
-public class CommandHelp {
+class CommandHelp {
     private Player player;
     private ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
@@ -34,7 +34,7 @@ public class CommandHelp {
         msg[4] = ChatColor.YELLOW + "/where del ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereDelMessage();
         msg[5] = ChatColor.YELLOW + "/where update ["+lnMsg.getOldNameMessage()+"] ["+lnMsg.getNewNameMessage()+"]  -- "+lnMsg.getCommandWhereUpdateMessage();
         msg[6] = ChatColor.YELLOW + "/where system  -- "+lnMsg.getCommandSystemMessage();
-        msg[7] = ChatColor.YELLOW + "/where admin  -- "+lnMsg.getCommandAdminMessage();
+        msg[7] = ChatColor.YELLOW + "/where admin [list|del] -- "+lnMsg.getCommandAdminMessage();
 
         if (player != null){
             player.sendMessage(msg);

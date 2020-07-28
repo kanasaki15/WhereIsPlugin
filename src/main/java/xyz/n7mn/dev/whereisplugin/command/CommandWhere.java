@@ -10,7 +10,7 @@ import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 import java.util.List;
 
-public class CommandWhere {
+class CommandWhere {
 
     private WhereIsPlugin plugin;
     private String[] args;

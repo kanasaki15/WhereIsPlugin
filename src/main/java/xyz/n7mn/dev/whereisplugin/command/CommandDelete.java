@@ -9,7 +9,7 @@ import xyz.n7mn.dev.whereisplugin.event.Player.DeleteCompleteWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.DeleteCompleteWhereLocationServerCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
-public class CommandDelete {
+class CommandDelete {
 
     private WhereIsPlugin plugin;
     private String[] args;
