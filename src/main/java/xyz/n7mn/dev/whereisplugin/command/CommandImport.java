@@ -4,7 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.JSON;
+import xyz.n7mn.dev.whereisplugin.dataSystem.MySQL;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 
 import java.io.File;
@@ -47,7 +49,34 @@ class CommandImport {
                     return true;
                 }
 
-                
+                MySQL mysql = new MySQL(plugin);
+
+                int mysqlId = mysql.getAllList().size();
+
+                sender.sendMessage(ChatColor.YELLOW + "Found "+list.size()+" item.");
+
+                if (mysql.isConnect()){
+
+                    sender.sendMessage("Import Start");
+                    for (int i = 0; i < list.size(); i++){
+
+                        DataSystemResult result = mysql.addList(new DataResult(mysqlId + (i + 1), list.get(i).LocationName, list.get(i).UUID, list.get(i).StartX, list.get(i).EndX, list.get(i).StartZ, list.get(i).EndZ, list.get(i).Active));
+                        if (result.isError()){
+                            sender.sendMessage(ChatColor.RED + "Import Error : " + result.getErrorMessage());
+                            return true;
+                        }
+
+                        if (!(sender instanceof Player)){
+                            sender.sendMessage("Item Import : " + (i + 1) + " / "+list.size());
+                        }
+                    }
+
+                    sender.sendMessage(ChatColor.GREEN + "Import Complete!!");
+
+                } else {
+                    sender.sendMessage(ChatColor.RED + "MySQL Server is Not Connect.");
+                    return true;
+                }
 
             } else {
                 sender.sendMessage(ChatColor.RED + "No Import File");
