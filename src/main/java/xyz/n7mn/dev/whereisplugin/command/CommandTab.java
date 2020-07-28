@@ -41,6 +41,7 @@ public class CommandTab implements TabExecutor {
             list.add("update");
             list.add("system");
             list.add("admin");
+            list.add("import");
         }
 
         if (args.length > 1 && args[0].equals("add")){
@@ -122,6 +123,12 @@ public class CommandTab implements TabExecutor {
 
         if (args.length == 3 && args[0].equals("admin") && args[1].equals("del")){
             list.add("ID");
+        }
+
+        if (args.length == 2 && args[0].equals("import")){
+            list.add("");
+            list.add("mysql");
+            list.add("json");
         }
 
         return list;

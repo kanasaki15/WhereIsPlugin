@@ -11,6 +11,7 @@ public class MessageList {
     private String CommandWhereUpdate;
     private String CommandSystem;
     private String CommandAdmin;
+    private String CommandImport;
     private String StartX;
     private String EndX;
     private String StartZ;
@@ -44,6 +45,7 @@ public class MessageList {
             CommandWhereUpdate = "指定した名前を新しい名前に変更する";
             CommandSystem = "現在の実行環境を表示";
             CommandAdmin = "現在の登録されている一覧を表示したり削除する";
+            CommandImport = "ファイル -> MySQL または MySQL -> ファイルへのインポートをする";
             StartX = "始点X座標";
             EndX = "終点X座標";
             StartZ = "始点Z座標";

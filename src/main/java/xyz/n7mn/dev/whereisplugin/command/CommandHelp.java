@@ -4,8 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 class CommandHelp {
@@ -22,8 +24,54 @@ class CommandHelp {
     public boolean run(){
 
         String[] msg = new String[8];
+        List<String> msgList = new ArrayList<>();
 
-        msg[0] = ChatColor.YELLOW + "--- WhereIsPlugin Help ---";
+        msgList.add("--- WhereIsPlugin Help ---");
+
+        boolean isCheck = true;
+        boolean isAdd = true;
+        boolean isDel = true;
+        boolean isUpdate = true;
+        boolean isSystem = false;
+        boolean isAdmin = false;
+        boolean isPlayer = (player != null);
+
+        if (isPlayer){
+
+            if (player.isOp()){
+                isAdmin = true;
+                isSystem = true;
+            }
+
+            if (Bukkit.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                if (!player.hasPermission("whereis.check")){
+                    isCheck = false;
+                }
+
+                if (!player.hasPermission("whereis.add")){
+                    isAdd = false;
+                }
+
+                if (!player.hasPermission("whereis.del")){
+                    isDel = false;
+                }
+
+                if (!player.hasPermission("whereis.update")){
+                    isUpdate = false;
+                }
+
+                if (player.hasPermission("whereis.system")){
+                    isAdd = true;
+                }
+
+                if (player.hasPermission("whereis.admin")){
+                    isAdmin = true;
+                }
+            }
+        }
+
+
+        /*
         if (player != null){
             msg[1] = ChatColor.YELLOW + "/where  -- "+lnMsg.getCommandWhereMessage();
         }else{
@@ -40,6 +88,45 @@ class CommandHelp {
             player.sendMessage(msg);
         } else {
             sender.sendMessage(msg);
+        }
+         */
+
+        if (isCheck){
+            if (isPlayer){
+                msgList.add("/where  -- "+lnMsg.getCommandWhereMessage());
+            } else {
+                msgList.add("/where [X] [Z]  -- "+lnMsg.getCommandWhereMessage());
+            }
+        }
+        msgList.add("/where help -- "+lnMsg.getCommandHelpMessage());
+
+        if (isAdd){
+            msgList.add("/where add ["+lnMsg.getStartXMessage()+"] ["+lnMsg.getEndXMessage()+"] ["+lnMsg.getStartZMessage()+"] ["+lnMsg.getEndZMessage()+"] ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereAddMessage());
+        }
+
+        if (isDel){
+            msgList.add("/where del ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereDelMessage());
+        }
+
+        if (isUpdate){
+            msgList.add("/where update ["+lnMsg.getOldNameMessage()+"] ["+lnMsg.getNewNameMessage()+"]  -- "+lnMsg.getCommandWhereUpdateMessage());
+        }
+
+        if (isSystem){
+            msgList.add("/where system  -- "+lnMsg.getCommandSystemMessage());
+        }
+
+        if (isAdmin){
+            msgList.add("/where admin [list|del] -- "+lnMsg.getCommandAdminMessage());
+            msgList.add("/where import [mysql|json] -- "+lnMsg.getCommandAdminMessage());
+        }
+
+        for (int i = 0; i < msgList.size(); i++){
+            if (isPlayer){
+                player.sendMessage(ChatColor.YELLOW + msgList.get(i));
+            } else {
+                sender.sendMessage(ChatColor.YELLOW + msgList.get(i));
+            }
         }
 
         return true;

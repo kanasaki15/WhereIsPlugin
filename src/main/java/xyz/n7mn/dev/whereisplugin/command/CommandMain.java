@@ -36,7 +36,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length == 0){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.check")){
+                            if (!p.hasPermission("whereis.check")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -53,7 +53,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length > 0 && args[0].equals("add")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.add")){
+                            if (!p.hasPermission("whereis.add")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -65,7 +65,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length == 3 && args[0].equals("update")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.update")){
+                            if (!p.hasPermission("whereis.update")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -77,7 +77,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length == 2 && args[0].equals("del")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.del")){
+                            if (!p.hasPermission("whereis.del")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -89,7 +89,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length > 0 && args[0].equals("system")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.system")){
+                            if (!p.hasPermission("whereis.system")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -106,7 +106,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length == 2 && args[0].equals("admin")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.admin")){
+                            if (!p.hasPermission("whereis.admin")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -121,7 +121,7 @@ public class CommandMain implements CommandExecutor {
                 if (args.length == 3 && args[0].equals("admin")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.admin")){
+                            if (!p.hasPermission("whereis.admin")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
@@ -136,7 +136,7 @@ public class CommandMain implements CommandExecutor {
                 if ((args.length == 1 || args.length == 2) && args[0].equals("import")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
-                            if (p.hasPermission("whereis.admin")){
+                            if (!p.hasPermission("whereis.admin")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                             }
                         }
