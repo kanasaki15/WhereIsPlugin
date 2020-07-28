@@ -30,7 +30,7 @@ whereis.system -- /where systemの権限
 whereis.admin -- /where adminの権限
 </pre>
 
-## 独自イベント一覧
+## 独自イベント一覧 (Ver 1.1～)
 メッセージを独自のメッセージにしたい時に
 <pre>
 CheckWhereLocationEvent                       -- プレーヤーが/whereを実行した後に発生
