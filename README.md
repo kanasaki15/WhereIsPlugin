@@ -18,7 +18,7 @@ MySQL 5.6以降のMySQLサーバー(必須ではない)
 /where help                       -- コマンドヘルプ
 /where system                     -- プラグインの動作状態 (要OP権限 or whereis.systemパーミッション所持)
 /where admin [list or del] [id]   -- 登録されている一覧を表示 または 指定したIDのものを削除 (要OP権限 or whereis.adminパーミッション所持)
-/where import                     --  (要OP権限 or whereis.adminパーミッション所持)
+/where import                     -- MySQLへのインポート または ファイルへのインポート (Ver 1.1～、要OP権限 or whereis.adminパーミッション所持)
 </pre>
 
 ## LuckPerm環境でのパーミッション設定
