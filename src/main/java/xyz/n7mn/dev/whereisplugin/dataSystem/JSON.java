@@ -313,10 +313,13 @@ public class JSON implements DataSystemInterface {
             p_writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8")));
             p_writer.print(Contents);
             p_writer.close();
+            isConnect = true;
             return new DataSystemResult("",false);
         } catch (FileNotFoundException e) {
+            isConnect = false;
             return new DataSystemResult("File I/O Error : " + e.getMessage(),true);
         } catch (UnsupportedEncodingException e) {
+            isConnect = false;
             return new DataSystemResult("File I/O Error : " + e.getMessage(),true);
         } finally {
             if (p_writer != null){

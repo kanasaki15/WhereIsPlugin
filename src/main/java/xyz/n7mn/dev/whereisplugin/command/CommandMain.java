@@ -29,7 +29,7 @@ public class CommandMain implements CommandExecutor {
                 }
 
                 // /where
-                if (args.length == 2 && !args[0].equals("del") && !args[0].equals("admin")){
+                if (args.length == 2 && p == null && !args[0].equals("add") && !args[0].equals("del") && !args[0].equals("update") && !args[0].equals("help") && !args[0].equals("system") && !args[0].equals("admin") && !args[0].equals("import")){
                     return new CommandWhere(plugin, args, p).run();
                 }
 
@@ -38,6 +38,7 @@ public class CommandMain implements CommandExecutor {
                         if (p != null){
                             if (!p.hasPermission("whereis.check")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
@@ -55,6 +56,7 @@ public class CommandMain implements CommandExecutor {
                         if (p != null){
                             if (!p.hasPermission("whereis.add")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
@@ -67,6 +69,7 @@ public class CommandMain implements CommandExecutor {
                         if (p != null){
                             if (!p.hasPermission("whereis.update")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
@@ -79,6 +82,7 @@ public class CommandMain implements CommandExecutor {
                         if (p != null){
                             if (!p.hasPermission("whereis.del")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
@@ -91,71 +95,63 @@ public class CommandMain implements CommandExecutor {
                         if (p != null){
                             if (!p.hasPermission("whereis.system")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
 
                     if (p != null && !p.isOp()){
                         p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                        return true;
                     }
 
                     return new CommandSystem(p).run();
                 }
 
                 // /where admin
-                if (args.length == 2 && args[0].equals("admin")){
+                if (args.length >= 2 && args[0].equals("admin")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.admin")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
 
                     if (p != null && !p.isOp()){
                         p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                        return true;
                     }
                     return new CommandAdmin(plugin, args, p).run();
                 }
 
-                if (args.length == 3 && args[0].equals("admin")){
+                // /where import
+                if (args.length > 0 && args[0].equals("import")){
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.admin")){
                                 p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
                             }
                         }
                     }
 
                     if (p != null && !p.isOp()){
                         p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
-                    }
-                    return new CommandAdmin(plugin, args, p).run();
-                }
-
-                if ((args.length == 1 || args.length == 2) && args[0].equals("import")){
-                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
-                        if (p != null){
-                            if (!p.hasPermission("whereis.admin")){
-                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
-                            }
-                        }
-                    }
-
-                    if (p != null && !p.isOp()){
-                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                        return true;
                     }
 
                     return new CommandImport(plugin, args, p).run();
                 }
-
-                if (p != null){
-                    p.sendMessage(ChatColor.RED + new MessageList().getCommandSyntaxError());
-                } else {
-                    Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED +  new MessageList().getCommandSyntaxError());
-                }
-                return true;
             }
+
+            if (p != null){
+                p.sendMessage(ChatColor.RED + new MessageList().getCommandSyntaxError());
+            } else {
+                Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED +  new MessageList().getCommandSyntaxError());
+            }
+            return true;
 
         } catch (Exception e) {
 
@@ -168,8 +164,8 @@ public class CommandMain implements CommandExecutor {
             plugin.getLogger().info("PluginError : " + e.getMessage() );
             e.fillInStackTrace();
             Bukkit.getServer().getPluginManager().disablePlugin(plugin);
-        }
 
-        return false;
+            return true;
+        }
     }
 }

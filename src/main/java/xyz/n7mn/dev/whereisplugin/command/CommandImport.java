@@ -8,6 +8,7 @@ import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.JSON;
 import xyz.n7mn.dev.whereisplugin.dataSystem.MySQL;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
+import xyz.n7mn.dev.whereisplugin.dataSystem.Result.JsonResult;
 
 import java.io.File;
 import java.util.List;
@@ -81,6 +82,47 @@ class CommandImport {
             } else {
                 sender.sendMessage(ChatColor.RED + "No Import File");
             }
+        }
+
+        if (args.length == 2 && args[1].equals("json")){
+            CommandSender sender;
+            if (player != null){
+                sender = player;
+            } else {
+                sender = plugin.getServer().getConsoleSender();
+            }
+
+            MySQL mysql = new MySQL(plugin);
+            if (!mysql.isConnect()){
+                sender.sendMessage(ChatColor.RED + "MySQL Server is Not Connect.");
+                return true;
+            }
+
+            List<DataResult> list = mysql.getAllList();
+            if (list.size() == 0){
+                sender.sendMessage(ChatColor.RED + "No Import Data");
+                return true;
+            }
+
+            JSON json = new JSON(plugin);
+            sender.sendMessage(ChatColor.YELLOW + "Found "+list.size()+" item.");
+
+            int jsonId = json.getAllList().size();
+            for (int i = 0; i < list.size(); i++){
+
+                DataSystemResult result = json.addList(new DataResult(jsonId + (i + 1), list.get(i).LocationName, list.get(i).UUID, list.get(i).StartX, list.get(i).EndX, list.get(i).StartZ, list.get(i).EndZ, list.get(i).Active));
+
+                if (result.isError()){
+                    sender.sendMessage(ChatColor.RED + "Import Error : " + result.getErrorMessage());
+                    return true;
+                }
+
+                if (!(sender instanceof Player)){
+                    sender.sendMessage("Item Import : " + (i + 1) + " / "+list.size());
+                }
+            }
+
+            sender.sendMessage(ChatColor.GREEN + "Import Complete!!");
         }
 
         return true;
