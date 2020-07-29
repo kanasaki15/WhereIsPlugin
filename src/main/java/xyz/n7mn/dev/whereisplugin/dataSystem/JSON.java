@@ -37,7 +37,7 @@ public class JSON implements DataSystemInterface {
         } catch (FileNotFoundException e) {
             try {
                 file.createNewFile();
-                isConnect = writeFile("[]").isError();
+                isConnect = !writeFile("[]").isError();
             } catch (IOException ioException) {
                 isConnect = false;
             }
