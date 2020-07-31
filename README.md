@@ -16,6 +16,7 @@ MySQL 5.6以降のMySQLサーバー(必須ではない)
 /where del [name]                 -- 指定した設定されている名前を解除する
 /where update [OldName] [NewName] -- 指定した今までの名前から新しい名前にする
 /where help                       -- コマンドヘルプ
+/where list                       -- 自分が追加した場所の一覧を表示(最新5件、Ver 1.1～)
 /where system                     -- プラグインの動作状態 (要OP権限 or whereis.systemパーミッション所持)
 /where admin [list or del] [id]   -- 登録されている一覧を表示 または 指定したIDのものを削除 (要OP権限 or whereis.adminパーミッション所持)
 /where import                     -- MySQLへのインポート または ファイルへのインポート (Ver 1.1～、要OP権限 or whereis.adminパーミッション所持)
@@ -27,6 +28,7 @@ whereis.check  -- /whereの権限
 whereis.add    -- /where addの権限
 whereis.del    -- /where delの権限
 whereis.update -- /where updateの権限
+whereis.list -- /where listの権限
 whereis.system -- /where systemの権限
 whereis.admin -- /where admin、/where import (Ver 1.1～)の権限
 </pre>

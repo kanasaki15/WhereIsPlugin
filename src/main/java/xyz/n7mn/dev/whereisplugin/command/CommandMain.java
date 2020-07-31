@@ -230,7 +230,29 @@ public class CommandMain implements CommandExecutor {
                 }
 
                 if (args.length > 0 && args[0].equals("list")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("UserList", sender);
 
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (!p.hasPermission("whereis.list")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
+                            }
+                        }
+                    }
+
+                    if (p != null && !p.isOp()){
+                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                        return true;
+                    }
+
+                    return new CommandList(plugin, p).run();
                 }
             }
 

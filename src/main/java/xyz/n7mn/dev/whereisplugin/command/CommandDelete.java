@@ -40,8 +40,11 @@ class CommandDelete {
             sender = player;
         }
 
-        plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, systemResult.isError()));
-
+        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, systemResult.isError());
+        plugin.getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled()){
+            sender.sendMessage(msg);
+        }
 
         return true;
     }

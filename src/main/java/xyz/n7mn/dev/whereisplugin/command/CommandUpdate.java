@@ -45,8 +45,11 @@ class CommandUpdate {
             sender = player;
         }
 
-        plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, result.isError()));
-
+        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, result.isError());
+        plugin.getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled()){
+            sender.sendMessage(msg);
+        }
         return true;
     }
 }

@@ -47,7 +47,11 @@ class CommandAdd {
             sender = player;
         }
 
-        plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), systemResult.isError()));
+        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), systemResult.isError());
+        plugin.getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled()){
+            sender.sendMessage(msg);
+        }
 
         return true;
     }

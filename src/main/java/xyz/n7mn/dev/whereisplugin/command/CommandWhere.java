@@ -62,7 +62,11 @@ class CommandWhere {
         }
 
         for (int i = 0; i < tempList.size(); i++){
-            plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, tempList.get(i)[0], tempList.get(i)[1], tempList.get(i)[2], tempList.get(i)[3], false));
+            WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, tempList.get(i)[0], tempList.get(i)[1], tempList.get(i)[2], tempList.get(i)[3], false);
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (!event.isCancelled()){
+                sender.sendMessage(msg);
+            }
         }
 
         return true;

@@ -45,11 +45,15 @@ public class CommandList {
 
         sender.sendMessage(ChatColor.YELLOW + "--- "+new MessageList().getListMessage() +" ---");
 
-        int maxCount = list.size();
-        if (maxCount > 5){ maxCount = 5; }
+        //int maxCount = list.size();
+        //if (maxCount > 5){ maxCount = 5; }
 
-        for (int i = 0; i < maxCount; i++){
-            sender.sendMessage(list.get(i).LocationName);
+        for (int i = list.size() - 1; i > ((list.size() - 1) - 5); i--){
+            if (i < 0) {
+                break;
+            }
+            sender.sendMessage(ChatColor.YELLOW + "Name: "+list.get(i).LocationName+" Active: "+list.get(i).Active);
+            sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i).StartX+" EndX: "+list.get(i).EndX+" StartZ: "+list.get(i).StartZ+" EndZ: "+list.get(i).EndZ);
         }
 
 
