@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.event.WhereisExecuteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 public class CommandMain implements CommandExecutor {
@@ -30,10 +31,35 @@ public class CommandMain implements CommandExecutor {
 
                 // /where
                 if (args.length == 2 && p == null && !args[0].equals("add") && !args[0].equals("del") && !args[0].equals("update") && !args[0].equals("help") && !args[0].equals("system") && !args[0].equals("admin") && !args[0].equals("import")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Check", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null) {
+                        if (p != null) {
+                            if (!p.hasPermission("whereis.check")) {
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
+                            }
+                        }
+                    }
                     return new CommandWhere(plugin, args, p).run();
                 }
 
                 if (args.length == 0){
+
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Check", sender);
+                    plugin.getServer().getPluginManager().callEvent(event);
+
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.check")){
@@ -47,11 +73,27 @@ public class CommandMain implements CommandExecutor {
 
                 // /where help
                 if (args.length > 0 && args[0].equals("help")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Help", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
                     return new CommandHelp(p).run();
                 }
 
                 // /where add
                 if (args.length > 0 && args[0].equals("add")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Add", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.add")){
@@ -65,6 +107,14 @@ public class CommandMain implements CommandExecutor {
 
                 // /where update
                 if (args.length == 3 && args[0].equals("update")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Update", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.update")){
@@ -78,6 +128,14 @@ public class CommandMain implements CommandExecutor {
 
                 // /where del
                 if (args.length == 2 && args[0].equals("del")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Del", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.del")){
@@ -91,6 +149,14 @@ public class CommandMain implements CommandExecutor {
 
                 // /where system
                 if (args.length > 0 && args[0].equals("system")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("System", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.system")){
@@ -110,6 +176,15 @@ public class CommandMain implements CommandExecutor {
 
                 // /where admin
                 if (args.length >= 2 && args[0].equals("admin")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Admin", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.admin")){
@@ -128,6 +203,15 @@ public class CommandMain implements CommandExecutor {
 
                 // /where import
                 if (args.length > 0 && args[0].equals("import")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Import", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                        return true;
+                    }
+
+
                     if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
                         if (p != null){
                             if (!p.hasPermission("whereis.admin")){
@@ -144,7 +228,12 @@ public class CommandMain implements CommandExecutor {
 
                     return new CommandImport(plugin, args, p).run();
                 }
+
+                if (args.length > 0 && args[0].equals("list")){
+
+                }
             }
+
 
             if (p != null){
                 p.sendMessage(ChatColor.RED + new MessageList().getCommandSyntaxError());

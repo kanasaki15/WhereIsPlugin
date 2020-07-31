@@ -31,20 +31,10 @@ whereis.system -- /where systemの権限
 whereis.admin -- /where admin、/where import (Ver 1.1～)の権限
 </pre>
 
-## 独自イベント一覧 (Ver 1.1～)
-メッセージを独自のメッセージにしたい時に
+## 独自イベント一覧 (Ver 1.1 pre4 ～)
 <pre>
-xyz.n7mn.dev.whereisplugin.event.CheckWhereLocationEvent                       -- プレーヤーが/whereを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.CreateCompleteWhereLocationEvent              -- プレーヤーが/where addを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.DeleteCompleteWhereLocationEvent              -- プレーヤーが/where delを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.UpdateCompleteWhereLocationEvent              -- プレーヤーが/where updateを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.CreateCompleteWhereLocationEvent              -- プレーヤーが/where createを実行した後に発生
-
-xyz.n7mn.dev.whereisplugin.event.CheckWhereLocationServerCommandEvent          -- サーバーコンソールにて/whereを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.CreateCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where addを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.DeleteCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where delを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.UpdateCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where updateを実行した後に発生
-xyz.n7mn.dev.whereisplugin.event.CreateCompleteWhereLocationServerCommandEvent -- サーバーコンソールにて/where createを実行した後に発生
+xyz.n7mn.dev.whereisplugin.event.WhereisExecuteCommandEvent -- コマンドを実行するときに発生(setCancelで実行自体をキャンセルできる。)
+xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent -- コマンドを実行した後メッセージを表示するときに発生(setCancelで結果メッセージ表示をキャンセルできる。)
 </pre>
 ## 設定ファイル
 <pre>

@@ -1,12 +1,14 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.Player.DeleteCompleteWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.DeleteCompleteWhereLocationServerCommandEvent;
+import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 class CommandDelete {
@@ -35,11 +37,12 @@ class CommandDelete {
             msg = ChatColor.RED + systemResult.getErrorMessage();
         }
 
+        CommandSender sender = plugin.getServer().getConsoleSender();
         if (player != null){
-            plugin.getServer().getPluginManager().callEvent(new DeleteCompleteWhereLocationEvent(msg, args[1], player, systemResult.isError()));
-        }else{
-            plugin.getServer().getPluginManager().callEvent(new DeleteCompleteWhereLocationServerCommandEvent(msg, args[1], systemResult.isError()));
+            sender = player;
         }
+
+        plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, systemResult.isError()));
 
 
         return true;

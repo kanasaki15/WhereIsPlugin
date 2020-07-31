@@ -13,7 +13,7 @@ public final class WhereIsPlugin extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         saveDefaultConfig();
-        getServer().getPluginManager().registerEvents(new WhereisEventListener(), this);
+        // getServer().getPluginManager().registerEvents(new WhereisEventListener(), this);
 
         getCommand("where").setExecutor(new CommandMain(this));
         getCommand("where").setTabCompleter(new CommandTab(this));

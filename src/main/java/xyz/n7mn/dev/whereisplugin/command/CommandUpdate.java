@@ -1,12 +1,14 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.Player.UpdateCompleteWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.UpdateCompleteWhereLocationServerCommandEvent;
+import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 class CommandUpdate {
@@ -40,11 +42,12 @@ class CommandUpdate {
             msg = ChatColor.YELLOW + messageList.getUpdateSuccessMessage(args[1], args[2]);
         }
 
+        CommandSender sender = plugin.getServer().getConsoleSender();
         if (player != null){
-            plugin.getServer().getPluginManager().callEvent(new UpdateCompleteWhereLocationEvent(msg, player, args[1], args[2], result.isError()));
-        }else{
-            plugin.getServer().getPluginManager().callEvent(new UpdateCompleteWhereLocationServerCommandEvent(msg, args[1], args[2], result.isError()));
+            sender = player;
         }
+
+        plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, result.isError()));
 
         return true;
     }

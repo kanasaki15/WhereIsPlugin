@@ -9,6 +9,7 @@ import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.Player.DeleteCompleteWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.DeleteCompleteWhereLocationServerCommandEvent;
+import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 import java.util.List;
@@ -100,11 +101,12 @@ class CommandAdmin {
                         msg = ChatColor.RED + result.getErrorMessage();
                     }
 
+                    CommandSender sender = plugin.getServer().getConsoleSender();
                     if (player != null){
-                        plugin.getServer().getPluginManager().callEvent(new DeleteCompleteWhereLocationEvent(msg, list.get(i).LocationName, player, result.isError()));
-                    }else{
-                        plugin.getServer().getPluginManager().callEvent(new DeleteCompleteWhereLocationServerCommandEvent(msg, list.get(i).LocationName, result.isError()));
+                        sender = player;
                     }
+
+                    plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, result.isError()));
 
                     return true;
                 }

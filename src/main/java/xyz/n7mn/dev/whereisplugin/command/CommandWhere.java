@@ -1,13 +1,16 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.event.Player.CheckWhereLocationEvent;
 import xyz.n7mn.dev.whereisplugin.event.ServerCommand.CheckWhereLocationServerCommandEvent;
+import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class CommandWhere {
@@ -40,7 +43,13 @@ class CommandWhere {
         }
 
         StringBuffer sb = new StringBuffer();
+
+        List<int[]> tempList = new ArrayList<>();
+
         for (int i = 0; i < data.size(); i++){
+
+            int[] temp = {data.get(i).StartX, data.get(i).EndX, data.get(i).StartZ, data.get(i).EndZ};
+            tempList.add(temp);
             sb.append(data.get(i).LocationName);
             if (i + 1 < data.size()){
                 sb.append(",");
@@ -48,10 +57,14 @@ class CommandWhere {
         }
 
         String msg = new MessageList().getHereMessage(sb.toString());
+
+        CommandSender sender = plugin.getServer().getConsoleSender();
         if (player != null){
-            plugin.getServer().getPluginManager().callEvent(new CheckWhereLocationEvent(msg, sb.toString(), player, player.getLocation().getBlockX(),player.getLocation().getBlockZ()));
-        } else {
-            plugin.getServer().getPluginManager().callEvent(new CheckWhereLocationServerCommandEvent(msg, sb.toString(), Integer.parseInt(args[0]), Integer.parseInt(args[1])));
+            sender = player;
+        }
+
+        for (int i = 0; i < tempList.size(); i++){
+            plugin.getServer().getPluginManager().callEvent(new WhereisCompleteCommandEvent(sender, msg, tempList.get(i)[0], tempList.get(i)[1], tempList.get(i)[2], tempList.get(i)[3], false));
         }
 
         return true;

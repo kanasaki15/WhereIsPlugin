@@ -31,6 +31,7 @@ public class MessageList {
     private String DelError2;
     private String PermError;
     private String CommandSyntaxError;
+    private String List;
 
     public MessageList(){
 
@@ -65,6 +66,7 @@ public class MessageList {
             DelError2 = "その名前は登録されていません。";
             PermError = "実行する権限がありません。";
             CommandSyntaxError = "構文エラーです。 /where helpを実行してヘルプを参照してください。";
+            List = "My登録リスト";
         }
     }
 
@@ -191,4 +193,9 @@ public class MessageList {
     public String getCommandSyntaxError() {
         return CommandSyntaxError;
     }
+
+    public String getListMessage() {
+        return List;
+    }
+
 }
