@@ -59,6 +59,10 @@ public class WhereisExecuteCommandEvent extends Event implements Cancellable {
         this.Message = Message;
     }
 
+    public String getMode(){
+        return Mode;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return handlerList;
