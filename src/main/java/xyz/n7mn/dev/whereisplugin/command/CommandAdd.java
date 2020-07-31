@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
-import xyz.n7mn.dev.whereisplugin.event.Player.CreateCompleteWhereLocationEvent;
-import xyz.n7mn.dev.whereisplugin.event.ServerCommand.CreateCompleteWhereLocationServerCommandEvent;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 

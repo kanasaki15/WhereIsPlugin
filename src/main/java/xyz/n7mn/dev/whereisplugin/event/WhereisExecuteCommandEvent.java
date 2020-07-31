@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import xyz.n7mn.dev.whereisplugin.event.Interface.WhereisEventInterface;
 
 public class WhereisExecuteCommandEvent extends Event implements Cancellable {
 

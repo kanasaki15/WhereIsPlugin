@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'java'
 
 group = 'xyz.n7mn.dev'
-version = '1.1-rc-4'
+version = '1.1-pre4'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'

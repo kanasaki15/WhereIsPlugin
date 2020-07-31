@@ -31,11 +31,15 @@ whereis.system -- /where systemの権限
 whereis.admin -- /where admin、/where import (Ver 1.1～)の権限
 </pre>
 
-## 独自イベント一覧 (Ver 1.1 pre4 ～)
+## 独自イベント一覧 (Ver 1.1～)
 <pre>
 xyz.n7mn.dev.whereisplugin.event.WhereisExecuteCommandEvent -- コマンドを実行するときに発生(setCancelで実行自体をキャンセルできる。)
 xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent -- コマンドを実行した後メッセージを表示するときに発生(setCancelで結果メッセージ表示をキャンセルできる。)
 </pre>
+Eventがどのタイミングで発生してなにが取得できるかのサンプルプラグインは下記から<br>
+[WhereIsPluginEventTest-1.0.jar](https://n7mn.xyz/WhereIsPluginEventTest-1.0.jar) <br>
+[上のソースコード](https://n7mn.xyz/WhereIsPluginEventTest.zip) (Gradleプロジェクト)
+
 ## 設定ファイル
 <pre>
 # WhereIsPlugin SettingFile

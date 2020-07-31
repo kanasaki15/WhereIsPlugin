@@ -3,7 +3,6 @@ package xyz.n7mn.dev.whereisplugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.n7mn.dev.whereisplugin.command.CommandMain;
 import xyz.n7mn.dev.whereisplugin.command.CommandTab;
-import xyz.n7mn.dev.whereisplugin.event.WhereisEventListener;
 
 import java.io.File;
 
