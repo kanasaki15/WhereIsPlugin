@@ -34,9 +34,11 @@ class CommandHelp {
         boolean isUpdate = true;
         boolean isSystem = false;
         boolean isAdmin = false;
+        boolean isList = false;
         boolean isPlayer = (player != null);
 
         if (isPlayer){
+            isList = true;
 
             if (player.isOp()){
                 isAdmin = true;
@@ -66,6 +68,10 @@ class CommandHelp {
 
                 if (player.hasPermission("whereis.admin")){
                     isAdmin = true;
+                }
+
+                if (!player.hasPermission("whereis.list")){
+                    isList = false;
                 }
             }
         }
@@ -118,7 +124,11 @@ class CommandHelp {
 
         if (isAdmin){
             msgList.add("/where admin [list|del] -- "+lnMsg.getCommandAdminMessage());
-            msgList.add("/where import [mysql|json] -- "+lnMsg.getCommandAdminMessage());
+            msgList.add("/where import [mysql|json] -- "+lnMsg.getCommandImportMessage());
+        }
+
+        if (isList){
+            msgList.add("/where list -- " + lnMsg.getCommandListMessage());
         }
 
         for (int i = 0; i < msgList.size(); i++){

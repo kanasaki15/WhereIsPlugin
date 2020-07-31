@@ -12,6 +12,7 @@ public class MessageList {
     private String CommandSystem;
     private String CommandAdmin;
     private String CommandImport;
+    private String CommandList;
     private String StartX;
     private String EndX;
     private String StartZ;
@@ -47,6 +48,7 @@ public class MessageList {
             CommandSystem = "現在の実行環境を表示";
             CommandAdmin = "現在の登録されている一覧を表示したり削除する";
             CommandImport = "ファイル -> MySQL または MySQL -> ファイルへのインポートをする";
+            CommandList = "My登録リストを表示する";
             StartX = "始点X座標";
             EndX = "終点X座標";
             StartZ = "始点Z座標";
@@ -96,6 +98,14 @@ public class MessageList {
 
     public String getCommandAdminMessage() {
         return CommandAdmin;
+    }
+
+    public String getCommandImportMessage() {
+        return CommandImport;
+    }
+
+    public String getCommandListMessage() {
+        return CommandList;
     }
 
     public String getStartXMessage() {
@@ -197,5 +207,6 @@ public class MessageList {
     public String getListMessage() {
         return List;
     }
+
 
 }

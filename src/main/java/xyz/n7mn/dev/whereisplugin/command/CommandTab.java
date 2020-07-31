@@ -42,6 +42,7 @@ public class CommandTab implements TabExecutor {
             list.add("system");
             list.add("admin");
             list.add("import");
+            list.add("list");
         }
 
         if (args.length > 1 && args[0].equals("add")){
