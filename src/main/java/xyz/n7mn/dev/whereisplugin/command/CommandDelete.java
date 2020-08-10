@@ -26,10 +26,9 @@ class CommandDelete {
 
         boolean b = false;
         if (player != null){
-            int whereDataID = WhereIsAPI.getWhereDataID(args[1], player.getUniqueId());
-            if (whereDataID != -1){
-                b = WhereIsAPI.deleteWhereData(whereDataID);
-            }
+            b = WhereIsAPI.deleteWhereData(args[1], player.getUniqueId());
+        }else{
+            b = WhereIsAPI.deleteWhereData(args[1], null);
         }
 
         String msg = ChatColor.YELLOW + new MessageList().getDelSuccess(args[1]);
@@ -45,7 +44,7 @@ class CommandDelete {
         WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, !b);
         plugin.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled()){
-            sender.sendMessage(msg);
+            sender.sendMessage(event.getMessage());
         }
 
         return true;

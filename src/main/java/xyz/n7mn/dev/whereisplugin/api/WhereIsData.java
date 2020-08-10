@@ -369,9 +369,12 @@ public class WhereIsData {
         } else {
             List<WhereData> templist = gson.fromJson(new FileSystem().Read(), new TypeToken<Collection<WhereData>>(){}.getType());
 
-            int i = 0;
-            for (WhereData temp : templist){
-                if (temp.getID() == data.getID()){
+            if (templist == null){
+                templist = new ArrayList<>();
+            }
+
+            for (int i = 0; i < templist.size(); i++){
+                if (templist.get(i).getID() == data.getID()){
                     templist.get(i).setLocationName(data.getLocationName());
                     templist.get(i).setUUID(data.getUUID());
                     templist.get(i).setWorldName(data.getWorldName());
@@ -379,9 +382,9 @@ public class WhereIsData {
                     templist.get(i).setEndX(data.getEndX());
                     templist.get(i).setStartZ(data.getStartZ());
                     templist.get(i).setEndZ(data.getEndZ());
+                    templist.get(i).setActive(data.isActive());
                     break;
                 }
-                i++;
             }
             FileSystem system = new FileSystem();
             boolean b = system.Write(gson.toJson(templist));
@@ -399,20 +402,21 @@ public class WhereIsData {
     }
 
     public boolean deleteWhereData(int id){
-        WhereData whereData = getWhereData(id);
+        WhereData whereData = this.getWhereData(id);
         whereData.setActive(false);
+
         return updateWhereData(whereData);
     }
 
     @Deprecated
     public boolean deleteWhereData(String name){
-        WhereData whereData = getWhereData(name);
+        WhereData whereData = this.getWhereData(name);
         whereData.setActive(false);
         return updateWhereData(whereData);
     }
 
     public boolean deleteWhereData(String name, UUID uuid){
-        WhereData whereData = getWhereData(getWhereDataID(name, uuid));
+        WhereData whereData = this.getWhereData(getWhereDataID(name, uuid));
         whereData.setActive(false);
         return updateWhereData(whereData);
     }
