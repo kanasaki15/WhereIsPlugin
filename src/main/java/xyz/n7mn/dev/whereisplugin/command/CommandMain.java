@@ -17,12 +17,6 @@ public class CommandMain implements CommandExecutor {
     Player p = null;
     WhereIsData WhereIsAPI;
 
-    @Deprecated
-    public CommandMain(WhereIsPlugin p){
-        this.plugin = p;
-        this.WhereIsAPI = new WhereIsData();
-    }
-
     public CommandMain(WhereIsPlugin p, WhereIsData api){
         this.plugin = p;
         this.WhereIsAPI = api;
@@ -157,7 +151,7 @@ public class CommandMain implements CommandExecutor {
                 }
 
                 // /where system
-                if (args.length > 0 && args[0].equals("system")){
+                if (args.length >= 0 && args[0].equals("system")){
                     WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("System", sender);
 
                     plugin.getServer().getPluginManager().callEvent(event);
@@ -282,7 +276,7 @@ public class CommandMain implements CommandExecutor {
             }
 
             plugin.getLogger().info("PluginError : " + e.getMessage() );
-            e.fillInStackTrace();
+            e.printStackTrace();
             Bukkit.getServer().getPluginManager().disablePlugin(plugin);
 
             return true;

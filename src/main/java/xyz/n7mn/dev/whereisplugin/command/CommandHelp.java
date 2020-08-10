@@ -23,7 +23,6 @@ class CommandHelp {
 
     public boolean run(){
 
-        String[] msg = new String[8];
         List<String> msgList = new ArrayList<>();
 
         msgList.add("--- WhereIsPlugin Help ---");
@@ -76,38 +75,21 @@ class CommandHelp {
             }
         }
 
-
-        /*
-        if (player != null){
-            msg[1] = ChatColor.YELLOW + "/where  -- "+lnMsg.getCommandWhereMessage();
-        }else{
-            msg[1] = ChatColor.YELLOW + "/where [X] [Z]  -- "+lnMsg.getCommandWhereMessage();
-        }
-        msg[2] = ChatColor.YELLOW + "/where help -- "+lnMsg.getCommandHelpMessage();
-        msg[3] = ChatColor.YELLOW + "/where add ["+lnMsg.getStartXMessage()+"] ["+lnMsg.getEndXMessage()+"] ["+lnMsg.getStartZMessage()+"] ["+lnMsg.getEndZMessage()+"] ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereAddMessage();
-        msg[4] = ChatColor.YELLOW + "/where del ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereDelMessage();
-        msg[5] = ChatColor.YELLOW + "/where update ["+lnMsg.getOldNameMessage()+"] ["+lnMsg.getNewNameMessage()+"]  -- "+lnMsg.getCommandWhereUpdateMessage();
-        msg[6] = ChatColor.YELLOW + "/where system  -- "+lnMsg.getCommandSystemMessage();
-        msg[7] = ChatColor.YELLOW + "/where admin [list|del] -- "+lnMsg.getCommandAdminMessage();
-
-        if (player != null){
-            player.sendMessage(msg);
-        } else {
-            sender.sendMessage(msg);
-        }
-         */
-
         if (isCheck){
             if (isPlayer){
                 msgList.add("/where  -- "+lnMsg.getCommandWhereMessage());
             } else {
-                msgList.add("/where [X] [Z]  -- "+lnMsg.getCommandWhereMessage());
+                msgList.add("/where [worldname] [X] [Z]  -- "+lnMsg.getCommandWhereMessage());
             }
         }
         msgList.add("/where help -- "+lnMsg.getCommandHelpMessage());
 
         if (isAdd){
-            msgList.add("/where add ["+lnMsg.getStartXMessage()+"] ["+lnMsg.getEndXMessage()+"] ["+lnMsg.getStartZMessage()+"] ["+lnMsg.getEndZMessage()+"] ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereAddMessage());
+            if (isPlayer){
+                msgList.add("/where add ["+lnMsg.getStartXMessage()+"] ["+lnMsg.getEndXMessage()+"] ["+lnMsg.getStartZMessage()+"] ["+lnMsg.getEndZMessage()+"] ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereAddMessage());
+            } else {
+                msgList.add("/where add [worldname] ["+lnMsg.getStartXMessage()+"] ["+lnMsg.getEndXMessage()+"] ["+lnMsg.getStartZMessage()+"] ["+lnMsg.getEndZMessage()+"] ["+lnMsg.getNameMessage()+"]  -- "+lnMsg.getCommandWhereAddMessage());
+            }
         }
 
         if (isDel){

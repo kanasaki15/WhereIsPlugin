@@ -19,13 +19,6 @@ public class CommandList {
 
     private WhereIsData WhereIsAPI;
 
-    @Deprecated
-    public CommandList(WhereIsPlugin p, Player player) {
-        this.plugin = p;
-        this.player = player;
-        this.WhereIsAPI = new WhereIsData();
-    }
-
     public CommandList(WhereIsPlugin p, Player player, WhereIsData api) {
         this.plugin = p;
         this.player = player;

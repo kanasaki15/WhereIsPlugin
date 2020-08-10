@@ -18,14 +18,6 @@ class CommandAdmin {
     private Player player;
     private WhereIsData WhereIsAPI;
 
-    @Deprecated
-    public CommandAdmin(WhereIsPlugin p, String[] args, Player player) {
-        this.plugin = p;
-        this.args = args;
-        this.player = player;
-        this.WhereIsAPI = new WhereIsData();
-    }
-
     public CommandAdmin(WhereIsPlugin p, String[] args, Player player, WhereIsData api) {
         this.plugin = p;
         this.args = args;

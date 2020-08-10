@@ -16,6 +16,7 @@ public final class WhereIsPlugin extends JavaPlugin {
         // getServer().getPluginManager().registerEvents(new WhereisEventListener(), this);
 
         WhereIsAPI = new WhereIsData();
+
         getCommand("where").setExecutor(new CommandMain(this, WhereIsAPI));
         getCommand("where").setTabCompleter(new CommandTab(this, WhereIsAPI));
 
@@ -24,7 +25,6 @@ public final class WhereIsPlugin extends JavaPlugin {
         }
 
         Metrics metrics = new Metrics(this, 8481);
-
 
         getLogger().info("WhereIsPlugin Started!");
     }

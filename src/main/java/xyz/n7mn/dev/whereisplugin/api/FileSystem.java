@@ -29,12 +29,15 @@ public class FileSystem {
             buffer.close();
             return sb.toString();
         } catch (IOException e) {
+            ErrorMessage = e.getMessage();
+            e.printStackTrace();
             try {
                 if (buffer != null){
                     buffer.close();
                 }
             } catch (IOException ex) {
-                // ex.printStackTrace();
+                ErrorMessage = ex.getMessage();
+                ex.printStackTrace();
             }
             return "";
         } finally {
@@ -43,7 +46,8 @@ public class FileSystem {
                     buffer.close();
                 }
             } catch (IOException e) {
-                // e.printStackTrace();
+                ErrorMessage = e.getMessage();
+                e.printStackTrace();
             }
         }
     }
@@ -61,6 +65,7 @@ public class FileSystem {
                 return "[]";
             } catch (IOException e) {
                 ErrorMessage = e.getMessage();
+                e.printStackTrace();
                 return "";
             }
         }
@@ -83,9 +88,11 @@ public class FileSystem {
             return true;
         } catch (FileNotFoundException e) {
             ErrorMessage = e.getMessage();
+            e.printStackTrace();
             return false;
         } catch (UnsupportedEncodingException e) {
             ErrorMessage = e.getMessage();
+            e.printStackTrace();
             return false;
         } finally {
             if (p_writer != null){
@@ -105,6 +112,7 @@ public class FileSystem {
                 new File(pass).createNewFile();
             } catch (IOException e) {
                 ErrorMessage = e.getMessage();
+                e.printStackTrace();
                 return false;
             }
         }

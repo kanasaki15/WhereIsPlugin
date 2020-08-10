@@ -431,6 +431,8 @@ public class WhereIsData {
                 con = null;
                 isMySQL = false;
             }
+        }else{
+            isMySQL = false;
         }
     }
 
@@ -514,7 +516,11 @@ public class WhereIsData {
         }
 
         if (new File(pass).exists()){
-            List<WhereData> list = new Gson().fromJson(new FileSystem().Read(pass), new TypeToken<Collection<WhereData>>(){}.getType());
+            String s = new FileSystem().Read(pass);
+            if (s == null || (s != null && s.length() == 0)){
+                s = "[]";
+            }
+            List<WhereData> list = new Gson().fromJson(s , new TypeToken<Collection<WhereData>>(){}.getType());
 
             if (list.size() > 0){
                 if (list.get(0).getWorldName() == null || (list.get(0).getWorldName() != null && list.get(0).getWorldName().length() == 0)){

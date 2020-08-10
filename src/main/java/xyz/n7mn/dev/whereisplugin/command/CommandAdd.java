@@ -33,7 +33,7 @@ class CommandAdd {
 
     public boolean run(){
 
-        if (args.length == 6 || args.length == 7){
+        if (args.length != 6 && args.length != 7){
             return false;
         }
 

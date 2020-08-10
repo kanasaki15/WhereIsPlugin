@@ -17,12 +17,6 @@ class CommandSystem {
 
     private MessageList lnMsg = new MessageList();
 
-    @Deprecated
-    public CommandSystem(Player player) {
-        this.player = player;
-        this.WhereIsAPI = new WhereIsData();
-    }
-
     public CommandSystem(Player player, WhereIsData api){
         this.player = player;
         this.WhereIsAPI = api;

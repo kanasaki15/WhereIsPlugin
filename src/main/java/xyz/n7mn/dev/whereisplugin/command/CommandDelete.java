@@ -15,14 +15,6 @@ class CommandDelete {
     private Player player;
     private WhereIsData WhereIsAPI;
 
-    @Deprecated
-    public CommandDelete(WhereIsPlugin p, String[] args, Player player) {
-        this.plugin = p;
-        this.args = args;
-        this.player = player;
-        this.WhereIsAPI = new WhereIsData();
-    }
-
     public CommandDelete(WhereIsPlugin p, String[] args, Player player, WhereIsData api) {
         this.plugin = p;
         this.args = args;

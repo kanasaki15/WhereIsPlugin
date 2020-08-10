@@ -17,11 +17,6 @@ public class CommandTab implements TabExecutor {
     WhereIsPlugin plugin;
     WhereIsData WhereIsAPI;
 
-    @Deprecated
-    public CommandTab(WhereIsPlugin p){
-        plugin = p;
-    }
-
     public CommandTab(WhereIsPlugin p, WhereIsData api){
         plugin = p;
         WhereIsAPI = api;
