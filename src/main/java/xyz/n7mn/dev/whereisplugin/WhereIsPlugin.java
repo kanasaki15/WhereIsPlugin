@@ -1,10 +1,9 @@
 package xyz.n7mn.dev.whereisplugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.n7mn.dev.bstats.bukkit.Metrics;
 import xyz.n7mn.dev.whereisplugin.command.CommandMain;
 import xyz.n7mn.dev.whereisplugin.command.CommandTab;
-
-import java.io.File;
 
 public final class WhereIsPlugin extends JavaPlugin {
 
@@ -20,6 +19,8 @@ public final class WhereIsPlugin extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("LuckPerms") != null){
             getLogger().info("Use LuckPerm Mode");
         }
+
+        Metrics metrics = new Metrics(this, 8481);
 
         getLogger().info("WhereIsPlugin Started!");
     }
