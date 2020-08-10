@@ -33,8 +33,14 @@ class CommandAdd {
 
     public boolean run(){
 
+        CommandSender sender = plugin.getServer().getConsoleSender();
+        if (player != null){
+            sender = player;
+        }
+
         if (args.length != 6 && args.length != 7){
-            return false;
+            sender.sendMessage(ChatColor.RED + new MessageList().getCommandSyntaxError());
+            return true;
         }
 
         boolean b;
@@ -47,12 +53,6 @@ class CommandAdd {
         String msg = ChatColor.YELLOW + new MessageList().getAddSuccessMessage(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]),args[5]);
         if (!b){
             msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
-        }
-
-
-        CommandSender sender = plugin.getServer().getConsoleSender();
-        if (player != null){
-            sender = player;
         }
 
         WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), !b);

@@ -98,7 +98,7 @@ public class WhereIsData {
     }
 
     public List<WhereData> getDataListByUser(UUID uuid){
-        List<WhereData> list = null;
+        List<WhereData> list = new ArrayList<>();
         if (isMySQL && con != null){
             try {
                 PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE CreateUser = ?;");
@@ -312,7 +312,8 @@ public class WhereIsData {
                 statement.setInt(8, data.getEndZ());
                 statement.setBoolean(9, data.isActive());
 
-                return statement.execute();
+                statement.execute();
+                return true;
             } catch (SQLException throwable) {
                 ErrorMessage = throwable.getMessage();
                 MySQLConnectClose();
@@ -344,7 +345,7 @@ public class WhereIsData {
     public boolean updateWhereData(WhereData data){
         if (isMySQL && con != null){
             try {
-                PreparedStatement statement = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? , `CreateUser` = ? , `WorldName` = ? , `startX` = ? , `endX` = ? , `startZ` = ? , `endZ` = ? , `Active` = ?  WHERE `WhereList`.`ID` = ? ");
+                PreparedStatement statement = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? , `CreateUser` = ? , `WorldName` = ? , `startX` = ? , `endX` = ? , `startZ` = ? , `endZ` = ? , `Active` = ?  WHERE `ID` = ?; ");
                 statement.setString(1, data.getLocationName());
                 if (data.getUUID() != null){
                     statement.setString(2, data.getUUID().toString());
@@ -359,9 +360,12 @@ public class WhereIsData {
                 statement.setBoolean(8, data.isActive());
                 statement.setInt(9, data.getID());
 
-                return statement.execute();
+
+                statement.execute();
+                return true;
             } catch (SQLException throwable) {
                 ErrorMessage = throwable.getMessage();
+                throwable.printStackTrace();
                 MySQLConnectClose();
                 isMySQL = false;
                 return false;
