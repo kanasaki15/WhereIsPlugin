@@ -37,9 +37,6 @@ class CommandWhere {
             return false;
         }
 
-        StringBuffer sb = new StringBuffer();
-
-        List<int[]> tempList = new ArrayList<>();
         List<WhereData> data;
 
         if (player != null){
@@ -48,32 +45,30 @@ class CommandWhere {
             data = WhereIsAPI.getWhereListByLocation(new Location(Bukkit.getWorld(args[1]),Integer.parseInt(args[2]), 0, Integer.parseInt(args[3])));
         }
 
-
-        for (int i = 0; i < data.size(); i++){
-
-            int[] temp = {data.get(i).getStartX(), data.get(i).getEndX(), data.get(i).getStartZ(), data.get(i).getEndZ()};
-            tempList.add(temp);
-            sb.append(data.get(i).getLocationName());
-            if (i + 1 < data.size()){
-                sb.append(",");
-            }
-        }
-
-        String msg = new MessageList().getHereMessage(sb.toString());
-
         CommandSender sender = plugin.getServer().getConsoleSender();
         if (player != null){
             sender = player;
         }
 
-        for (int i = 0; i < tempList.size(); i++){
-            WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, tempList.get(i)[0], tempList.get(i)[1], tempList.get(i)[2], tempList.get(i)[3], false);
+        for (int i = 0; i < data.size(); i++){
+
+            int[] temp = {data.get(i).getStartX(), data.get(i).getEndX(), data.get(i).getStartZ(), data.get(i).getEndZ()};
+            WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, new MessageList().getHereMessage(data.get(i).getLocationName()), temp[0], temp[1], temp[2], temp[3], false);
             plugin.getServer().getPluginManager().callEvent(event);
             if (!event.isCancelled()){
-                sender.sendMessage(msg);
+                // System.out.println("Debug : " + event.getMessage());
+                sender.sendMessage(event.getMessage());
             }
         }
 
+        if (data.size() == 0){
+            WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, new MessageList().getHereMessage(""), false);
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (!event.isCancelled()){
+                // System.out.println("Debug : " + event.getMessage());
+                sender.sendMessage(event.getMessage());
+            }
+        }
         return true;
     }
 }

@@ -86,6 +86,13 @@ public class WhereIsData {
             }
         } else {
             list = gson.fromJson(new FileSystem().Read(), new TypeToken<Collection<WhereData>>(){}.getType());
+            if (list == null){
+                return new ArrayList<>();
+            }
+
+            if (list.size() == 0){
+                return new ArrayList<>();
+            }
         }
         return list;
     }
@@ -116,6 +123,14 @@ public class WhereIsData {
             }
         } else {
             List<WhereData> templist = gson.fromJson(new FileSystem().Read(), new TypeToken<Collection<WhereData>>(){}.getType());
+
+            if (templist == null){
+                return new ArrayList<>();
+            }
+
+            if (templist.size() == 0){
+                return new ArrayList<>();
+            }
 
             int i = 0;
             for (WhereData where : templist){
@@ -306,6 +321,10 @@ public class WhereIsData {
             }
         } else {
             List<WhereData> templist = gson.fromJson(new FileSystem().Read(), new TypeToken<Collection<WhereData>>(){}.getType());
+
+            if (templist == null){
+                templist = new ArrayList<>();
+            }
 
             data.setID(NewID());
             templist.add(data);
@@ -554,6 +573,11 @@ public class WhereIsData {
             }
         } else {
             List<WhereData> templist = gson.fromJson(new FileSystem().Read(), new TypeToken<Collection<WhereData>>(){}.getType());
+
+            if (templist == null){
+                return 1;
+            }
+
             return templist.size() + 1;
         }
     }

@@ -141,13 +141,17 @@ public class MessageList {
     }
 
     public String getHereMessage(String LocationName) {
+
         if (LocationName == null){
-            LocationName = NoName;
+            return Here.replaceAll("\\[name\\]",this.NoName);
         }
-        if (LocationName != null && LocationName.length() == 0){
-            LocationName = NoName;
+
+        if (LocationName.length() != 0){
+            return Here.replaceAll("\\[name\\]",LocationName);
+        } else {
+            return Here.replaceAll("\\[name\\]",this.NoName);
         }
-        return Here.replaceAll("\\[name\\]",LocationName);
+
     }
 
     public String getAddSuccessMessage(int StartX, int EndX, int StartZ, int EndZ, String LocationName) {
