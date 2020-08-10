@@ -4,9 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -15,7 +14,6 @@ class CommandUpdate {
     private WhereIsPlugin plugin;
     private String[] args;
     private Player player;
-    DataSystem system;
     MessageList messageList = new MessageList();
     WhereIsData WhereIsAPI;
 
@@ -36,17 +34,22 @@ class CommandUpdate {
 
     public boolean run(){
 
+        int id = -1;
         if (player != null){
-            system = new DataSystem(plugin, player);
-        }else{
-            system = new DataSystem(plugin);
+            id = WhereIsAPI.getWhereDataID(args[1], player.getUniqueId());
+        } else {
+            id = WhereIsAPI.getWhereDataID(args[1], null);
         }
 
-        DataSystemResult result = system.updateData(args[1], args[2]);
+        boolean b = false;
+        if (id != -1){
+            WhereData data = WhereIsAPI.getWhereData(id);
+            b = WhereIsAPI.updateWhereData(id, args[2], data.getUUID(), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
+        }
 
         String msg;
-        if (result.isError()){
-            msg = ChatColor.RED + result.getErrorMessage();
+        if (!b){
+            msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
         }else{
             msg = ChatColor.YELLOW + messageList.getUpdateSuccessMessage(args[1], args[2]);
         }
@@ -56,7 +59,7 @@ class CommandUpdate {
             sender = player;
         }
 
-        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, result.isError());
+        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, !b);
         plugin.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled()){
             sender.sendMessage(msg);

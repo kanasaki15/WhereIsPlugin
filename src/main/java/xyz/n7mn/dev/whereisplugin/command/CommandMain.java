@@ -56,7 +56,7 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
-                    return new CommandWhere(plugin, args, p).run();
+                    return new CommandWhere(plugin, args, p, WhereIsAPI).run();
                 }
 
                 if (args.length == 0){
@@ -77,7 +77,7 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
-                    return new CommandWhere(plugin, args, p).run();
+                    return new CommandWhere(plugin, args, p, WhereIsAPI).run();
                 }
 
                 // /where help
@@ -111,7 +111,7 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
-                    return new CommandAdd(plugin, args, p).run();
+                    return new CommandAdd(plugin, args, p, WhereIsAPI).run();
                 }
 
                 // /where update
@@ -132,7 +132,7 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
-                    return new CommandUpdate(plugin, args, p).run();
+                    return new CommandUpdate(plugin, args, p, WhereIsAPI).run();
                 }
 
                 // /where del
@@ -153,7 +153,7 @@ public class CommandMain implements CommandExecutor {
                             }
                         }
                     }
-                    return new CommandDelete(plugin, args, p).run();
+                    return new CommandDelete(plugin, args, p, WhereIsAPI).run();
                 }
 
                 // /where system
@@ -180,7 +180,7 @@ public class CommandMain implements CommandExecutor {
                         return true;
                     }
 
-                    return new CommandSystem(p).run();
+                    return new CommandSystem(p, WhereIsAPI).run();
                 }
 
                 // /where admin
@@ -207,7 +207,7 @@ public class CommandMain implements CommandExecutor {
                         p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
                         return true;
                     }
-                    return new CommandAdmin(plugin, args, p).run();
+                    return new CommandAdmin(plugin, args, p, WhereIsAPI).run();
                 }
 
                 // /where import
@@ -235,7 +235,7 @@ public class CommandMain implements CommandExecutor {
                         return true;
                     }
 
-                    return new CommandImport(plugin, args, p).run();
+                    return new CommandImport(plugin, args, p, WhereIsAPI).run();
                 }
 
                 if (args.length > 0 && args[0].equals("list")){
@@ -261,7 +261,7 @@ public class CommandMain implements CommandExecutor {
                         return true;
                     }
 
-                    return new CommandList(plugin, p).run();
+                    return new CommandList(plugin, p, WhereIsAPI).run();
                 }
             }
 

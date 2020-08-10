@@ -5,8 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -39,26 +37,25 @@ class CommandAdd {
             return false;
         }
 
-        DataSystemResult systemResult;
+        boolean b;
         if (player != null){
-            systemResult = new DataSystem(plugin, player).addData(args[5], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+            b = WhereIsAPI.addWhereData(args[5], player.getUniqueId(), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), true);
         } else {
-            systemResult = new DataSystem(plugin).addData(args[5], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+            b = WhereIsAPI.addWhereData(args[5], null, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), true);
         }
 
         String msg = ChatColor.YELLOW + new MessageList().getAddSuccessMessage(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]),args[5]);
-        if (systemResult.isError()){
-            msg = ChatColor.RED + systemResult.getErrorMessage();
+        if (!b){
+            msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
         }
 
 
         CommandSender sender = plugin.getServer().getConsoleSender();
-
         if (player != null){
             sender = player;
         }
 
-        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), systemResult.isError());
+        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), !b);
         plugin.getServer().getPluginManager().callEvent(event);
         if (!event.isCancelled()){
             sender.sendMessage(msg);

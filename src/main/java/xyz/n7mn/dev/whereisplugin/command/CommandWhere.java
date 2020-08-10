@@ -1,8 +1,11 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
@@ -40,26 +43,27 @@ class CommandWhere {
             return false;
         }
 
-        if (player == null && args.length != 2){
+        if (player == null && args.length != 4){
             return false;
-        }
-
-        List<DataResult> data;
-        if (player != null){
-            data = new DataSystem(plugin, player).getData(player);
-        } else {
-            data = new DataSystem(plugin).getData(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         }
 
         StringBuffer sb = new StringBuffer();
 
         List<int[]> tempList = new ArrayList<>();
+        List<WhereData> data;
+
+        if (player != null){
+            data = WhereIsAPI.getWhereListByLocation(player.getLocation());
+        } else {
+            data = WhereIsAPI.getWhereListByLocation(new Location(Bukkit.getWorld(args[1]),Integer.parseInt(args[2]), 0, Integer.parseInt(args[3])));
+        }
+
 
         for (int i = 0; i < data.size(); i++){
 
-            int[] temp = {data.get(i).StartX, data.get(i).EndX, data.get(i).StartZ, data.get(i).EndZ};
+            int[] temp = {data.get(i).getStartX(), data.get(i).getEndX(), data.get(i).getStartZ(), data.get(i).getEndZ()};
             tempList.add(temp);
-            sb.append(data.get(i).LocationName);
+            sb.append(data.get(i).getLocationName());
             if (i + 1 < data.size()){
                 sb.append(",");
             }

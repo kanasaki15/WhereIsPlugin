@@ -9,6 +9,7 @@ public class WhereData {
     @SerializedName("Name")
     private String LocationName;
     private UUID UUID;
+    private String WorldName;
     private int StartX;
     private int EndX;
     private int StartZ;
@@ -19,9 +20,10 @@ public class WhereData {
 
     }
 
-    WhereData(int ID, String LocationName, UUID uuid, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
+    WhereData(int ID, String LocationName, UUID uuid, String WorldName, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
         this.ID = ID;
         this.LocationName = LocationName;
+        this.WorldName = WorldName;
         this.UUID = uuid;
         this.StartX = StartX;
         this.EndX = EndX;
@@ -46,11 +48,19 @@ public class WhereData {
         LocationName = locationName;
     }
 
-    public java.util.UUID getUUID() {
+    public String getWorldName(){
+        return WorldName;
+    }
+
+    public void setWorldName(String worldName){
+        this.WorldName = worldName;
+    }
+
+    public UUID getUUID() {
         return UUID;
     }
 
-    public void setUUID(java.util.UUID UUID) {
+    public void setUUID(UUID UUID) {
         this.UUID = UUID;
     }
 

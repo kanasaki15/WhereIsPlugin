@@ -1,9 +1,15 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.FileSystem;
+import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.JSON;
@@ -12,6 +18,7 @@ import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.JsonResult;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 class CommandImport {
@@ -39,6 +46,11 @@ class CommandImport {
 
     public boolean run(){
 
+        CommandSender sender = Bukkit.getConsoleSender();
+        if (player != null){
+            sender = player;
+        }
+
         if (args.length == 1 || (args.length == 2 && args[1].equals("mysql"))){
 
             String filePass = "./" + plugin.getDataFolder().toString() + "/DataList.json";
@@ -47,35 +59,28 @@ class CommandImport {
             }
             File file = new File(filePass);
 
-            CommandSender sender;
-            if (player != null){
-                sender = player;
-            } else {
-                sender = plugin.getServer().getConsoleSender();
-            }
+            String read = new FileSystem().Read(filePass);
 
             if (file.exists()){
-                List<DataResult> list = new JSON(plugin).getAllList();
+                List<WhereData> list = new Gson().fromJson(read, new TypeToken<Collection<WhereData>>(){}.getType());
 
                 if (list.size() == 0){
                     sender.sendMessage(ChatColor.RED + "No Import Data");
                     return true;
                 }
 
-                MySQL mysql = new MySQL(plugin);
-
-                int mysqlId = mysql.getAllList().size();
-
                 sender.sendMessage(ChatColor.YELLOW + "Found "+list.size()+" item.");
 
-                if (mysql.isConnect()){
+                if (WhereIsAPI.getUseSystem().equals("MySQL")){
 
                     sender.sendMessage("Import Start");
                     for (int i = 0; i < list.size(); i++){
 
-                        DataSystemResult result = mysql.addList(new DataResult(mysqlId + (i + 1), list.get(i).LocationName, list.get(i).UUID, list.get(i).StartX, list.get(i).EndX, list.get(i).StartZ, list.get(i).EndZ, list.get(i).Active));
-                        if (result.isError()){
-                            sender.sendMessage(ChatColor.RED + "Import Error : " + result.getErrorMessage());
+                        list.get(i).setID(WhereIsAPI.getDataListByALL().size() + (i + 1));
+
+                        boolean b = WhereIsAPI.addWhereData(list.get(i));
+                        if (!b){
+                            sender.sendMessage(ChatColor.RED + "Import Error : " + WhereIsAPI.getErrorMessage());
                             return true;
                         }
 
@@ -97,43 +102,39 @@ class CommandImport {
         }
 
         if (args.length == 2 && args[1].equals("json")){
-            CommandSender sender;
-            if (player != null){
-                sender = player;
-            } else {
-                sender = plugin.getServer().getConsoleSender();
-            }
 
-            MySQL mysql = new MySQL(plugin);
-            if (!mysql.isConnect()){
+            if (!WhereIsAPI.getUseSystem().equals("MySQL")){
                 sender.sendMessage(ChatColor.RED + "MySQL Server is Not Connect.");
                 return true;
             }
 
-            List<DataResult> list = mysql.getAllList();
+            List<WhereData> list = WhereIsAPI.getDataListByALL();
             if (list.size() == 0){
                 sender.sendMessage(ChatColor.RED + "No Import Data");
                 return true;
             }
 
-            JSON json = new JSON(plugin);
             sender.sendMessage(ChatColor.YELLOW + "Found "+list.size()+" item.");
 
-            int jsonId = json.getAllList().size();
             for (int i = 0; i < list.size(); i++){
 
-                DataSystemResult result = json.addList(new DataResult(jsonId + (i + 1), list.get(i).LocationName, list.get(i).UUID, list.get(i).StartX, list.get(i).EndX, list.get(i).StartZ, list.get(i).EndZ, list.get(i).Active));
-
-                if (result.isError()){
-                    sender.sendMessage(ChatColor.RED + "Import Error : " + result.getErrorMessage());
-                    return true;
-                }
+                list.get(i).setID(WhereIsAPI.getDataListByALL().size() + (i + 1));
 
                 if (!(sender instanceof Player)){
                     sender.sendMessage("Item Import : " + (i + 1) + " / "+list.size());
                 }
             }
 
+            String filePass = "./" + plugin.getDataFolder().toString() + "/DataList.json";
+            if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+                filePass = filePass.replaceAll("/", "\\\\");
+            }
+
+            FileSystem system = new FileSystem();
+            boolean b = system.Write(filePass, new GsonBuilder().setPrettyPrinting().create().toJson(list));
+            if (!b){
+                sender.sendMessage(ChatColor.RED + "Import Error : " + system.getErrorMessage());
+            }
             sender.sendMessage(ChatColor.GREEN + "Import Complete!!");
         }
 

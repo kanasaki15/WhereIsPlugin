@@ -11,7 +11,7 @@ public class FileSystem {
     private final Plugin plugin = Bukkit.getPluginManager().getPlugin("WhereIsPlugin");
     private String ErrorMessage = null;
 
-    String Read(String pass){
+    public String Read(String pass){
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
             pass = pass.replaceAll("/", "\\\\");
         }
@@ -70,7 +70,7 @@ public class FileSystem {
         return Read(pass);
     }
 
-    boolean Write(String pass, String Contents){
+    public boolean Write(String pass, String Contents){
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
             pass = pass.replaceAll("/", "\\\\");
         }
@@ -113,7 +113,7 @@ public class FileSystem {
         return Write(pass, Contents);
     }
 
-    String getErrorMessage(){
+    public String getErrorMessage(){
 
         return ErrorMessage;
     }

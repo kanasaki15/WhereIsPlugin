@@ -35,7 +35,7 @@ class CommandSystem {
 
         msg[0] = ChatColor.YELLOW + "---- WhereIsPlugin SystemInfo ----";
         msg[1] = ChatColor.YELLOW + "Ver : " + plugin.getDescription().getVersion();
-        msg[2] = ChatColor.YELLOW + "Use DataSystem : " + DataSystems.getUseDataSystem();
+        msg[2] = ChatColor.YELLOW + "Use DataSystem : " + WhereIsAPI.getUseSystem() + "(Ver " + WhereIsAPI.getVersion() + ")";
         msg[3] = ChatColor.YELLOW + "Use SpigotAPI Version : " + plugin.getDescription().getAPIVersion();
         if (plugin.getServer().getPluginManager().getPlugin("LuckPerms") != null){
             msg[4] = ChatColor.YELLOW + "Use LuckPerm Mode : True";

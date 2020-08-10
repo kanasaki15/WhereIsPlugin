@@ -4,8 +4,11 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +18,7 @@ import java.util.UUID;
 public class WhereIsData {
     private final Plugin plugin = Bukkit.getPluginManager().getPlugin("WhereIsPlugin");
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final String version = "1.2";
 
     private boolean isMySQL = false;
 
@@ -37,6 +41,8 @@ public class WhereIsData {
         MySQLConnect();
         if (isMySQL){
             MySQLInit();
+        } else {
+            FileInit();
         }
     }
 
@@ -50,6 +56,8 @@ public class WhereIsData {
         MySQLConnect();
         if (isMySQL){
             MySQLInit();
+        }else{
+            FileInit();
         }
     }
 
@@ -62,7 +70,12 @@ public class WhereIsData {
                 boolean b = set.next();
 
                 while(b){
-                    list.add(new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active")));
+                    if (set.getString("CreateUser") != null && set.getString("CreateUser").length() != 0){
+                        list.add(new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active")));
+                    }else{
+                        list.add(new WhereData(set.getInt("ID"), set.getString("Name"), null, set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active")));
+                    }
+
                     b = set.next();
                 }
             } catch (SQLException e) {
@@ -87,7 +100,12 @@ public class WhereIsData {
                 boolean b = set.next();
 
                 while(b){
-                    list.add(new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active")));
+                    if (set.getString("CreateUser") != null && set.getString("CreateUser").length() != 0){
+                        list.add(new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active")));
+                    }else{
+                        list.add(new WhereData(set.getInt("ID"), set.getString("Name"), null, set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active")));
+                    }
+
                     b = set.next();
                 }
             } catch (SQLException throwable) {
@@ -113,6 +131,30 @@ public class WhereIsData {
         return list;
     }
 
+    public List<WhereData> getWhereListByLocation(Location loc){
+        List<WhereData> tempList = new ArrayList<>();
+        List<WhereData> list = getDataListByALL();
+        for (WhereData temp : list){
+            if (temp.isActive()){
+
+                if (!temp.getWorldName().equals(loc.getWorld().getName())){
+                    continue;
+                }
+
+                if (temp.getStartX() <= loc.getBlockX() && loc.getBlockX() <= temp.getEndX() && temp.getStartZ() <= loc.getBlockZ() && loc.getBlockZ() <= temp.getEndZ()){
+                    tempList.add(temp);
+                    continue;
+                }
+
+                if (temp.getStartX() >= loc.getBlockX() && loc.getBlockX() >= temp.getEndX() && temp.getStartZ() >= loc.getBlockZ() && loc.getBlockZ() >= temp.getEndZ()) {
+                    tempList.add(temp);
+                    continue;
+                }
+            }
+        }
+        return tempList;
+    }
+
     public WhereData getWhereData(int id){
         if (isMySQL && con != null){
             try {
@@ -120,7 +162,11 @@ public class WhereIsData {
                 statement.setInt(1, id);
                 ResultSet set = statement.executeQuery();
                 if (set.next()){
-                    return new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
+                    if (set.getString("CreateUser") != null && set.getString("CreateUser").length() != 0){
+                        return new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
+                    } else {
+                        return new WhereData(set.getInt("ID"), set.getString("Name"), null, set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
+                    }
                 }
                 return new WhereData();
             } catch (SQLException throwable) {
@@ -149,7 +195,12 @@ public class WhereIsData {
                 statement.setString(1, name);
                 ResultSet set = statement.executeQuery();
                 if (set.next()){
-                    return new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
+                    if (set.getString("CreateUser") != null && set.getString("CreateUser").length() != 0){
+                        return new WhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
+                    } else {
+                        return new WhereData(set.getInt("ID"), set.getString("Name"), null, set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
+                    }
+
                 }
                 return new WhereData();
             } catch (SQLException throwable) {
@@ -174,7 +225,7 @@ public class WhereIsData {
     public int getWhereDataID(String name){
         if (isMySQL && con != null){
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE Name = ?;");
+                PreparedStatement statement = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ?;");
                 statement.setString(1, name);
                 ResultSet set = statement.executeQuery();
                 if (set.next()){
@@ -202,7 +253,7 @@ public class WhereIsData {
     public int getWhereDataID(String name, UUID uuid){
         if (isMySQL && con != null){
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE Name = ? AND CreateUser = ?;");
+                PreparedStatement statement = con.prepareStatement("SELECT ID FROM WhereList WHERE Name = ? AND CreateUser = ?;");
                 statement.setString(1, name);
                 statement.setString(2, uuid.toString());
                 ResultSet set = statement.executeQuery();
@@ -231,15 +282,20 @@ public class WhereIsData {
     public boolean addWhereData(WhereData data){
         if (isMySQL && con != null){
             try {
-                PreparedStatement statement = con.prepareStatement("INSERT INTO `WhereList` (`ID`, `Name`, `CreateUser`, `startX`, `endX`, `startZ`, `endZ`, `Active`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+                PreparedStatement statement = con.prepareStatement("INSERT INTO `WhereList` (`ID`, `Name`, `CreateUser`, `WorldName`, `startX`, `endX`, `startZ`, `endZ`, `Active`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
                 statement.setInt(1, NewID());
                 statement.setString(2, data.getLocationName());
-                statement.setString(3, data.getUUID().toString());
-                statement.setInt(4, data.getStartX());
-                statement.setInt(5, data.getEndX());
-                statement.setInt(6, data.getStartZ());
-                statement.setInt(7, data.getEndZ());
-                statement.setBoolean(8, data.isActive());
+                if (data.getUUID() != null){
+                    statement.setString(3, data.getUUID().toString());
+                } else {
+                    statement.setString(3, null);
+                }
+                statement.setString(4, data.getWorldName());
+                statement.setInt(5, data.getStartX());
+                statement.setInt(6, data.getEndX());
+                statement.setInt(7, data.getStartZ());
+                statement.setInt(8, data.getEndZ());
+                statement.setBoolean(9, data.isActive());
 
                 return statement.execute();
             } catch (SQLException throwable) {
@@ -262,22 +318,27 @@ public class WhereIsData {
         }
     }
 
-    public boolean addWhereData(String name, UUID CreateUser, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
-        return addWhereData(new WhereData(0, name, CreateUser, StartX, EndX, StartZ, EndZ, Active));
+    public boolean addWhereData(String name, UUID CreateUser, String WorldName, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
+        return addWhereData(new WhereData(0, name, CreateUser, WorldName, StartX, EndX, StartZ, EndZ, Active));
     }
 
     public boolean updateWhereData(WhereData data){
         if (isMySQL && con != null){
             try {
-                PreparedStatement statement = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? , `CreateUser` = ? , `startX` = ? , `endX` = ? , `startZ` = ? , `endZ` = ? , `Active` = ?  WHERE `WhereList`.`ID` = ? ");
+                PreparedStatement statement = con.prepareStatement("UPDATE `WhereList` SET `Name` = ? , `CreateUser` = ? , `WorldName` = ? , `startX` = ? , `endX` = ? , `startZ` = ? , `endZ` = ? , `Active` = ?  WHERE `WhereList`.`ID` = ? ");
                 statement.setString(1, data.getLocationName());
-                statement.setString(2, data.getUUID().toString());
-                statement.setInt(3, data.getStartX());
-                statement.setInt(4, data.getEndX());
-                statement.setInt(5, data.getStartZ());
-                statement.setInt(6, data.getEndZ());
-                statement.setBoolean(7, data.isActive());
-                statement.setInt(8, data.getID());
+                if (data.getUUID() != null){
+                    statement.setString(2, data.getUUID().toString());
+                } else {
+                    statement.setString(2, null);
+                }
+                statement.setString(3, data.getWorldName());
+                statement.setInt(4, data.getStartX());
+                statement.setInt(5, data.getEndX());
+                statement.setInt(6, data.getStartZ());
+                statement.setInt(7, data.getEndZ());
+                statement.setBoolean(8, data.isActive());
+                statement.setInt(9, data.getID());
 
                 return statement.execute();
             } catch (SQLException throwable) {
@@ -294,6 +355,7 @@ public class WhereIsData {
                 if (temp.getID() == data.getID()){
                     templist.get(i).setLocationName(data.getLocationName());
                     templist.get(i).setUUID(data.getUUID());
+                    templist.get(i).setWorldName(data.getWorldName());
                     templist.get(i).setStartX(data.getStartX());
                     templist.get(i).setEndX(data.getEndX());
                     templist.get(i).setStartZ(data.getStartZ());
@@ -313,8 +375,8 @@ public class WhereIsData {
         }
     }
 
-    public boolean updateWhereData(int id, String name, UUID CreateUser, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
-        return updateWhereData(new WhereData(id, name, CreateUser, StartX, EndX, StartZ, EndZ, Active));
+    public boolean updateWhereData(int id, String name, UUID CreateUser, String WorldName, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
+        return updateWhereData(new WhereData(id, name, CreateUser, WorldName, StartX, EndX, StartZ, EndZ, Active));
     }
 
     public boolean deleteWhereData(int id){
@@ -345,7 +407,7 @@ public class WhereIsData {
     }
 
     public String getVersion(){
-        return plugin.getDescription().getVersion();
+        return version;
     }
 
     public void Close(){
@@ -380,6 +442,7 @@ public class WhereIsData {
                             "  `ID` int NOT NULL,\n" +
                             "  `Name` varchar(255) COLLATE utf8mb4_ja_0900_as_cs_ks DEFAULT NULL,\n" +
                             "  `CreateUser` varchar(255) COLLATE utf8mb4_ja_0900_as_cs_ks DEFAULT NULL,\n" +
+                            "  `WorldName` varchar(255) COLLATE utf8mb4_ja_0900_as_cs_ks DEFAULT NULL,\n" +
                             "  `startX` int DEFAULT NULL,\n" +
                             "  `endX` int DEFAULT NULL,\n" +
                             "  `startZ` int DEFAULT NULL,\n" +
@@ -387,6 +450,14 @@ public class WhereIsData {
                             "  `Active` tinyint(1) DEFAULT NULL\n" +
                             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_ja_0900_as_cs_ks;").execute();
                     con.prepareStatement("ALTER TABLE `WhereList` ADD PRIMARY KEY (`ID`);").execute();
+                } else {
+                    if (con.prepareStatement("SELECT COUNT(*) FROM WhereList;").executeQuery().next()){
+                        try {
+                            con.prepareStatement("SELECT WorldName FROM WhereList;").execute();
+                        } catch (SQLException throwable) {
+                            MySQLAutoImport();
+                        }
+                    }
                 }
                 isMySQL = true;
             } catch (SQLException throwable) {
@@ -411,6 +482,55 @@ public class WhereIsData {
         con = null;
     }
 
+    private void MySQLAutoImport(){
+        List<World> worlds = Bukkit.getServer().getWorlds();
+        String worldname = worlds.get(0).getName();
+
+        List<WhereData> list = getDataListByALL();
+
+        try {
+            con.prepareStatement("DROP TABLE `WhereList`;").execute();
+        } catch (SQLException throwable) {
+            ErrorMessage = throwable.getMessage();
+            MySQLConnectClose();
+            isMySQL = false;
+        }
+
+        MySQLInit();
+
+        for (WhereData data : list){
+            data.setWorldName(worldname);
+            if (!addWhereData(data)){
+                MySQLConnectClose();
+                isMySQL = false;
+            }
+        }
+    }
+
+    private void FileInit(){
+        String pass = "./" + plugin.getDataFolder().toString() + "/DataList.json";
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")){
+            pass = pass.replaceAll("/", "\\\\");
+        }
+
+        if (new File(pass).exists()){
+            List<WhereData> list = new Gson().fromJson(new FileSystem().Read(pass), new TypeToken<Collection<WhereData>>(){}.getType());
+
+            if (list.size() > 0){
+                if (list.get(0).getWorldName() == null || (list.get(0).getWorldName() != null && list.get(0).getWorldName().length() == 0)){
+
+                    List<WhereData> temp = new ArrayList<>();
+                    for (WhereData w : list){
+                        w.setWorldName(Bukkit.getServer().getWorlds().get(0).getName());
+                        temp.add(w);
+                    }
+
+                    new FileSystem().Write(pass, new GsonBuilder().setPrettyPrinting().create().toJson(temp));
+                }
+            }
+        }
+    }
+
     private int NewID(){
         if (isMySQL && con != null){
             try {
@@ -431,4 +551,5 @@ public class WhereIsData {
             return templist.size() + 1;
         }
     }
+
 }

@@ -4,11 +4,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,19 +36,24 @@ public class CommandList {
 
     public boolean run(){
 
-        DataSystem dataSystem;
         CommandSender sender = plugin.getServer().getConsoleSender();
         if (player != null){
-            dataSystem = new DataSystem(plugin, player);
             sender = player;
         } else {
             sender.sendMessage(ChatColor.RED + "Use /where admin list");
             return true;
         }
 
-        List<DataResult> list = dataSystem.getDataAllList();
+
+        List<WhereData> list = new ArrayList<>();
+        if (player != null){
+            list = WhereIsAPI.getDataListByUser(player.getUniqueId());
+        } else {
+            list = WhereIsAPI.getDataListByALL();
+        }
+
         for (int i = 0; i < list.size(); i++){
-            if (list.get(i).Active && list.get(i).UUID.toString().equals(player.getUniqueId().toString())){
+            if (list.get(i).isActive() && list.get(i).getUUID().equals(player.getUniqueId())){
                 continue;
             }
 
@@ -63,8 +70,8 @@ public class CommandList {
             if (i < 0) {
                 break;
             }
-            sender.sendMessage(ChatColor.YELLOW + "Name: "+list.get(i).LocationName+" Active: "+list.get(i).Active);
-            sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i).StartX+" EndX: "+list.get(i).EndX+" StartZ: "+list.get(i).StartZ+" EndZ: "+list.get(i).EndZ);
+            sender.sendMessage(ChatColor.YELLOW + "Name: "+list.get(i).getLocationName()+" Active: "+list.get(i).isActive());
+            sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i).getStartX()+" EndX: "+list.get(i).getEndX()+" StartZ: "+list.get(i).getStartZ()+" EndZ: "+list.get(i).getEndZ());
         }
 
 

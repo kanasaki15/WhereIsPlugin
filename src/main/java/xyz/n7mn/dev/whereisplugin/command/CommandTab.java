@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
@@ -83,41 +84,23 @@ public class CommandTab implements TabExecutor {
         }
 
         if (args.length == 2 && args[0].equals("del")){
-            DataSystem system;
-            if (player != null){
-                system = new DataSystem(plugin,player);
-            }else{
-                system = new DataSystem(plugin);
-            }
-            List<DataResult> dataList = system.getDataAllList();
+            List<WhereData> dataList = WhereIsAPI.getDataListByALL();
             for (int i = 0; i < dataList.size(); i++){
-                list.add(dataList.get(i).LocationName);
+                list.add(dataList.get(i).getLocationName());
             }
         }
 
         if (args.length == 2 && args[0].equals("update")){
-            DataSystem system;
-            if (player != null){
-                system = new DataSystem(plugin,player);
-            }else{
-                system = new DataSystem(plugin);
-            }
-            List<DataResult> dataList = system.getDataAllList();
+            List<WhereData> dataList = WhereIsAPI.getDataListByALL();
             for (int i = 0; i < dataList.size(); i++){
-                list.add(dataList.get(i).LocationName);
+                list.add(dataList.get(i).getLocationName());
             }
         }
 
         if (args.length == 3 && args[0].equals("update")){
-            DataSystem system;
-            if (player != null){
-                system = new DataSystem(plugin,player);
-            }else{
-                system = new DataSystem(plugin);
-            }
-            List<DataResult> dataList = system.getDataAllList();
+            List<WhereData> dataList = WhereIsAPI.getDataListByALL();
             for (int i = 0; i < dataList.size(); i++){
-                list.add(dataList.get(i).LocationName);
+                list.add(dataList.get(i).getLocationName());
             }
         }
 

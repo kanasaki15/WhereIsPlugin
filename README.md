@@ -11,7 +11,7 @@ MySQL 5.6以降のMySQLサーバー(必須ではない)
 
 ## 簡易コマンド説明
 <pre>
-/where                            -- 今いる位置を取得
+/where                            -- 今いる位置を取得 (コンソール上では「/where [worldname] [x] [z]」※1.2以降)
 /where add [name] [x] [z] [x] [z] -- 指定した範囲の名前を設定
 /where del [name]                 -- 指定した設定されている名前を解除する
 /where update [OldName] [NewName] -- 指定した今までの名前から新しい名前にする

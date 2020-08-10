@@ -4,10 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
-import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -18,7 +16,6 @@ class CommandAdmin {
     private WhereIsPlugin plugin;
     private String[] args;
     private Player player;
-    private DataSystem system;
     private WhereIsData WhereIsAPI;
 
     @Deprecated
@@ -26,12 +23,6 @@ class CommandAdmin {
         this.plugin = p;
         this.args = args;
         this.player = player;
-
-        if (player != null){
-            system = new DataSystem(p, player);
-        }else{
-            system = new DataSystem(p);
-        }
         this.WhereIsAPI = new WhereIsData();
     }
 
@@ -39,12 +30,6 @@ class CommandAdmin {
         this.plugin = p;
         this.args = args;
         this.player = player;
-
-        if (player != null){
-            system = new DataSystem(p, player);
-        }else{
-            system = new DataSystem(p);
-        }
         this.WhereIsAPI = api;
     }
 
@@ -53,7 +38,7 @@ class CommandAdmin {
         if ((args.length == 2 || args.length == 3) && args[1].equals("list")){
 
             CommandSender sender = null;
-            List<DataResult> list = system.getDataAllList();
+            List<WhereData> list = WhereIsAPI.getDataListByALL();
 
             int pageCount = 5;
 
@@ -61,7 +46,7 @@ class CommandAdmin {
                 pageCount = list.size();
                 sender = plugin.getServer().getConsoleSender();
             }else{
-                sender = (CommandSender) player;
+                sender = (CommandSender)player;
             }
             int pageMaxCount = list.size() / pageCount;
             if (pageMaxCount < 1){ pageMaxCount = 1; }
@@ -85,50 +70,48 @@ class CommandAdmin {
 
                 String UserName = "Unknown";
 
-                if (list.get(i - 1).UUID != null){
-                    UserName = plugin.getServer().getPlayer(list.get(i - 1).UUID).getName();
+                if (list.get(i - 1).getUUID() != null){
+                    UserName = plugin.getServer().getPlayer(list.get(i - 1).getUUID()).getName();
                 }
 
-                if (list.get(i - 1).UUID != null && UserName.equals("Unknown")){
-                    UserName = plugin.getServer().getOfflinePlayer(list.get(i - 1).UUID).getName();
+                if (list.get(i - 1).getUUID() != null && UserName.equals("Unknown")){
+                    UserName = plugin.getServer().getOfflinePlayer(list.get(i - 1).getUUID()).getName();
                 }
 
-                if (list.get(i - 1).UUID != null && UserName.equals("Unknown")) {
-                    UserName = "Unknown (UUID : " + list.get(i - 1).UUID + ")";
+                if (list.get(i - 1).getUUID() != null && UserName.equals("Unknown")) {
+                    UserName = "Unknown (UUID : " + list.get(i - 1).getUUID() + ")";
                 }
 
-                sender.sendMessage(ChatColor.YELLOW + "ID: "+list.get(i - 1).ID+" Name: "+list.get(i - 1).LocationName+" CreateUser: "+UserName + " Active: "+list.get(i - 1).Active);
-                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).StartX+" EndX: "+list.get(i - 1).EndX+" StartZ: "+list.get(i - 1).StartZ+" EndZ: "+list.get(i - 1).EndZ);
+                if (list.get(i - 1).getUUID() == null){
+                    UserName = "Console";
+                }
+
+                sender.sendMessage(ChatColor.YELLOW + "ID: "+list.get(i - 1).getID()+" Name: "+list.get(i - 1).getLocationName()+" CreateUser: "+UserName + " Active: "+list.get(i - 1).isActive());
+                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).getStartX()+" EndX: "+list.get(i - 1).getEndX()+" StartZ: "+list.get(i - 1).getStartZ()+" EndZ: "+list.get(i - 1).getEndZ());
                 sender.sendMessage(ChatColor.YELLOW + "----");
             }
         }
 
         if (args.length == 3 && args[1].equals("del")){
 
-            List<DataResult> list = system.getDataAllList();
-            for (int i = 0; i < list.size(); i++){
-
-                if (list.get(i).ID == Integer.parseInt(args[2])){
-                    DataSystemResult result = new DataSystem(plugin).delData(list.get(i).ID);
-                    String msg = ChatColor.YELLOW + new MessageList().getDelSuccess(list.get(i).LocationName);
-                    if (result.isError()){
-                        msg = ChatColor.RED + result.getErrorMessage();
-                    }
-
-                    CommandSender sender = plugin.getServer().getConsoleSender();
-                    if (player != null){
-                        sender = player;
-                    }
-
-                    WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, result.isError());
-                    plugin.getServer().getPluginManager().callEvent(event);
-                    if (!event.isCancelled()){
-                        sender.sendMessage(msg);
-                    }
-
-                    return true;
-                }
+            WhereData whereData = WhereIsAPI.getWhereData(Integer.parseInt(args[2]));
+            boolean b = WhereIsAPI.deleteWhereData(Integer.parseInt(args[2]));
+            String msg = ChatColor.YELLOW + new MessageList().getDelSuccess(whereData.getLocationName());
+            if (!b){
+                msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
             }
+
+            CommandSender sender = plugin.getServer().getConsoleSender();
+            if (player != null){
+                sender = player;
+            }
+
+            WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, !b);
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (!event.isCancelled()){
+                sender.sendMessage(msg);
+            }
+
         }
 
         return true;

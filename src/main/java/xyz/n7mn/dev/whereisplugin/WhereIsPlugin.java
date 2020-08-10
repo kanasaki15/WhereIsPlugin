@@ -7,6 +7,7 @@ import xyz.n7mn.dev.whereisplugin.command.CommandMain;
 import xyz.n7mn.dev.whereisplugin.command.CommandTab;
 
 public final class WhereIsPlugin extends JavaPlugin {
+    WhereIsData WhereIsAPI = null;
 
     @Override
     public void onEnable() {
@@ -14,9 +15,9 @@ public final class WhereIsPlugin extends JavaPlugin {
         saveDefaultConfig();
         // getServer().getPluginManager().registerEvents(new WhereisEventListener(), this);
 
-        WhereIsData WhereIsAPI = new WhereIsData();
-        getCommand("where").setExecutor(new CommandMain(this));
-        getCommand("where").setTabCompleter(new CommandTab(this));
+        WhereIsAPI = new WhereIsData();
+        getCommand("where").setExecutor(new CommandMain(this, WhereIsAPI));
+        getCommand("where").setTabCompleter(new CommandTab(this, WhereIsAPI));
 
         if (getServer().getPluginManager().getPlugin("LuckPerms") != null){
             getLogger().info("Use LuckPerm Mode");
@@ -31,5 +32,8 @@ public final class WhereIsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        if (WhereIsAPI != null){
+            WhereIsAPI.Close();
+        }
     }
 }
