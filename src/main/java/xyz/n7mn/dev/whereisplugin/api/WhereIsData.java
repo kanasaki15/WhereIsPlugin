@@ -480,6 +480,8 @@ public class WhereIsData {
                         try {
                             con.prepareStatement("SELECT WorldName FROM WhereList;").execute();
                         } catch (SQLException throwable) {
+                            con.close();
+                            con = null;
                             MySQLAutoImport();
                         }
                     }
@@ -511,16 +513,48 @@ public class WhereIsData {
         List<World> worlds = Bukkit.getServer().getWorlds();
         String worldname = worlds.get(0).getName();
 
-        List<WhereData> list = getDataListByALL();
-
+        List<WhereData> list = new ArrayList<>();
         try {
+            con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + MySQLOption, MySQLUsername, MySQLPassword);
+
+            ResultSet resultSet = con.prepareStatement("SELECT * FROM WhereList;").executeQuery();
+            while (resultSet.next()){
+
+                if (resultSet.getString("CreateUser") == null || (resultSet.getString("CreateUser") != null && resultSet.getString("CreateUser").length() != 0)){
+                    list.add(new WhereData(resultSet.getInt("ID"), resultSet.getString("Name"), UUID.fromString(resultSet.getString("CreateUser")), worldname, resultSet.getInt("startX"), resultSet.getInt("endX"), resultSet.getInt("startZ"), resultSet.getInt("endZ"), resultSet.getBoolean("Active")));
+                } else {
+                    list.add(new WhereData(resultSet.getInt("ID"), resultSet.getString("Name"), null, worldname, resultSet.getInt("startX"), resultSet.getInt("endX"), resultSet.getInt("startZ"), resultSet.getInt("endZ"), resultSet.getBoolean("Active")));
+                }
+
+            }
+
             con.prepareStatement("DROP TABLE `WhereList`;").execute();
+
+            con.prepareStatement("CREATE TABLE `WhereList` (\n" +
+                    "  `ID` int NOT NULL,\n" +
+                    "  `Name` varchar(255) COLLATE utf8mb4_ja_0900_as_cs_ks DEFAULT NULL,\n" +
+                    "  `CreateUser` varchar(255) COLLATE utf8mb4_ja_0900_as_cs_ks DEFAULT NULL,\n" +
+                    "  `WorldName` varchar(255) COLLATE utf8mb4_ja_0900_as_cs_ks DEFAULT NULL,\n" +
+                    "  `startX` int DEFAULT NULL,\n" +
+                    "  `endX` int DEFAULT NULL,\n" +
+                    "  `startZ` int DEFAULT NULL,\n" +
+                    "  `endZ` int DEFAULT NULL,\n" +
+                    "  `Active` tinyint(1) DEFAULT NULL\n" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_ja_0900_as_cs_ks;").execute();
+            con.prepareStatement("ALTER TABLE `WhereList` ADD PRIMARY KEY (`ID`);").execute();
+
+            for (WhereData data : list){
+                addWhereData(data);
+            }
+
         } catch (SQLException throwable) {
+            throwable.printStackTrace();
             ErrorMessage = throwable.getMessage();
             MySQLConnectClose();
             isMySQL = false;
         }
 
+        /*
         MySQLInit();
 
         for (WhereData data : list){
@@ -529,7 +563,7 @@ public class WhereIsData {
                 MySQLConnectClose();
                 isMySQL = false;
             }
-        }
+        }*/
     }
 
     private void FileInit(){
