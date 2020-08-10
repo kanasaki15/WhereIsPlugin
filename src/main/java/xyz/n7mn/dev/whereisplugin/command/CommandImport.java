@@ -11,11 +11,6 @@ import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.api.FileSystem;
 import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
-import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
-import xyz.n7mn.dev.whereisplugin.dataSystem.JSON;
-import xyz.n7mn.dev.whereisplugin.dataSystem.MySQL;
-import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
-import xyz.n7mn.dev.whereisplugin.dataSystem.Result.JsonResult;
 
 import java.io.File;
 import java.util.Collection;

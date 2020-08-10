@@ -33,15 +33,15 @@ class CommandAdd {
 
     public boolean run(){
 
-        if (args.length != 6){
+        if (args.length == 6 || args.length == 7){
             return false;
         }
 
         boolean b;
         if (player != null){
-            b = WhereIsAPI.addWhereData(args[5], player.getUniqueId(), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), true);
+            b = WhereIsAPI.addWhereData(args[5], player.getUniqueId(), player.getLocation().getWorld().getName(), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), true);
         } else {
-            b = WhereIsAPI.addWhereData(args[5], null, Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), true);
+            b = WhereIsAPI.addWhereData(args[6], null, args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), true);
         }
 
         String msg = ChatColor.YELLOW + new MessageList().getAddSuccessMessage(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]),args[5]);

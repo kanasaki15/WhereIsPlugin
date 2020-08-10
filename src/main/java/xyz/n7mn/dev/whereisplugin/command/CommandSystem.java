@@ -6,7 +6,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
-import xyz.n7mn.dev.whereisplugin.function.DataSystems;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
 class CommandSystem {

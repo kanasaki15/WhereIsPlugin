@@ -44,7 +44,7 @@ class CommandUpdate {
         boolean b = false;
         if (id != -1){
             WhereData data = WhereIsAPI.getWhereData(id);
-            b = WhereIsAPI.updateWhereData(id, args[2], data.getUUID(), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
+            b = WhereIsAPI.updateWhereData(id, args[2], data.getUUID(), data.getWorldName(), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
         }
 
         String msg;
