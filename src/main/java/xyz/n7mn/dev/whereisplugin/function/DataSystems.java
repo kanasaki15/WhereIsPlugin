@@ -6,6 +6,7 @@ import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
 import xyz.n7mn.dev.whereisplugin.dataSystem.JSON;
 import xyz.n7mn.dev.whereisplugin.dataSystem.MySQL;
 
+@Deprecated
 public class DataSystems {
     private DataSystems(){
 

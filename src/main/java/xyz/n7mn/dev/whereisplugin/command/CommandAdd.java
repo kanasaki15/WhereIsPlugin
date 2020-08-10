@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
@@ -15,11 +16,21 @@ class CommandAdd {
     private String[] args;
     private Player player;
     private final MessageList messageList = new MessageList();
+    private WhereIsData WhereIsAPI;
 
+    @Deprecated
     public CommandAdd(WhereIsPlugin p, String[] args, Player player) {
         this.plugin = p;
         this.args = args;
         this.player = player;
+        this.WhereIsAPI = new WhereIsData();
+    }
+
+    public CommandAdd(WhereIsPlugin p, String[] args, Player player, WhereIsData api) {
+        this.plugin = p;
+        this.args = args;
+        this.player = player;
+        this.WhereIsAPI = api;
     }
 
     public boolean run(){

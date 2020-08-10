@@ -9,6 +9,7 @@ import xyz.n7mn.dev.whereisplugin.function.DataSystems;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public class DataSystem {
 
     private DataSystemInterface data;

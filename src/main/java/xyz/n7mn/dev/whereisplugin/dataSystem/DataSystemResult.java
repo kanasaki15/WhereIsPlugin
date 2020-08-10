@@ -1,5 +1,6 @@
 package xyz.n7mn.dev.whereisplugin.dataSystem;
 
+@Deprecated
 public class DataSystemResult {
 
     private String ErrorMessage;

@@ -7,6 +7,7 @@ import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public interface DataSystemInterface {
 
     List<DataResult> getAllList();

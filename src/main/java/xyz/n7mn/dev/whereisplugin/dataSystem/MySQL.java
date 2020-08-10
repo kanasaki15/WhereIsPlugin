@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public class MySQL implements DataSystemInterface {
     final private String version = "1.1";
     final private String systemName = "MySQL";

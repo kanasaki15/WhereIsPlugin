@@ -2,6 +2,7 @@ package xyz.n7mn.dev.whereisplugin.dataSystem.Result;
 
 import java.util.UUID;
 
+@Deprecated
 public class DataResult {
     public int ID;
     public String LocationName;

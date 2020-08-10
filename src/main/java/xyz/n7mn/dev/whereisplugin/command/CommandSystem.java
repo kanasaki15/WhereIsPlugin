@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.function.DataSystems;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -13,12 +14,19 @@ class CommandSystem {
     private Player player;
     private ConsoleCommandSender sender = Bukkit.getConsoleSender();
     private Plugin plugin = Bukkit.getPluginManager().getPlugin("WhereIsPlugin");
+    private WhereIsData WhereIsAPI;
 
     private MessageList lnMsg = new MessageList();
 
+    @Deprecated
     public CommandSystem(Player player) {
-
         this.player = player;
+        this.WhereIsAPI = new WhereIsData();
+    }
+
+    public CommandSystem(Player player, WhereIsData api){
+        this.player = player;
+        this.WhereIsAPI = api;
     }
 
     public boolean run(){

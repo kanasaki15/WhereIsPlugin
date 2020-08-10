@@ -9,6 +9,7 @@ import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 
 import java.util.List;
 
+@Deprecated
 public class WhereIsDataGet {
 
     private final Plugin plugin = Bukkit.getPluginManager().getPlugin("WhereIsPlugin");

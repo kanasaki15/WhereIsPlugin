@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.event.WhereisExecuteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -14,9 +15,17 @@ public class CommandMain implements CommandExecutor {
 
     WhereIsPlugin plugin;
     Player p = null;
+    WhereIsData WhereIsAPI;
 
+    @Deprecated
     public CommandMain(WhereIsPlugin p){
-        plugin = p;
+        this.plugin = p;
+        this.WhereIsAPI = new WhereIsData();
+    }
+
+    public CommandMain(WhereIsPlugin p, WhereIsData api){
+        this.plugin = p;
+        this.WhereIsAPI = api;
     }
 
     @Override

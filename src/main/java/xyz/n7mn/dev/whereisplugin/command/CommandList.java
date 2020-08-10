@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
@@ -16,9 +17,19 @@ public class CommandList {
     private String[] args;
     private Player player;
 
+    private WhereIsData WhereIsAPI;
+
+    @Deprecated
     public CommandList(WhereIsPlugin p, Player player) {
         this.plugin = p;
         this.player = player;
+        this.WhereIsAPI = new WhereIsData();
+    }
+
+    public CommandList(WhereIsPlugin p, Player player, WhereIsData api) {
+        this.plugin = p;
+        this.player = player;
+        this.WhereIsAPI = api;
     }
 
     public boolean run(){

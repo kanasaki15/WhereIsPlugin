@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public class JSON implements DataSystemInterface {
 
     final private String version = "1.1";

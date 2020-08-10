@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystemResult;
@@ -18,7 +19,9 @@ class CommandAdmin {
     private String[] args;
     private Player player;
     private DataSystem system;
+    private WhereIsData WhereIsAPI;
 
+    @Deprecated
     public CommandAdmin(WhereIsPlugin p, String[] args, Player player) {
         this.plugin = p;
         this.args = args;
@@ -29,7 +32,20 @@ class CommandAdmin {
         }else{
             system = new DataSystem(p);
         }
+        this.WhereIsAPI = new WhereIsData();
+    }
 
+    public CommandAdmin(WhereIsPlugin p, String[] args, Player player, WhereIsData api) {
+        this.plugin = p;
+        this.args = args;
+        this.player = player;
+
+        if (player != null){
+            system = new DataSystem(p, player);
+        }else{
+            system = new DataSystem(p);
+        }
+        this.WhereIsAPI = api;
     }
 
     public boolean run(){

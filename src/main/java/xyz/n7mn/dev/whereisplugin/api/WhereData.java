@@ -1,22 +1,28 @@
-package xyz.n7mn.dev.whereisplugin.dataSystem.Result;
+package xyz.n7mn.dev.whereisplugin.api;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.UUID;
 
-@Deprecated
-public class JsonResult {
+public class WhereData {
     private int ID;
-    private String Name;
-    private UUID uuid;
+    @SerializedName("Name")
+    private String LocationName;
+    private UUID UUID;
     private int StartX;
     private int EndX;
     private int StartZ;
     private int EndZ;
     private boolean Active;
 
-    public JsonResult(int ID, String Name, UUID uuid, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
+    WhereData(){
+
+    }
+
+    WhereData(int ID, String LocationName, UUID uuid, int StartX, int EndX, int StartZ, int EndZ, boolean Active){
         this.ID = ID;
-        this.Name = Name;
-        this.uuid = uuid;
+        this.LocationName = LocationName;
+        this.UUID = uuid;
         this.StartX = StartX;
         this.EndX = EndX;
         this.StartZ = StartZ;
@@ -32,16 +38,20 @@ public class JsonResult {
         this.ID = ID;
     }
 
-    public String getName() {
-        return Name;
+    public String getLocationName() {
+        return LocationName;
     }
 
-    public String getLocationName(){
-        return Name;
+    public void setLocationName(String locationName) {
+        LocationName = locationName;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public java.util.UUID getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(java.util.UUID UUID) {
+        this.UUID = UUID;
     }
 
     public int getStartX() {
@@ -82,13 +92,5 @@ public class JsonResult {
 
     public void setActive(boolean active) {
         Active = active;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 }

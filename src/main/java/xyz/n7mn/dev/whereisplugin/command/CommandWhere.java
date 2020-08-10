@@ -3,6 +3,7 @@ package xyz.n7mn.dev.whereisplugin.command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
 import xyz.n7mn.dev.whereisplugin.dataSystem.Result.DataResult;
 import xyz.n7mn.dev.whereisplugin.dataSystem.DataSystem;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
@@ -16,11 +17,21 @@ class CommandWhere {
     private WhereIsPlugin plugin;
     private String[] args;
     private Player player;
+    private WhereIsData WhereIsAPI;
 
+    @Deprecated
     public CommandWhere(WhereIsPlugin p, String[] args, Player player) {
         this.plugin = p;
         this.args = args;
         this.player = player;
+        this.WhereIsAPI = new WhereIsData();
+    }
+
+    public CommandWhere(WhereIsPlugin p, String[] args, Player player, WhereIsData api) {
+        this.plugin = p;
+        this.args = args;
+        this.player = player;
+        this.WhereIsAPI = api;
     }
 
     public boolean run(){
