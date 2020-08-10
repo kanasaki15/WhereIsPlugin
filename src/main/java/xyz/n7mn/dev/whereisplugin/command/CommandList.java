@@ -62,7 +62,7 @@ public class CommandList {
                 break;
             }
             sender.sendMessage(ChatColor.YELLOW + "Name: "+list.get(i).getLocationName()+" Active: "+list.get(i).isActive());
-            sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i).getStartX()+" EndX: "+list.get(i).getEndX()+" StartZ: "+list.get(i).getStartZ()+" EndZ: "+list.get(i).getEndZ());
+            sender.sendMessage(ChatColor.YELLOW + "WorldName: " + list.get(i).getWorldName() + " StartX: "+list.get(i).getStartX()+" EndX: "+list.get(i).getEndX()+" StartZ: "+list.get(i).getStartZ()+" EndZ: "+list.get(i).getEndZ());
         }
 
 

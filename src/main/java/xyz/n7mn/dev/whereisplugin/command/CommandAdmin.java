@@ -79,7 +79,7 @@ class CommandAdmin {
                 }
 
                 sender.sendMessage(ChatColor.YELLOW + "ID: "+list.get(i - 1).getID()+" Name: "+list.get(i - 1).getLocationName()+" CreateUser: "+UserName + " Active: "+list.get(i - 1).isActive());
-                sender.sendMessage(ChatColor.YELLOW + "StartX: "+list.get(i - 1).getStartX()+" EndX: "+list.get(i - 1).getEndX()+" StartZ: "+list.get(i - 1).getStartZ()+" EndZ: "+list.get(i - 1).getEndZ());
+                sender.sendMessage(ChatColor.YELLOW + "WorldName: " + list.get(i - 1).getWorldName() + " StartX: "+list.get(i - 1).getStartX()+" EndX: "+list.get(i - 1).getEndX()+" StartZ: "+list.get(i - 1).getStartZ()+" EndZ: "+list.get(i - 1).getEndZ());
                 sender.sendMessage(ChatColor.YELLOW + "----");
             }
         }

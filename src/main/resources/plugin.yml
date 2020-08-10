@@ -3,7 +3,6 @@ version: @version@
 main: xyz.n7mn.dev.whereisplugin.WhereIsPlugin
 softdepend: [LuckPerms]
 api-version: 1.15
-load: STARTUP
 authors: [n3m_]
 description: Where am I?
 website: https://n7mn.xyz/
