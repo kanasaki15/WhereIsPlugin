@@ -63,14 +63,38 @@ public class CommandMarker {
                             sender.sendMessage(event.getMessage());
                         }
                     } else {
-                        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.RED + messageList.getDynmapAddError(), false);
+                        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.RED + messageList.getDynmapAddError(), true);
                         plugin.getServer().getPluginManager().callEvent(event);
                         if (!event.isCancelled()){
                             sender.sendMessage(event.getMessage());
                         }
                     }
 
-                } else {
+                    return true;
+                }
+
+                if (args[1].equals("hide")) {
+                    int id = -1;
+                    if (player != null){
+                        id = WhereIsAPI.getWhereDataID(args[2], player.getUniqueId());
+                    } else {
+                        id = WhereIsAPI.getWhereDataID(args[2], player.getUniqueId());
+                    }
+
+                    if (id != -1 && WhereIsDynmapAPI.delMarker(id)){
+                        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.GREEN + messageList.getDynmapDeleteSuccess(), false);
+                        plugin.getServer().getPluginManager().callEvent(event);
+                        if (!event.isCancelled()){
+                            sender.sendMessage(event.getMessage());
+                        }
+                    } else {
+                        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.RED + messageList.getDynmapDeleteError(), true);
+                        plugin.getServer().getPluginManager().callEvent(event);
+                        if (!event.isCancelled()){
+                            sender.sendMessage(event.getMessage());
+                        }
+                    }
+
                     return true;
                 }
             }
