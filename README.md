@@ -11,15 +11,16 @@ MySQL 5.6以降のMySQLサーバー(必須ではない)
 
 ## 簡易コマンド説明
 <pre>
-/where                            -- 今いる位置を取得 (コンソール上では「/where [worldname] [x] [z]」※1.2以降)
-/where add [name] [x] [z] [x] [z] -- 指定した範囲の名前を設定 (コンソール上では「/where add [worldname] [name] [x] [z] [x] [z]」※1.2以降)
-/where del [name]                 -- 指定した設定されている名前を解除する
-/where update [OldName] [NewName] -- 指定した今までの名前から新しい名前にする
-/where help                       -- コマンドヘルプ
-/where list                       -- 自分が追加した場所の一覧を表示(最新5件、Ver 1.1～)
-/where system                     -- プラグインの動作状態 (要OP権限 or whereis.systemパーミッション所持)
-/where admin [list or del] [id]   -- 登録されている一覧を表示 または 指定したIDのものを削除 (要OP権限 or whereis.adminパーミッション所持)
-/where import                     -- MySQLへのインポート または ファイルへのインポート (Ver 1.1～、要OP権限 or whereis.adminパーミッション所持)
+/where                              -- 今いる位置を取得 (コンソール上では「/where [worldname] [x] [z]」※1.2以降)
+/where add [name] [x] [z] [x] [z]   -- 指定した範囲の名前を設定 (コンソール上では「/where add [worldname] [name] [x] [z] [x] [z]」※1.2以降)
+/where del [name]                   -- 指定した設定されている名前を解除する
+/where update [OldName] [NewName]   -- 指定した今までの名前から新しい名前にする
+/where help                         -- コマンドヘルプ
+/where list                         -- 自分が追加した場所の一覧を表示(最新5件、Ver 1.1～)
+/where system                       -- プラグインの動作状態 (要OP権限 or whereis.systemパーミッション所持)
+/where admin [list or del] [id]     -- 登録されている一覧を表示 または 指定したIDのものを削除 (要OP権限 or whereis.adminパーミッション所持)
+/where import                       -- MySQLへのインポート または ファイルへのインポート (Ver 1.1～、要OP権限 or whereis.adminパーミッション所持)
+/where dynmap [show or hide] [name] -- dynmapに設定した名前の範囲の枠を表示する　または 非表示にする (Ver 1.3～)
 </pre>
 
 ## LuckPerm環境でのパーミッション設定
@@ -31,6 +32,7 @@ whereis.update -- /where updateの権限
 whereis.list -- /where listの権限
 whereis.system -- /where systemの権限
 whereis.admin -- /where admin、/where import (Ver 1.1～)の権限
+whereis.dynmap -- /where dynmap (Ver 1.3～)の権限
 </pre>
 
 ## 独自イベント一覧 (Ver 1.1～)
@@ -47,11 +49,38 @@ Eventがどのタイミングで発生してなにが取得できるかのサン
 # WhereIsPlugin SettingFile
 
 # Language
-ln: 'ja' (言語設定、あるだけで今の所何を設定しても変わらない。)
+ln: 'ja' #(言語設定、あるだけで今の所何を設定しても変わらない。)
 
 # MySQL Server
-mysqlServer: '' (MySQLの接続先。使わない場合は空白)
-mysqlUser: '' (MySQLのユーザー名)
-mysqlPassWord: '' (MySQLのパスワード)
-mysqlDatabase: '' (MySQLのデータベース名)
+mysqlServer: '' #(MySQLの接続先。使わない場合は空白)
+mysqlUser: '' #(MySQLのユーザー名)
+mysqlPassWord: '' #(MySQLのパスワード)
+mysqlDatabase: '' #(MySQLのデータベース名)
 </pre>
+
+## for Developer
+[![](https://jitpack.io/v/kanasaki15/WhereIsPlugin.svg)](https://jitpack.io/#kanasaki15/WhereIsPlugin)
+### Maven
+pom.xmlのrepositoriesに以下を追加
+<pre>
+&lt;repository&gt;
+    &lt;id&gt;jitpack.io&lt;/id&gt;
+    &lt;url&gt;https://jitpack.io&lt;/url&gt;
+&lt;/repository&gt;
+</pre>
+pom.xmlのdependenciesに以下を追加
+<pre>
+&lt;dependenc&gt;
+    &lt;groupId&gt;coym.github.kanasaki15&lt;/groupId&gt;
+    &lt;artifactId&gt;WhereIsPlugin&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+### Gradle
+build.gradleのrepositoriesに以下を追加
+<pre>maven { url 'https://jitpack.io' }</pre>
+build.gradleのdependenciesに以下を追加
+<pre>
+compileOnly com.github.kanasaki15:WhereIsPlugin:1.2
+</pre>
+
