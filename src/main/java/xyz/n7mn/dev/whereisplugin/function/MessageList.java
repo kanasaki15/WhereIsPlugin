@@ -34,6 +34,15 @@ public class MessageList {
     private String CommandSyntaxError;
     private String List;
 
+    // Ver 1.3からのDynmap関係
+    private String DynmapNotFound;
+    private String DynmapAddSuccess;
+    private String DynmapAddError;
+    private String DynmapUpdateSuccess;
+    private String DynmapUpdateError;
+    private String DynmapDeleteSuccess;
+    private String DynmapDeleteError;
+
     public MessageList(){
 
         String lang = Language.getLanguage();
@@ -69,6 +78,14 @@ public class MessageList {
             PermError = "実行する権限がありません。";
             CommandSyntaxError = "構文エラーです。 /where helpを実行してヘルプを参照してください。";
             List = "My登録リスト";
+
+            DynmapNotFound = "dynmapが導入されていない環境では使用できません。";
+            DynmapAddSuccess = "dynmapに登録しました。";
+            DynmapAddError = "dynmapに登録失敗しました。";
+            DynmapUpdateSuccess = "dynmapの更新が完了しました。";
+            DynmapUpdateError = "dynmapの更新に失敗しました。";
+            DynmapDeleteSuccess = "dynmapの登録削除が完了しました。";
+            DynmapDeleteError = "dynmapの登録削除に失敗しました。";
         }
     }
 
@@ -212,5 +229,31 @@ public class MessageList {
         return List;
     }
 
+    public String getDynmapNotFound() {
+        return DynmapNotFound;
+    }
 
+    public String getDynmapAddSuccess() {
+        return DynmapAddSuccess;
+    }
+
+    public String getDynmapAddError() {
+        return DynmapAddError;
+    }
+
+    public String getDynmapUpdateSuccess() {
+        return DynmapUpdateSuccess;
+    }
+
+    public String getDynmapUpdateError() {
+        return DynmapUpdateError;
+    }
+
+    public String getDynmapDeleteSuccess() {
+        return DynmapDeleteSuccess;
+    }
+
+    public String getDynmapDeleteError() {
+        return DynmapDeleteError;
+    }
 }

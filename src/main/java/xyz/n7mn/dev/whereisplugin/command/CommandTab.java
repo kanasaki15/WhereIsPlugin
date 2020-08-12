@@ -45,6 +45,7 @@ public class CommandTab implements TabExecutor {
             list.add("admin");
             list.add("import");
             list.add("list");
+            list.add("dynmap");
         }
 
         if (args.length > 1 && args[0].equals("add")){
@@ -114,6 +115,24 @@ public class CommandTab implements TabExecutor {
             list.add("");
             list.add("mysql");
             list.add("json");
+        }
+
+        if (args.length == 2 && args[0].equals("dynmap")){
+            list.add("");
+            list.add("show");
+            list.add("hide");
+        }
+
+        if (args.length == 3 && args[0].equals("dynmap")){
+            List<WhereData> dataList = WhereIsAPI.getDataListByALL();
+            for (int i = 0; i < dataList.size(); i++){
+                list.add(dataList.get(i).getLocationName());
+            }
+        }
+
+        if (args.length == 4 && args[0].equals("dynmap")){
+            list.add("ColorRGBCode");
+            list.add("#ff0000");
         }
 
         return list;

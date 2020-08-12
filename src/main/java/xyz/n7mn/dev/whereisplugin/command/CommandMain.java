@@ -232,6 +232,7 @@ public class CommandMain implements CommandExecutor {
                     return new CommandImport(plugin, args, p, WhereIsAPI).run();
                 }
 
+                // /where list
                 if (args.length > 0 && args[0].equals("list")){
                     WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("UserList", sender);
 
@@ -250,12 +251,29 @@ public class CommandMain implements CommandExecutor {
                         }
                     }
 
-                    if (p != null && !p.isOp()){
-                        p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                    return new CommandList(plugin, p, WhereIsAPI).run();
+                }
+
+                // /where dynmap
+                if (args.length > 0 && args[0].equals("dynmap")){
+                    WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("dynmap", sender);
+
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
                         return true;
                     }
 
-                    return new CommandList(plugin, p, WhereIsAPI).run();
+                    if (plugin.getServer().getPluginManager().getPlugin("LuckPerm") != null){
+                        if (p != null){
+                            if (!p.hasPermission("whereis.dynmap")){
+                                p.sendMessage(ChatColor.RED + new MessageList().getPermErrorMessage());
+                                return true;
+                            }
+                        }
+                    }
+
+                    return new CommandMarker(plugin, args, p, WhereIsAPI).run();
                 }
             }
 
