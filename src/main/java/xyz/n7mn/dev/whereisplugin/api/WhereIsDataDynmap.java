@@ -118,7 +118,7 @@ public class WhereIsDataDynmap {
 
                 Set<AreaMarker> markers = set.getAreaMarkers();
                 for (AreaMarker maker : markers){
-                    if (maker.getLabel().equals("WhereIsPlugin_ID_"+data.getID())){
+                    if (maker.getMarkerID().equals("WhereIsPlugin_ID_"+data.getID())){
                         maker.deleteMarker();
                         return true;
                     }

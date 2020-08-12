@@ -1,7 +1,7 @@
 name: WhereIsPlugin
 version: @version@
 main: xyz.n7mn.dev.whereisplugin.WhereIsPlugin
-softdepend: [LuckPerms]
+softdepend: [LuckPerms,dynmap]
 api-version: 1.15
 authors: [n3m_]
 description: Where am I?
