@@ -36,6 +36,7 @@ public class MessageList {
 
     // Ver 1.3からのDynmap関係
     private String DynmapNotFound;
+    private String CommandDynmap;
     private String DynmapAddSuccess;
     private String DynmapAddError;
     private String DynmapUpdateSuccess;
@@ -80,6 +81,7 @@ public class MessageList {
             List = "My登録リスト";
 
             DynmapNotFound = "dynmapが導入されていない環境では使用できません。";
+            CommandDynmap = "";
             DynmapAddSuccess = "dynmapに登録しました。";
             DynmapAddError = "dynmapに登録失敗しました。";
             DynmapUpdateSuccess = "dynmapの更新が完了しました。";
@@ -255,5 +257,9 @@ public class MessageList {
 
     public String getDynmapDeleteError() {
         return DynmapDeleteError;
+    }
+
+    public String getCommandDynmap(){
+        return CommandDynmap;
     }
 }

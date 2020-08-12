@@ -98,6 +98,31 @@ public class CommandMarker {
                     return true;
                 }
             }
+
+            if (args.length == 4 && args[1].equals("show")){
+                int id = -1;
+                if (player != null){
+                    id = WhereIsAPI.getWhereDataID(args[2], player.getUniqueId());
+                } else {
+                    id = WhereIsAPI.getWhereDataID(args[2], player.getUniqueId());
+                }
+
+                if (id != -1 && WhereIsDynmapAPI.addMarker(id, args[3])){
+                    WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.GREEN + messageList.getDynmapAddSuccess(), false);
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (!event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                    }
+                } else {
+                    WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.RED + messageList.getDynmapAddError(), true);
+                    plugin.getServer().getPluginManager().callEvent(event);
+                    if (!event.isCancelled()){
+                        sender.sendMessage(event.getMessage());
+                    }
+                }
+
+                return true;
+            }
         } catch (DynmapNotFoundException e) {
             // e.printStackTrace();
             WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, ChatColor.RED + "Plugin Error : " + e.getMessage(), true);

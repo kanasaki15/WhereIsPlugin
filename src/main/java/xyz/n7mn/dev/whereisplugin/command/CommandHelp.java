@@ -36,6 +36,8 @@ class CommandHelp {
         boolean isList = false;
         boolean isPlayer = (player != null);
 
+        boolean isDynmap = true;
+
         if (isPlayer){
             isList = true;
 
@@ -70,6 +72,10 @@ class CommandHelp {
                 }
 
                 if (!player.hasPermission("whereis.list")){
+                    isList = false;
+                }
+
+                if (!player.hasPermission("whereis.dynmap")){
                     isList = false;
                 }
             }
@@ -111,6 +117,14 @@ class CommandHelp {
 
         if (isList){
             msgList.add("/where list -- " + lnMsg.getCommandListMessage());
+        }
+
+        if (isDynmap){
+
+            if (Bukkit.getServer().getPluginManager().getPlugin("dynmap") != null){
+                msgList.add("/where dynmap [show|hide] ["+lnMsg.getNameMessage()+"] ([ColorCode]) -- "+lnMsg.getCommandDynmap());
+            }
+
         }
 
         for (int i = 0; i < msgList.size(); i++){

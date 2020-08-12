@@ -4,7 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.DynmapNotFoundException;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsDataDynmap;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -34,6 +36,21 @@ class CommandDelete {
         String msg = ChatColor.YELLOW + new MessageList().getDelSuccess(args[1]);
         if (!b){
             msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
+        }
+
+        try {
+            int id = -1;
+            if (player != null){
+                id = WhereIsAPI.getWhereDataID(args[1],player.getUniqueId());
+            } else {
+                id = WhereIsAPI.getWhereDataID(args[1],null);
+            }
+
+            if (new WhereIsDataDynmap().isDataExists(id)){
+                new WhereIsDataDynmap().delMarker(id);
+            }
+        } catch (DynmapNotFoundException e) {
+
         }
 
         CommandSender sender = plugin.getServer().getConsoleSender();

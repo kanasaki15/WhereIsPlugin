@@ -4,8 +4,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.n7mn.dev.whereisplugin.WhereIsPlugin;
+import xyz.n7mn.dev.whereisplugin.api.DynmapNotFoundException;
 import xyz.n7mn.dev.whereisplugin.api.WhereData;
 import xyz.n7mn.dev.whereisplugin.api.WhereIsData;
+import xyz.n7mn.dev.whereisplugin.api.WhereIsDataDynmap;
 import xyz.n7mn.dev.whereisplugin.event.WhereisCompleteCommandEvent;
 import xyz.n7mn.dev.whereisplugin.function.MessageList;
 
@@ -43,6 +45,14 @@ class CommandUpdate {
         if (!b){
             msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
         }else{
+            try {
+                if (new WhereIsDataDynmap().isDataExists(id)){
+                    new WhereIsDataDynmap().updateMarker(id);
+                }
+            } catch (DynmapNotFoundException e) {
+
+            }
+
             msg = ChatColor.YELLOW + messageList.getUpdateSuccessMessage(args[1], args[2]);
         }
 

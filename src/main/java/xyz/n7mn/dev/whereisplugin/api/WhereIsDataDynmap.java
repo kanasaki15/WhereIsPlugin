@@ -1,12 +1,14 @@
 package xyz.n7mn.dev.whereisplugin.api;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.AreaMarker;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerSet;
 
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +36,7 @@ public class WhereIsDataDynmap {
         }
     }
 
-    public boolean addMarker(int DataID) throws DynmapNotFoundException {
+    public boolean addMarker (int DataID, String color) throws DynmapNotFoundException {
 
         if (DynmapAPI == null) { throw new DynmapNotFoundException(); }
 
@@ -42,6 +44,14 @@ public class WhereIsDataDynmap {
             WhereIsData WhereIsAPI = new WhereIsData();
             WhereData data = WhereIsAPI.getWhereData(DataID);
             MarkerAPI markerAPI = DynmapAPI.getMarkerAPI();
+
+            int lineColor = -1;
+            try {
+                lineColor = Integer.parseInt(color.toLowerCase().replaceAll("#", ""), 16);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
 
             if (data.getLocationName() == null){
                 return false;
@@ -77,7 +87,11 @@ public class WhereIsDataDynmap {
                     }
 
                     AreaMarker marker = set.createAreaMarker("WhereIsPlugin_ID_"+data.getID(), "", false, world.getName(), new double[]{data.getStartX(), data.getEndX()}, new double[]{data.getStartZ(), data.getEndZ()}, true);
-                    marker.setLineStyle(3, 1.0, 0xFF0000);
+                    if (lineColor != -1){
+                        marker.setLineStyle(3, 1.0, lineColor);
+                    } else {
+                        marker.setLineStyle(3, 1.0, 0xFF0000);
+                    }
                     marker.setFillStyle(0.0, 0x000000);
                     marker.setLabel(data.getLocationName());
                     return true;
@@ -88,6 +102,10 @@ public class WhereIsDataDynmap {
         }
 
         return false;
+    }
+
+    public boolean addMarker(int DataID) throws DynmapNotFoundException {
+        return addMarker(DataID, "#ff0000");
     }
 
     @Deprecated
@@ -137,7 +155,13 @@ public class WhereIsDataDynmap {
         return delMarker(new WhereIsData().getWhereData(name).getID());
     }
 
+
+    @Deprecated
     public boolean updateMaker(int DataID) throws DynmapNotFoundException {
+        return updateMarker(DataID);
+    }
+
+    public boolean updateMarker(int DataID) throws DynmapNotFoundException {
         if (DynmapAPI == null) { throw new DynmapNotFoundException(); }
 
         if (delMarker(DataID)){
@@ -150,7 +174,39 @@ public class WhereIsDataDynmap {
     @Deprecated
     public boolean updateMaker(String name) throws DynmapNotFoundException {
 
-        return updateMaker(new WhereIsData().getWhereData(name).getID());
+        return updateMarker(new WhereIsData().getWhereData(name).getID());
+    }
+
+    @Deprecated
+    public boolean updateMarker(String name) throws DynmapNotFoundException {
+
+        return updateMarker(new WhereIsData().getWhereData(name).getID());
+    }
+
+    public boolean isDataExists(int DataID){
+
+        WhereIsData WhereIsAPI = new WhereIsData();
+        WhereData data = WhereIsAPI.getWhereData(DataID);
+        MarkerAPI markerAPI = DynmapAPI.getMarkerAPI();
+
+        if (data != null && data.getLocationName() != null && data.isActive()){
+            if (markerAPI != null) {
+                MarkerSet set = markerAPI.getMarkerSet("n7mn-WhereIsPlugin.MarkerSet");
+
+                if (set == null) {
+                    return false;
+                }
+
+                Set<AreaMarker> markers = set.getAreaMarkers();
+                for (AreaMarker maker : markers) {
+                    if (maker.getMarkerID().equals("WhereIsPlugin_ID_" + data.getID())) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public void allDeleteMarker(){
