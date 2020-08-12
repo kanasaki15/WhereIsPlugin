@@ -16,15 +16,22 @@ repositories {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+
     maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+
+    maven {
+        name = 'dynmap-repo'
+        url  = 'https://repo.mikeprimm.com/'
     }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.15-R0.1-SNAPSHOT'
     compile 'mysql:mysql-connector-java:8.0.21'
+    compileOnly 'us.dynmap:dynmap-api:3.0-beta-7'
 }
 
 processResources {
