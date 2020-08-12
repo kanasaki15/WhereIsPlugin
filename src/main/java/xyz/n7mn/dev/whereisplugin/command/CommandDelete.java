@@ -38,19 +38,21 @@ class CommandDelete {
             msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
         }
 
-        try {
-            int id = -1;
-            if (player != null){
-                id = WhereIsAPI.getWhereDataID(args[1],player.getUniqueId());
-            } else {
-                id = WhereIsAPI.getWhereDataID(args[1],null);
-            }
+        if (b){
+            try {
+                int id = -1;
+                if (player != null){
+                    id = WhereIsAPI.getWhereDataID(args[1],player.getUniqueId());
+                } else {
+                    id = WhereIsAPI.getWhereDataID(args[1],null);
+                }
 
-            if (new WhereIsDataDynmap().isDataExists(id)){
-                new WhereIsDataDynmap().delMarker(id);
-            }
-        } catch (DynmapNotFoundException e) {
+                if (new WhereIsDataDynmap().isDataExists(id)){
+                    new WhereIsDataDynmap().delMarker(id);
+                }
+            } catch (DynmapNotFoundException e) {
 
+            }
         }
 
         CommandSender sender = plugin.getServer().getConsoleSender();

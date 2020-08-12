@@ -1,4 +1,4 @@
-package xyz.n7mn.dev.bstats.bukkit;
+package xyz.n7mn.dev.bstats.bukkit.where;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

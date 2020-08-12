@@ -1,7 +1,6 @@
 package xyz.n7mn.dev.whereisplugin.api;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.AreaMarker;
@@ -164,6 +163,23 @@ public class WhereIsDataDynmap {
     public boolean updateMarker(int DataID) throws DynmapNotFoundException {
         if (DynmapAPI == null) { throw new DynmapNotFoundException(); }
 
+        MarkerAPI markerAPI = DynmapAPI.getMarkerAPI();
+        if (markerAPI != null) {
+            MarkerSet set = markerAPI.getMarkerSet("n7mn-WhereIsPlugin.MarkerSet");
+            if (set == null) {
+
+            } else {
+                Set<AreaMarker> markers = set.getAreaMarkers();
+                for (AreaMarker maker : markers) {
+                    if (maker.getMarkerID().equals("WhereIsPlugin_ID_" + DataID)) {
+                        if (delMarker(DataID)){
+                            return addMarker(DataID, "#"+Integer.toHexString(maker.getLineColor()));
+                        }
+                    }
+                }
+            }
+        }
+
         if (delMarker(DataID)){
             return addMarker(DataID);
         }
@@ -189,7 +205,9 @@ public class WhereIsDataDynmap {
         WhereData data = WhereIsAPI.getWhereData(DataID);
         MarkerAPI markerAPI = DynmapAPI.getMarkerAPI();
 
-        if (data != null && data.getLocationName() != null && data.isActive()){
+        // System.out.println("？ : "+DataID);
+        if (data != null){
+            // System.out.println("？？");
             if (markerAPI != null) {
                 MarkerSet set = markerAPI.getMarkerSet("n7mn-WhereIsPlugin.MarkerSet");
 
@@ -198,6 +216,7 @@ public class WhereIsDataDynmap {
                 }
 
                 Set<AreaMarker> markers = set.getAreaMarkers();
+                // System.out.println("？？？");
                 for (AreaMarker maker : markers) {
                     if (maker.getMarkerID().equals("WhereIsPlugin_ID_" + data.getID())) {
                         return true;
@@ -205,7 +224,7 @@ public class WhereIsDataDynmap {
                 }
             }
         }
-
+        // System.out.println("！");
         return false;
     }
 
