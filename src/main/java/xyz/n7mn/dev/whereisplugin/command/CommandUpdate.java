@@ -28,44 +28,51 @@ class CommandUpdate {
 
     public boolean run(){
 
-        int id = -1;
-        if (player != null){
-            id = WhereIsAPI.getWhereDataID(args[1], player.getUniqueId());
-        } else {
-            id = WhereIsAPI.getWhereDataID(args[1], null);
-        }
-
-        boolean b = false;
-        if (id != -1){
-            WhereData data = WhereIsAPI.getWhereData(id);
-            b = WhereIsAPI.updateWhereData(id, args[2], data.getUUID(), data.getWorldName(), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
-        }
-
-        String msg;
-        if (!b){
-            msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
-        }else{
-            try {
-                if (new WhereIsDataDynmap().isDataExists(id)){
-                    new WhereIsDataDynmap().updateMarker(id);
-                }
-            } catch (DynmapNotFoundException e) {
-
+        if (args.length == 3){
+            int id = -1;
+            if (player != null){
+                id = WhereIsAPI.getWhereDataID(args[1], player.getUniqueId());
+            } else {
+                id = WhereIsAPI.getWhereDataID(args[1], null);
             }
 
-            msg = ChatColor.YELLOW + messageList.getUpdateSuccessMessage(args[1], args[2]);
+            boolean b = false;
+            if (id != -1){
+                WhereData data = WhereIsAPI.getWhereData(id);
+                b = WhereIsAPI.updateWhereData(id, args[2], data.getUUID(), data.getWorldName(), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
+            }
+
+            String msg;
+            if (!b){
+                msg = ChatColor.RED + WhereIsAPI.getErrorMessage();
+            }else{
+                try {
+                    if (new WhereIsDataDynmap().isDataExists(id)){
+                        new WhereIsDataDynmap().updateMarker(id);
+                    }
+                } catch (DynmapNotFoundException e) {
+
+                }
+
+                msg = ChatColor.YELLOW + messageList.getUpdateSuccessMessage(args[1], args[2]);
+            }
+
+            CommandSender sender = plugin.getServer().getConsoleSender();
+            if (player != null){
+                sender = player;
+            }
+
+            WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, !b);
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (!event.isCancelled()){
+                sender.sendMessage(msg);
+            }
         }
 
-        CommandSender sender = plugin.getServer().getConsoleSender();
-        if (player != null){
-            sender = player;
+        if (args.length == 5){
+            // TODO: 範囲指定し直し
         }
 
-        WhereisCompleteCommandEvent event = new WhereisCompleteCommandEvent(sender, msg, !b);
-        plugin.getServer().getPluginManager().callEvent(event);
-        if (!event.isCancelled()){
-            sender.sendMessage(msg);
-        }
         return true;
     }
 }

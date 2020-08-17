@@ -109,7 +109,7 @@ public class CommandMain implements CommandExecutor {
                 }
 
                 // /where update
-                if (args.length == 3 && args[0].equals("update")){
+                if (args.length >= 3 && args[0].equals("update")){
                     WhereisExecuteCommandEvent event = new WhereisExecuteCommandEvent("Update", sender);
 
                     plugin.getServer().getPluginManager().callEvent(event);
