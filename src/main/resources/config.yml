@@ -1,0 +1,54 @@
+# WhereIsPlugin 設定ファイル
+# by ちのなみ (https://github.com/kanasaki15)
+
+# コマンドから設定をできるようにする (「true」で有効)
+useCommandSetting: false
+
+#
+# ここから下は useCommandSettingの設定が
+# 「false」のときのみ反映されます。
+#
+
+#
+# LuckPerm関係
+#
+
+## LuckPermを使う場合はtrue
+useLuckPerm: false
+
+## LuckPermを使う場合どの部分で使うかを設定
+usePermAdd: true # 追加
+usePermUpdate: true # 更新
+usePermDelete: true # 削除
+usePermDynmap: true # Dynmap連携
+usePermHelp: true # ヘルプ
+
+#
+# MySQL関係
+# (使用する場合はMySQL 5.6以降を推奨)
+#
+
+## MySQLを使う場合はtrue
+useMySQL: false
+
+## MySQLのサーバーアドレス
+MySQLServer: '127.0.0.1'
+
+## MySQLのユーザー名
+MySQLUsername: ''
+
+## MySQLのパスワード
+MySQLPassword: ''
+
+## MySQLのデータベース名
+MySQLDatabase: ''
+
+## MySQLの接続オプション
+MySQLOption: '?allowPublicKeyRetrieval=true&useSSL=false'
+
+#
+# Dynmap関係
+#
+
+## Dynmapに自動で連携する場合は「true」
+DynmapAutoUpdate: true
