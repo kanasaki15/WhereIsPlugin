@@ -6,6 +6,8 @@ import org.bukkit.plugin.Plugin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,8 +70,37 @@ public class WhereIsDataAPI {
             throw new NullPointerException();
         }
 
+        try {
+            boolean isJson = false;
+            if (new ConnectSystem().isMySQLConnect(con)){
+                isJson = true;
+            }
 
+            if (!isJson){
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereisList");
+                ResultSet set = statement.executeQuery();
+                List<WhereisData> list = new ArrayList<>();
+                while (set.next()){
+                    WhereisData data = new WhereisData(
+                            set.getInt("ID"),
+                            set.getString("WhereName"),
+                            Bukkit.getServer().getWorld(set.getString("WorldName")),
+                            set.getInt("StartX"),
+                            set.getInt("StartZ"),
+                            set.getInt("EndX"),
+                            set.getInt("EndZ"),
+                            UUID.fromString(set.getString("CreateUser")),
+                            set.getBoolean("Active")
+                    );
+                    list.add(data);
+                }
+                return list;
+            }
 
-        return null;
+            return Collections.EMPTY_LIST;
+        } catch (Exception e){
+            e.printStackTrace();
+            return Collections.EMPTY_LIST;
+        }
     }
 }
