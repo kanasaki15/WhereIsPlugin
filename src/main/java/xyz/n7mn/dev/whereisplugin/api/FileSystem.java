@@ -7,29 +7,28 @@ import java.io.*;
 
 @Deprecated
 public class FileSystem {
+    private final Plugin plugin = Bukkit.getPluginManager().getPlugin("WhereIsPlugin");
+    private String ErrorMessage = "This API is deprecated.";
 
-    @Deprecated
     public String Read(String pass){
         return "";
     }
 
-    @Deprecated
     String Read(){
-        return "";
+
+        return Read("");
     }
 
-    @Deprecated
     public boolean Write(String pass, String Contents){
         return false;
     }
 
-    @Deprecated
     boolean Write(String Contents){
         return false;
     }
 
-    @Deprecated
     public String getErrorMessage(){
-        return null;
+
+        return ErrorMessage;
     }
 }

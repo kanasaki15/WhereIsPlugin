@@ -5,9 +5,8 @@ public class WhereIsDataDynmap {
 
     @Deprecated
     public WhereIsDataDynmap() throws DynmapNotFoundException {
-
+        throw new DynmapNotFoundException();
     }
-
     @Deprecated
     public boolean addMarker (int DataID, String color) throws DynmapNotFoundException {
         return false;
@@ -15,27 +14,24 @@ public class WhereIsDataDynmap {
 
     @Deprecated
     public boolean addMarker(int DataID) throws DynmapNotFoundException {
-        return false;
+        return addMarker(DataID, "#ff0000");
     }
 
     @Deprecated
     public boolean addMarker(String name) throws DynmapNotFoundException {
-
-        return false;
+        return addMarker(new WhereIsData().getWhereData(name).getID());
     }
 
     @Deprecated
     public boolean delMarker(int DataID) throws DynmapNotFoundException {
-
         return false;
     }
 
     @Deprecated
     public boolean delMarker(String name) throws DynmapNotFoundException{
 
-        return false;
+        return delMarker(new WhereIsData().getWhereData(name).getID());
     }
-
 
     @Deprecated
     public boolean updateMaker(int DataID) throws DynmapNotFoundException {

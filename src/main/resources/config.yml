@@ -10,13 +10,13 @@ useCommandSetting: false
 #
 
 #
-# LuckPerm関係
+# LuckPerms関係
 #
 
-## LuckPermを使う場合はtrue
-useLuckPerm: false
+## LuckPermsを使う場合はtrue
+useLuckPerms: false
 
-## LuckPermを使う場合どの部分で使うかを設定
+## LuckPermsを使う場合どの部分で使うかを設定
 usePermAdd: true # 追加
 usePermUpdate: true # 更新
 usePermDelete: true # 削除

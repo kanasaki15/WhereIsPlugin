@@ -5,101 +5,98 @@ import org.bukkit.World;
 import java.util.UUID;
 
 public class WhereisData {
-    private int id;
-    private String name;
-    private World world;
-    private int startX;
-    private int startZ;
-    private int endX;
-    private int endZ;
-    private UUID createUser;
-    private boolean active;
 
-    public WhereisData(){
+    private int ID;
+    private UUID CreateUser;
+    private String Name;
+    private World World;
+    private int StartX;
+    private int EndX;
+    private int StartZ;
+    private int EndZ;
+    private boolean Active;
 
+    public WhereisData(int id, UUID createUser, String name, World world, int startX, int endX, int startZ, int endZ, boolean active) {
+        this.ID = id;
+        this.CreateUser = createUser;
+        this.Name = name;
+        this.World = world;
+        this.StartX = startX;
+        this.EndX = endX;
+        this.StartZ = startZ;
+        this.EndZ = endZ;
+        this.Active = active;
     }
 
-    public WhereisData(int id, String name, World world, int startX, int startZ, int endX, int endZ, UUID createUser, boolean active){
-        this.id = id;
-        this.name = name;
-        this.world = world;
-        this.startX = startX;
-        this.startZ = startZ;
-        this.endX = endX;
-        this.endZ = endZ;
-        this.createUser = createUser;
-        this.active = active;
+    public int getID() {
+        return ID;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public int getStartX() {
-        return startX;
-    }
-
-    public void setStartX(int startX) {
-        this.startX = startX;
-    }
-
-    public int getStartZ() {
-        return startZ;
-    }
-
-    public void setStartZ(int startZ) {
-        this.startZ = startZ;
-    }
-
-    public int getEndX() {
-        return endX;
-    }
-
-    public void setEndX(int endX) {
-        this.endX = endX;
-    }
-
-    public int getEndZ() {
-        return endZ;
-    }
-
-    public void setEndZ(int endZ) {
-        this.endZ = endZ;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public UUID getCreateUser() {
-        return createUser;
+        return CreateUser;
     }
 
     public void setCreateUser(UUID createUser) {
-        this.createUser = createUser;
+        CreateUser = createUser;
+    }
+
+    public String getName(){
+        return Name;
+    }
+
+    public void setName(String name){
+        this.Name = name;
+    }
+
+    public World getWorld() {
+        return World;
+    }
+
+    public void setWorld(org.bukkit.World world) {
+        World = world;
+    }
+
+    public int getStartX() {
+        return StartX;
+    }
+
+    public void setStartX(int startX) {
+        StartX = startX;
+    }
+
+    public int getEndX() {
+        return EndX;
+    }
+
+    public void setEndX(int endX) {
+        EndX = endX;
+    }
+
+    public int getStartZ() {
+        return StartZ;
+    }
+
+    public void setStartZ(int startZ) {
+        StartZ = startZ;
+    }
+
+    public int getEndZ() {
+        return EndZ;
+    }
+
+    public void setEndZ(int endZ) {
+        EndZ = endZ;
     }
 
     public boolean isActive() {
-        return active;
+        return Active;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        Active = active;
     }
 }
