@@ -30,7 +30,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.15-R0.1-SNAPSHOT'
-    compile 'mysql:mysql-connector-java:8.0.21'
+    compile 'org.xerial:sqlite-jdbc:3.32.3.2'
     compileOnly 'us.dynmap:dynmap-api:3.0-beta-7'
     compileOnly 'net.luckperms:api:5.0'
 }
