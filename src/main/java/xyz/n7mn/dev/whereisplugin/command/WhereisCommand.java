@@ -69,7 +69,10 @@ public class WhereisCommand implements CommandExecutor {
                         continue;
                     }
 
-                    if ((data.getStartX() <= player.getLocation().getBlockX() && player.getLocation().getBlockX() <= data.getEndX()) || (data.getStartX() >= player.getLocation().getBlockX() && player.getLocation().getBlockX() >= data.getEndX())){
+                    if (
+                            (data.getStartX() <= player.getLocation().getBlockX() && player.getLocation().getBlockX() <= data.getEndX()) || (data.getStartX() >= player.getLocation().getBlockX() && player.getLocation().getBlockX() >= data.getEndX()) &&
+                            (data.getStartZ() <= player.getLocation().getBlockZ() && player.getLocation().getBlockZ() <= data.getEndZ()) || (data.getStartZ() >= player.getLocation().getBlockZ() && player.getLocation().getBlockZ() >= data.getEndZ())
+                    ){
                         sb.append(data.getName());
                         if (count < max){
                             sb.append(",");
@@ -85,6 +88,21 @@ public class WhereisCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは 名称未設定 です。"));
                 }
                 return true;
+            }
+
+            if (label.equals("add") && args.length == 2){
+                return new WhereisAdd(plugin, con).onCommand(sender, command, label, args);
+            }
+
+            if (label.equals("add") && args.length == 6){
+                return new WhereisAdd(plugin, con).onCommand(sender, command, label, args);
+            }
+
+
+        } else {
+            if (args.length == 0){
+                sender.sendMessage(ChatColor.GREEN + "----- WhereIsPlugin Ver "+plugin.getDescription().getVersion() + "-----");
+                sender.sendMessage(ChatColor.GREEN + "");
             }
         }
 
