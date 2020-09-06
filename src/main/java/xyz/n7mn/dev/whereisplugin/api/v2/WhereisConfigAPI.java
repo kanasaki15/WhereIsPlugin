@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-class WhereisConfigAPI {
+public class WhereisConfigAPI {
     private static Plugin plugin = Bukkit.getPluginManager().getPlugin("WhereIsPlugin");
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private String filePass;
