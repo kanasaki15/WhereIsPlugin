@@ -67,7 +67,7 @@ public class WhereisDataAPI {
         List<WhereisData> list = new ArrayList<>();
 
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE ID = ? ORDER BY ID");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList ORDER BY ID");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 WhereisData data = new WhereisData(

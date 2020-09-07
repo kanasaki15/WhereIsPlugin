@@ -115,12 +115,12 @@ public final class WhereIsPlugin extends JavaPlugin {
         }
 
         // Ver 1.xのJSONファイルが残ってたら自動変換
-        String pass = "./" + getDataFolder().getPath() + "/DataList.json";
+        String pass1 = "./" + getDataFolder().getPath() + "/DataList.json";
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-            pass = pass.replaceAll("/", "\\\\");
+            pass1 = pass1.replaceAll("/", "\\\\");
         }
 
-        File file2 = new File(pass);
+        File file2 = new File(pass1);
         if (file2.exists()){
             getLogger().info(ChatColor.YELLOW + "過去のデータを自動インポートしています。。。");
             StringBuffer sb = new StringBuffer();
@@ -149,13 +149,13 @@ public final class WhereIsPlugin extends JavaPlugin {
             }
 
             if (sb.toString().length() >= 2){
-                String pass1 = "./" + getDataFolder().getPath() + "/data.db";
+                String pass2 = "./" + getDataFolder().getPath() + "/data.db";
                 if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-                    pass1 = pass1.replaceAll("/", "\\\\");
+                    pass2 = pass2.replaceAll("/", "\\\\");
                 }
 
                 try {
-                    con = DriverManager.getConnection("jdbc:sqlite:" + pass1);
+                    con = DriverManager.getConnection("jdbc:sqlite:" + pass2);
                     con.setAutoCommit(true);
                 } catch (SQLException throwable) {
                     // e.printStackTrace();
@@ -179,6 +179,7 @@ public final class WhereIsPlugin extends JavaPlugin {
             getLogger().info(ChatColor.YELLOW + "過去のデータを自動インポートしました。");
         }
 
+        String pass = "./" + getDataFolder().getPath() + "/data.db";
         // Ver 1.xから2.xへのMySQLインポート
         if (new WhereisConfigAPI().isUseMySQL()){
             boolean b;
@@ -274,13 +275,13 @@ public final class WhereIsPlugin extends JavaPlugin {
 
         saveDefaultConfig();
 
-        String pass1 = "./" + getDataFolder().getPath() + "/temp/";
+        String pass2 = "./" + getDataFolder().getPath() + "/temp/";
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-            pass1 = pass1.replaceAll("/", "\\\\");
+            pass2 = pass2.replaceAll("/", "\\\\");
         }
 
-        File file1 = new File(pass1);
-        if (file1.exists()){
+        File file1 = new File(pass2);
+        if (!file1.exists()){
             if (file1.mkdir()){
                 file1.setReadable(true);
                 file1.setWritable(true);

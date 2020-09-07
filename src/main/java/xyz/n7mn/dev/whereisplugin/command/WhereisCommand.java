@@ -55,6 +55,7 @@ public class WhereisCommand implements CommandExecutor {
                 StringBuffer sb = new StringBuffer();
 
                 int count = 0;
+                int count2 = 0;
                 int max = list.size();
                 for (WhereisData data : list){
                     if (!data.isActive()){
@@ -68,19 +69,20 @@ public class WhereisCommand implements CommandExecutor {
                     }
 
                     if (
-                            (data.getStartX() <= player.getLocation().getBlockX() && player.getLocation().getBlockX() <= data.getEndX()) || (data.getStartX() >= player.getLocation().getBlockX() && player.getLocation().getBlockX() >= data.getEndX()) &&
-                            (data.getStartZ() <= player.getLocation().getBlockZ() && player.getLocation().getBlockZ() <= data.getEndZ()) || (data.getStartZ() >= player.getLocation().getBlockZ() && player.getLocation().getBlockZ() >= data.getEndZ())
+                            ((player.getLocation().getBlockX() <= data.getStartX() && player.getLocation().getBlockX() >= data.getEndX()) || (player.getLocation().getBlockX() >= data.getStartX() && player.getLocation().getBlockX() <= data.getEndX())) &&
+                            ((player.getLocation().getBlockZ() <= data.getStartZ() && player.getLocation().getBlockZ() >= data.getEndZ()) || (player.getLocation().getBlockZ() >= data.getStartZ() && player.getLocation().getBlockZ() <= data.getEndZ()))
                     ){
                         sb.append(data.getName());
-                        if (count < max){
+                        if ((count + 1) < max){
                             sb.append(",");
                         }
+                        count2++;
                     }
 
                     count++;
                 }
 
-                if (count != 0){
+                if (count2 != 0){
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは " + sb.toString() + " です。"));
                 } else {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは 名称未設定 です。"));

@@ -36,28 +36,7 @@ public class WhereisAdd extends CommandInterface implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (args.length == 1){
-            final Player player;
-            if (sender instanceof Player) {
-                player = (Player) sender;
-            } else {
-                player = null;
-            }
 
-
-            if (player != null && new File(DataPass + player.getName() +".dat").exists()){
-                final File file = new File(DataPass + player.getName() +".dat");
-
-
-
-                if (file.delete()){
-
-                }
-
-            } else if (player != null) {
-                player.sendMessage(ChatColor.YELLOW + "--- /where add ヘルプ ---");
-                player.sendMessage(ChatColor.YELLOW + "/where add <名前> -- 今いる位置を開始地点として仮登録する");
-                player.sendMessage(ChatColor.YELLOW + "/where add wand <名前> -- ダイヤ斧を使って座標を指定するモードにする");
-            }
         }
 
         if (args.length == 2){
@@ -77,7 +56,7 @@ public class WhereisAdd extends CommandInterface implements CommandExecutor {
                             p_writer.close();
 
                             player.sendMessage(ChatColor.YELLOW + "開始位置がX: "+player.getLocation().getBlockX()+" Z: "+player.getLocation().getBlockZ()+"で仮設定されました。");
-                            player.sendMessage(ChatColor.YELLOW + "終了地点を設定するには終了地点に移動してから「/where add」を実行してください。");
+                            player.sendMessage(ChatColor.YELLOW + "終了地点を設定するには終了地点に移動してから「/where add "+args[1]+"」を実行してください。");
                         }
                     } catch (IOException e){
                         plugin.getLogger().info(ChatColor.RED + "エラーが発生しました。");
