@@ -114,6 +114,14 @@ public class WhereisCommand implements CommandExecutor {
             }
         }
 
+        if (args.length > 0 && args[0].equals("axeget")){
+            return new WhereisAxeGet().onCommand(sender, command, label, args);
+        }
+
+        if (args.length > 0 && args[0].equals("axeclear")){
+            return new WhereisAxeClear(plugin).onCommand(sender, command, label, args);
+        }
+
         if (args.length > 0 && args[0].equals("add")){
             return new WhereisAdd(plugin, con).onCommand(sender, command, label, args);
         }

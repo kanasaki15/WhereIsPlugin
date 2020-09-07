@@ -49,9 +49,11 @@ public class WhereisListener implements Listener {
                                 PrintWriter p_writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)));
                                 p_writer.print(text);
                                 p_writer.close();
-
-                                player.sendMessage(ChatColor.YELLOW + "開始位置がX: "+player.getLocation().getBlockX()+" Z: "+player.getLocation().getBlockZ()+"に設定されました。");
-                                player.sendMessage(ChatColor.YELLOW + "再設定するには「/where add axeclear」を実行してください");
+                                String[] msg = new String[]{
+                                        ChatColor.YELLOW + "開始位置がX: "+player.getLocation().getBlockX()+" Z: "+player.getLocation().getBlockZ()+"に設定されました。",
+                                        ChatColor.YELLOW + "再設定するには「/where axeclear」を実行してください"
+                                };
+                                player.sendMessage(msg);
                             }
                         } catch (IOException ex) {
                             // ex.printStackTrace();
@@ -107,9 +109,14 @@ public class WhereisListener implements Listener {
                             }
                         }
 
-                        player.sendMessage(ChatColor.YELLOW + "終了位置がX: "+player.getLocation().getBlockX()+" Z: "+player.getLocation().getBlockZ()+"に設定されました。");
-                        player.sendMessage(ChatColor.YELLOW + "名前を設定するには「/where add <名前>」を");
-                        player.sendMessage(ChatColor.YELLOW + "範囲を再設定するには「/where add axeclear」を実行してからもう一度右クリックしてください");
+                        String[] msg = new String[]{
+                                ChatColor.YELLOW + "終了位置がX: "+player.getLocation().getBlockX()+" Z: "+player.getLocation().getBlockZ()+"に設定されました。",
+                                ChatColor.YELLOW + "名前を設定するには「/where add <名前>」を",
+                                ChatColor.YELLOW + "既存の範囲を再設定するには「/where update <名前>」を",
+                                ChatColor.YELLOW + "範囲を再設定するには「/where axeclear」を実行してからもう一度右クリックしてください"
+                        };
+
+                        player.sendMessage(msg);
                     }
                 }
             }

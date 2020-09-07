@@ -50,53 +50,7 @@ public class WhereisAdd extends CommandInterface implements CommandExecutor {
             }
         }
 
-        if (args.length == 1){
-            if (sender instanceof Player){
-                Player player = (Player) sender;
-
-                ItemStack stack = new ItemStack(Material.DIAMOND_AXE);
-                ItemMeta itemMeta = stack.getItemMeta();
-                itemMeta.setDisplayName("WhereisAxe");
-                stack.setItemMeta(itemMeta);
-
-                PlayerInventory inventory = player.getInventory();
-
-                if (!inventory.contains(stack)) {
-                    inventory.addItem(stack);
-                    player.sendMessage(ChatColor.YELLOW + "今ゲットしたダイヤモンドの斧を持ったままブロックなどを右クリックすると範囲を設定できます！");
-                    return true;
-                } else {
-                    PlayerInventory playerInventory = player.getInventory();
-                    int size = playerInventory.getSize();
-                    for (int i = 0; i < size; i++){
-                        ItemStack item = playerInventory.getItem(i);
-                        if (item != null && item.getType() == Material.DIAMOND_AXE){
-                            ItemMeta meta = item.getItemMeta();
-                            if (meta != null && meta.hasDisplayName() && meta.getDisplayName().equals("WhereisAxe")){
-                                player.getInventory().setItem(i, player.getInventory().getItemInMainHand());
-                                player.getInventory().setItemInMainHand(stack);
-                                player.sendMessage(ChatColor.YELLOW + "今持っているダイヤモンドの斧を持ったままブロックなどを右クリックすると範囲を設定できます！");
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        if (args.length == 2 && args[1].equals("axeclear") && sender instanceof Player){
-            final Player player = (Player) sender;
-            final File file = new File(DataPass + player.getName() +".dat");
-
-            if (file.exists()){
-                file.deleteOnExit();
-                player.sendMessage(ChatColor.GREEN + "範囲指定を解除しました。");
-            }
-        }
-
-        if (args.length == 2 && !args[1].equals("axeclear")){
+        if (args.length == 2){
             if (sender instanceof Player){
 
                 Player player = (Player) sender;
