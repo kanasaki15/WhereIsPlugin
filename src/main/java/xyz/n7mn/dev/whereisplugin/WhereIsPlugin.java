@@ -11,6 +11,7 @@ import xyz.n7mn.dev.whereisplugin.api.v2.WhereisData;
 import xyz.n7mn.dev.whereisplugin.api.v2.WhereisDataAPI;
 import xyz.n7mn.dev.whereisplugin.command.WhereisCommand;
 import xyz.n7mn.dev.whereisplugin.command.WhereisListener;
+import xyz.n7mn.dev.whereisplugin.command.WhereisTab;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -291,6 +292,7 @@ public final class WhereIsPlugin extends JavaPlugin {
         }
 
         getCommand("where").setExecutor(new WhereisCommand(this, con));
+        getCommand("where").setTabCompleter(new WhereisTab());
 
         getServer().getPluginManager().registerEvents(new WhereisListener(this), this);
 
