@@ -34,20 +34,18 @@ public class WhereisCommand implements CommandExecutor {
             player = null;
         }
 
-
-        if (player != null){
-
-            if (new WhereisConfigAPI().isUseLuckPerms()){
-                Plugin luckPerms = Bukkit.getPluginManager().getPlugin("LuckPerms");
-                if (luckPerms != null){
-                    if (!player.hasPermission("whereis")){
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"実行する権限がありません。"));
-                        return true;
+        if (label.equals("where") && args.length == 0){
+            if (player != null) {
+                if (new WhereisConfigAPI().isUseLuckPerms()) {
+                    Plugin luckPerms = Bukkit.getPluginManager().getPlugin("LuckPerms");
+                    if (luckPerms != null) {
+                        if (!player.hasPermission("whereis")) {
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c実行する権限がありません。"));
+                            return true;
+                        }
                     }
                 }
-            }
 
-            if (label.equals("where") && args.length == 0){
                 List<WhereisData> list = new WhereisDataAPI(plugin, con).getDataList();
                 if (list == null){
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは 名称未設定 です。"));
@@ -88,23 +86,37 @@ public class WhereisCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは 名称未設定 です。"));
                 }
                 return true;
-            }
-
-            if (label.equals("add") && args.length == 2){
-                return new WhereisAdd(plugin, con).onCommand(sender, command, label, args);
-            }
-
-            if (label.equals("add") && args.length == 6){
-                return new WhereisAdd(plugin, con).onCommand(sender, command, label, args);
-            }
-
-
-        } else {
-            if (args.length == 0){
+            } else {
                 sender.sendMessage(ChatColor.GREEN + "----- WhereIsPlugin Ver "+plugin.getDescription().getVersion() + "-----");
-                sender.sendMessage(ChatColor.GREEN + "");
+                sender.sendMessage(ChatColor.GREEN + "/where add <x> <z> <x> <z> <Name> -- 追加");
+                sender.sendMessage(ChatColor.GREEN + "/where update <OldName> <NewName> -- 更新");
+                sender.sendMessage(ChatColor.GREEN + "/where update <Name> <x> <z> <x> <z> -- 範囲更新");
+                sender.sendMessage(ChatColor.GREEN + "/where delete <Name> -- 削除");
+                sender.sendMessage(ChatColor.GREEN + "/where list -- リスト");
+                // System.out.println(plugin.getServer().getVersion().toLowerCase());
+                if (plugin.getServer().getVersion().toLowerCase().matches(".*paper.*")){
+                    sender.sendMessage(ChatColor.GREEN + "RunSystem : Paper");
+                } else if (plugin.getServer().getVersion().toLowerCase().matches(".*spigot.*")) {
+                    sender.sendMessage(ChatColor.GREEN + "RunSystem : Spigot");
+                } else {
+                    sender.sendMessage(ChatColor.GREEN + "RunSystem : UnknownBukkit (動作対象外)");
+                }
             }
         }
+
+        if (args.length > 0 && args[0].equals("add")){
+            return new WhereisAdd(plugin, con).onCommand(sender, command, label, args);
+        }
+
+        if (args.length > 0 && args[0].equals("update")){
+            return new WhereisUpdate(plugin, con).onCommand(sender, command, label, args);
+        }
+
+        if (args.length > 0 && args[0].equals("delete")){
+            return new WhereisDelete(plugin, con).onCommand(sender, command, label, args);
+        }
+
+
 
         return true;
     }

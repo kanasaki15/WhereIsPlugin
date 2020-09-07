@@ -148,29 +148,31 @@ public final class WhereIsPlugin extends JavaPlugin {
                 }
             }
 
-            String pass1 = "./" + getDataFolder().getPath() + "/data.db";
-            if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-                pass1 = pass1.replaceAll("/", "\\\\");
-            }
+            if (sb.toString().length() >= 2){
+                String pass1 = "./" + getDataFolder().getPath() + "/data.db";
+                if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+                    pass1 = pass1.replaceAll("/", "\\\\");
+                }
 
-            try {
-                con = DriverManager.getConnection("jdbc:sqlite:" + pass1);
-                con.setAutoCommit(true);
-            } catch (SQLException throwable) {
-                // e.printStackTrace();
-            }
+                try {
+                    con = DriverManager.getConnection("jdbc:sqlite:" + pass1);
+                    con.setAutoCommit(true);
+                } catch (SQLException throwable) {
+                    // e.printStackTrace();
+                }
 
-            List<oldWhereData> list = new GsonBuilder().setPrettyPrinting().create().fromJson(sb.toString(), new TypeToken<Collection<oldWhereData>>(){}.getType());
-            for (oldWhereData data : list){
-                WhereisData temp = new WhereisData(data.getID(), data.getUUID(), data.getName(), Bukkit.getServer().getWorld(data.getWorldName()), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
-                new WhereisDataAPI(this, con).addData(temp);
-            }
+                List<oldWhereData> list = new GsonBuilder().setPrettyPrinting().create().fromJson(sb.toString(), new TypeToken<Collection<oldWhereData>>(){}.getType());
+                for (oldWhereData data : list){
+                    WhereisData temp = new WhereisData(data.getID(), data.getUUID(), data.getName(), Bukkit.getServer().getWorld(data.getWorldName()), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
+                    new WhereisDataAPI(this, con).addData(temp);
+                }
 
-            try {
-                con.close();
-                con = null;
-            } catch (SQLException e) {
-                // e.printStackTrace();
+                try {
+                    con.close();
+                    con = null;
+                } catch (SQLException e) {
+                    // e.printStackTrace();
+                }
             }
 
             file2.deleteOnExit();
@@ -271,6 +273,21 @@ public final class WhereIsPlugin extends JavaPlugin {
         }
 
         saveDefaultConfig();
+
+        String pass1 = "./" + getDataFolder().getPath() + "/temp/";
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+            pass1 = pass1.replaceAll("/", "\\\\");
+        }
+
+        File file1 = new File(pass1);
+        if (file1.exists()){
+            if (file1.mkdir()){
+                file1.setReadable(true);
+                file1.setWritable(true);
+                file1.setExecutable(true);
+            }
+        }
+
         getCommand("where").setExecutor(new WhereisCommand(this, con));
 
         getLogger().info("WhereIsPlugin Started!");
