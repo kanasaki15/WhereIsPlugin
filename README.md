@@ -1,4 +1,5 @@
 # WhereIsPlugin
+[Ver 2.x](https://github.com/kanasaki15/WhereIsPlugin/tree/Ver2.x)
 ## なんですの？
 今いる位置の名前が設定されている場合結果を表示してくれるSpigotプラグイン
 
