@@ -73,7 +73,7 @@ public class WhereisCommand implements CommandExecutor {
                             ((player.getLocation().getBlockZ() <= data.getStartZ() && player.getLocation().getBlockZ() >= data.getEndZ()) || (player.getLocation().getBlockZ() >= data.getStartZ() && player.getLocation().getBlockZ() <= data.getEndZ()))
                     ){
                         sb.append(data.getName());
-                        if ((count + 1) < max){
+                        if (count + 1 < max){
                             sb.append(",");
                         }
                         count2++;
@@ -82,8 +82,16 @@ public class WhereisCommand implements CommandExecutor {
                     count++;
                 }
 
+
+                final String whereName;
+                if (sb.toString().endsWith(",")){
+                    whereName = sb.toString().substring(0, sb.toString().length() - 1);
+                } else {
+                    whereName = sb.toString();
+                }
+
                 if (count2 != 0){
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは " + sb.toString() + " です。"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは " + whereName + " です。"));
                 } else {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',"ここは 名称未設定 です。"));
                 }
