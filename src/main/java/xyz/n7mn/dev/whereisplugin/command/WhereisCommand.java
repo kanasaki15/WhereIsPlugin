@@ -108,6 +108,8 @@ public class WhereisCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.GREEN + "RunSystem : Paper");
                 } else if (plugin.getServer().getVersion().toLowerCase().matches(".*spigot.*")) {
                     sender.sendMessage(ChatColor.GREEN + "RunSystem : Spigot");
+                } else if (plugin.getServer().getVersion().toLowerCase().matches(".*grid.*")) {
+                    sender.sendMessage(ChatColor.GREEN + "RunSystem : Grid");
                 } else {
                     sender.sendMessage(ChatColor.GREEN + "RunSystem : UnknownBukkit (動作対象外)");
                 }

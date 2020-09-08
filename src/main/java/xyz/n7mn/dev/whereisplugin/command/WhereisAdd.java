@@ -1,7 +1,9 @@
 package xyz.n7mn.dev.whereisplugin.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +19,7 @@ import xyz.n7mn.dev.whereisplugin.api.v2.WhereisDataAPI;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.util.UUID;
 
 public class WhereisAdd extends CommandInterface implements CommandExecutor {
 
@@ -168,6 +171,47 @@ public class WhereisAdd extends CommandInterface implements CommandExecutor {
                     }
                 }
             }
+        }
+
+        if (args.length == 6 && sender instanceof Player){
+            String name = args[1];
+            int StartX = Integer.parseInt(args[2]);
+            int StartZ = Integer.parseInt(args[3]);
+            int EndX = Integer.parseInt(args[4]);
+            int EndZ = Integer.parseInt(args[5]);
+
+            World world = ((Player) sender).getWorld();
+            UUID uuid =  ((Player) sender).getUniqueId();
+
+            WhereisData data = new WhereisData(-1, uuid, name, world, StartX, EndX, StartZ, EndZ, true);
+
+            if (new WhereisDataAPI(plugin, con).addData(data)){
+                sender.sendMessage(ChatColor.GREEN + "「"+name+"」を設定しました！");
+            } else {
+                sender.sendMessage(ChatColor.RED + "設定失敗しました");
+            }
+
+        }
+
+        if (args.length == 7){
+            String name = args[1];
+            World world = Bukkit.getWorld(args[2]);
+            int StartX = Integer.parseInt(args[3]);
+            int StartZ = Integer.parseInt(args[4]);
+            int EndX = Integer.parseInt(args[5]);
+            int EndZ = Integer.parseInt(args[6]);
+
+
+            UUID uuid =  ((Player) sender).getUniqueId();
+
+            WhereisData data = new WhereisData(-1, uuid, name, world, StartX, EndX, StartZ, EndZ, true);
+
+            if (new WhereisDataAPI(plugin, con).addData(data)){
+                sender.sendMessage(ChatColor.GREEN + "「"+name+"」を設定しました！");
+            } else {
+                sender.sendMessage(ChatColor.RED + "設定失敗しました");
+            }
+
         }
 
         return true;
