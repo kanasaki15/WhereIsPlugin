@@ -40,6 +40,7 @@ public class WhereisDelete extends CommandInterface {
                     } else {
                         sender.sendMessage(ChatColor.RED + "削除失敗しました。");
                     }
+                    return true;
                 }
             }
         }
