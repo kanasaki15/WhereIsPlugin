@@ -302,52 +302,12 @@ public final class WhereIsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        try {
-            con.close();
-        } catch (Exception e) {
-            // e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onLoad() {
-        // super.onLoad();
-
-        try {
-            if (con != null){
+        new Thread(()->{
+            try {
                 con.close();
+            } catch (Exception e) {
+                // e.printStackTrace();
             }
-
-            if (new WhereisConfigAPI().isUseMySQL()){
-                final String MySQLServer = new WhereisConfigAPI().getMySQLServer();
-                final String MySQLDatabase = new WhereisConfigAPI().getMySQLDatabase();
-                final String MySQLOption = new WhereisConfigAPI().getMySQLOption();
-                final String MySQLUsername = new WhereisConfigAPI().getMySQLUsername();
-                final String MySQLPassword = new WhereisConfigAPI().getMySQLPassword();
-
-                try {
-                    con = DriverManager.getConnection("jdbc:mysql://" + MySQLServer + "/" + MySQLDatabase + MySQLOption, MySQLUsername, MySQLPassword);
-                } catch (SQLException e){
-                    con = null;
-                    // e.printStackTrace();
-                }
-            } else {
-                String pass = "./" + getDataFolder().getPath() + "/data.db";
-                if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-                    pass = pass.replaceAll("/", "\\\\");
-                }
-
-                try {
-                    con = DriverManager.getConnection("jdbc:sqlite:"+pass);
-                    con.setAutoCommit(true);
-                } catch (SQLException e){
-                    // e.printStackTrace();
-                    con = null;
-                }
-
-            }
-        } catch (Exception e){
-            // e.printStackTrace();
-        }
+        }).start();
     }
 }
