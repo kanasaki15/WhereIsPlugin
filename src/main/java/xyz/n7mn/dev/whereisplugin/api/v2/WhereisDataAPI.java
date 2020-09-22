@@ -35,7 +35,7 @@ public class WhereisDataAPI {
             PreparedStatement statement = con.prepareStatement("SELECT * FROM WhereList WHERE ID = ?");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                return new WhereisData(
+                WhereisData data = new WhereisData(
                         resultSet.getInt("ID"),
                         UUID.fromString(resultSet.getString("CreateUser")),
                         resultSet.getString("Name"),
@@ -45,6 +45,9 @@ public class WhereisDataAPI {
                         resultSet.getInt("StartZ"),
                         resultSet.getInt("EndZ"),
                         resultSet.getBoolean("Active"));
+
+                statement.close();
+                return data;
             } else {
                 return null;
             }
@@ -82,7 +85,7 @@ public class WhereisDataAPI {
                         resultSet.getBoolean("Active"));
                 list.add(data);
             }
-
+            statement.close();
             return list;
         } catch (SQLException e){
             plugin.getLogger().info(ChatColor.RED + "エラーが発生しました。");
@@ -124,6 +127,7 @@ public class WhereisDataAPI {
             statement2.setInt(8, data.getEndZ());
             statement2.setBoolean(9, data.isActive());
             statement2.execute();
+            statement2.close();
 
             return true;
         } catch (Exception e){
@@ -150,6 +154,7 @@ public class WhereisDataAPI {
             PreparedStatement statement = con.prepareStatement("DELETE FROM `WhereList` WHERE `ID` = ? Active = 1");
             statement.setInt(1, id);
             statement.execute();
+            statement.close();
 
             return true;
         } catch (Exception e){
@@ -184,6 +189,7 @@ public class WhereisDataAPI {
             statement.setBoolean(8, data.isActive());
             statement.setInt(9, data.getID());
             statement.execute();
+            statement.close();
             return true;
         } catch (Exception e){
             plugin.getLogger().info(ChatColor.RED + "エラーが発生しました。");
@@ -202,7 +208,9 @@ public class WhereisDataAPI {
                 statement = con.prepareStatement("SELECT COUNT(*) FROM WhereList");
             }
 
-            return statement.executeQuery().next();
+            boolean next = statement.executeQuery().next();
+            statement.close();
+            return next;
         } catch (Exception e){
             return false;
         }
@@ -238,6 +246,7 @@ public class WhereisDataAPI {
                 );
             }
             statement.execute();
+            statement.close();
         } catch (Exception e){
             // e.printStackTrace();
         }
