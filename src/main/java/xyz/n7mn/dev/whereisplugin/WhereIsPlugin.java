@@ -197,6 +197,8 @@ public final class WhereIsPlugin extends JavaPlugin {
                 PreparedStatement statement = connection.prepareStatement("SELECT WorldName FROM WhereList");
                 ResultSet set = statement.executeQuery();
                 b = set.next();
+                statement.close();
+
             }catch (Exception e){
                 b = false;
             } finally {
@@ -221,7 +223,10 @@ public final class WhereIsPlugin extends JavaPlugin {
                         oldWhereData data = new oldWhereData(set.getInt("ID"), set.getString("Name"), UUID.fromString(set.getString("CreateUser")), set.getString("WorldName"), set.getInt("startX"), set.getInt("endX"), set.getInt("startZ"), set.getInt("endZ"), set.getBoolean("Active"));
                         oldList.add(data);
                     }
-                    connection.prepareStatement("DROP TABLE WhereList").execute();
+                    statement.close();
+                    PreparedStatement statement1 = connection.prepareStatement("DROP TABLE WhereList");
+                    statement1.execute();
+                    statement1.close();
 
                     for (oldWhereData data : oldList){
                         WhereisData temp = new WhereisData(data.getID(), data.getUUID(), data.getName(), getServer().getWorld(data.getWorldName()), data.getStartX(), data.getEndX(), data.getStartZ(), data.getEndZ(), data.isActive());
@@ -303,10 +308,14 @@ public final class WhereIsPlugin extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         new Thread(()->{
-            try {
-                con.close();
-            } catch (Exception e) {
-                // e.printStackTrace();
+            boolean b = true;
+            while (b){
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    // e.printStackTrace();
+                }
+                b = false;
             }
         }).start();
     }
